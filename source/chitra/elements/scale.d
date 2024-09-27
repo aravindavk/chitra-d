@@ -2,7 +2,6 @@ module chitra.elements.scale;
 
 import std.format;
 
-import chitra.cairo;
 import chitra.elements.core;
 
 struct Scale

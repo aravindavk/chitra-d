@@ -1,6 +1,5 @@
 module chitra.elements.new_page;
 
-import chitra.cairo;
 import chitra.elements.core;
 
 struct NewPage

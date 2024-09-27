@@ -5,7 +5,7 @@ import std.string;
 import std.algorithm;
 import std.conv : text;
 
-import chitra.cairo;
+import chitra.elements.core;
 
 const ELEMENTS = [
     "background",

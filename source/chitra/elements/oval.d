@@ -3,7 +3,6 @@ module chitra.elements.oval;
 import std.format;
 import std.math.constants;
 
-import chitra.cairo;
 import chitra.properties;
 import chitra.elements.core;
 

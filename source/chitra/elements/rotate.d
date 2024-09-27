@@ -2,7 +2,6 @@ module chitra.elements.rotate;
 
 import std.format;
 
-import chitra.cairo;
 import chitra.elements.core;
 
 struct Rotate

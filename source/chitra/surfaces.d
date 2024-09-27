@@ -2,7 +2,7 @@ module chitra.surfaces;
 
 import std.string;
 
-import chitra.cairo;
+import chitra.pangocairo;
 
 cairo_surface_t* createPdfSurface(string outputFile, int width, int height)
 {

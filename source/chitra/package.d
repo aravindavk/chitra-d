@@ -7,7 +7,6 @@ import colors;
 
 public import chitra.helpers;
 
-import chitra.cairo;
 import chitra.context;
 import chitra.properties;
 import chitra.elements;

@@ -1,6 +1,6 @@
 module chitra.elements.core;
 
-import chitra.cairo;
+public import chitra.pangocairo;
 import chitra.properties;
 
 void drawShapeProperties(cairo_t* cairoCtx, ShapeProperties shapeProps)

@@ -5,7 +5,7 @@ import std.string : toLower, split, toStringz;
 import std.algorithm.mutation : swap;
 import std.algorithm;
 
-import chitra.cairo;
+import chitra.pangocairo;
 import chitra.surfaces;
 import chitra.paper_sizes;
 

@@ -2,7 +2,6 @@ module chitra.elements.translate;
 
 import std.format;
 
-import chitra.cairo;
 import chitra.elements.core;
 
 struct Translate

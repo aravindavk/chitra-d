@@ -2,7 +2,6 @@ module chitra.elements.background;
 
 import std.format;
 
-import chitra.cairo;
 import chitra.properties;
 import chitra.elements.core;
 

@@ -50,6 +50,12 @@ mixin template propertiesFunctions()
         shapeProps.fill = Color.fromHexString(hexValue).get;
     }
 
+    void fillOpacity(int a = 255)
+    {
+        // TODO: Expose function in colors library to set opacity
+        shapeProps.fill.v4 = a;
+    }
+
     void stroke(int r, int g, int b, int a = 255)
     {
         shapeProps.noStroke = false;
@@ -66,6 +72,12 @@ mixin template propertiesFunctions()
     {
         shapeProps.noStroke = false;
         shapeProps.stroke = Color.fromHexString(hexValue).get;
+    }
+
+    void strokeOpacity(int a = 255)
+    {
+        // TODO: Expose function in colors library to set opacity
+        shapeProps.stroke.v4 = a;
     }
 
     void noStroke()

@@ -16,11 +16,12 @@ void main()
         // Set fill color of all the next
         // shapes unless changed
         fill("#6ea8da");
+        noStroke;
 
         // Draw a circle
         oval(-50, -200, 700);
 
         // Save as png image
-        save("output/background_1.png");
+        saveAs("output/background_1.png");
     }
 }

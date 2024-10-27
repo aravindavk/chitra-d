@@ -88,7 +88,7 @@ class Context
         this(w, h, resolution);
     }
 
-    void save(string outputFile)
+    void saveAs(string outputFile)
     {
         cairo_surface_t* surface;
 

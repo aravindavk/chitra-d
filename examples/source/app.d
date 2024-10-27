@@ -28,6 +28,6 @@ void main()
         scale(2);
         fill(0, 0, 1);
         oval(200, 200, 200);
-        save("sample.png");
+        saveAs("sample.png");
     }
 }

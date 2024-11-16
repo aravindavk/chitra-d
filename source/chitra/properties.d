@@ -32,52 +32,50 @@ struct ShapeProperties
 
 mixin template propertiesFunctions()
 {
-    void fill(int r, int g, int b, int a = 255)
+    void fill(int r, int g, int b, float a = 1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = Color(r, g, b, a);
+        shapeProps.fill = rgba(r, g, b, a);
     }
 
-    void fill(int gray, int a = 255)
+    void fill(int gray, float a = 1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = Color(gray, gray, gray, a);
+        shapeProps.fill = rgba(gray, gray, gray, a);
     }
 
     void fill(string hexValue)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = Color.fromHexString(hexValue).get;
+        shapeProps.fill = color(hexValue);
     }
 
-    void fillOpacity(int a = 255)
+    void fillOpacity(float a = 1.0)
     {
-        // TODO: Expose function in colors library to set opacity
-        shapeProps.fill.v4 = a;
+        shapeProps.fill = rgba(shapeProps.fill.toRGBAf.r, shapeProps.fill.toRGBAf.g, shapeProps.fill.toRGBAf.b, a);
     }
 
-    void stroke(int r, int g, int b, int a = 255)
-    {
-        shapeProps.noStroke = false;
-        shapeProps.stroke = Color(r, g, b, a);
-    }
-
-    void stroke(int gray, int a = 255)
+    void stroke(int r, int g, int b, float a = 1.0)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = Color(gray, gray, gray, a);
+        shapeProps.stroke = rgba(r, g, b, a);
+    }
+
+    void stroke(int gray, float a = 1.0)
+    {
+        shapeProps.noStroke = false;
+        shapeProps.stroke = rgba(gray, gray, gray, a);
     }
 
     void stroke(string hexValue)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = Color.fromHexString(hexValue).get;
+        shapeProps.stroke = color(hexValue);
     }
 
-    void strokeOpacity(int a = 255)
+    void strokeOpacity(float a = 1.0)
     {
-        // TODO: Expose function in colors library to set opacity
-        shapeProps.stroke.v4 = a;
+        shapeProps.stroke = rgba(shapeProps.stroke.toRGBAf.r, shapeProps.stroke.toRGBAf.g, shapeProps.stroke.toRGBAf.b, a);
     }
 
     void noStroke()

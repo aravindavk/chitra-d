@@ -25,22 +25,13 @@ struct Background
 
 mixin template backgroundFunctions()
 {
-    /**
-       Draw the background.
-
-       ---
-       // Draw blue background
-       //             r  g  b
-       ctx.background(0, 0, 255);
-       ---
-     */
-    void background(int r, int g, int b, int a = 255)
+    void background(Color color)
     {
         auto s = Background(this.width, this.height);
         s.shapeProps = this.shapeProps;
 
         // Override the new values for the background
-        s.shapeProps.fill = Color(r, g, b, a);
+        s.shapeProps.fill = color;
         s.shapeProps.strokeWidth = 0;
 
         s.draw(this.defaultCairoCtx);
@@ -51,11 +42,25 @@ mixin template backgroundFunctions()
        Draw the background.
 
        ---
+       // Draw blue background
+       //             r  g  b
+       ctx.background(0, 0, 255);
+       ---
+     */
+    void background(int r, int g, int b, float a = 1.0)
+    {
+        background(rgba(r, g, b, a));
+    }
+
+    /**
+       Draw the background.
+
+       ---
        // Draw gray background
        ctx.background(124);
        ---
      */
-    void background(int gray, int a = 255)
+    void background(int gray, float a = 1.0)
     {
         background(gray, gray, gray, a);
     }
@@ -70,7 +75,6 @@ mixin template backgroundFunctions()
     */
     void background(string hexValue)
     {
-        auto color = Color.fromHexString(hexValue).get;
-        background(color.r, color.g, color.b, color.a);
+        background(color(hexValue));
     }
 }

@@ -8,8 +8,8 @@ void drawShapeProperties(cairo_t* cairoCtx, ShapeProperties shapeProps)
     if (shapeProps.noFill)
         cairo_set_source_rgba(cairoCtx, 0, 0, 0, 0);
     else
-        cairo_set_source_rgba(cairoCtx, shapeProps.fill.r100,
-                              shapeProps.fill.g100, shapeProps.fill.b100, shapeProps.fill.a100);
+        cairo_set_source_rgba(cairoCtx, shapeProps.fill.toRGBAf.r,
+                              shapeProps.fill.toRGBAf.g, shapeProps.fill.toRGBAf.b, shapeProps.fill.toRGBAf.a);
 
     if (shapeProps.strokeWidth > 0)
     {
@@ -22,8 +22,8 @@ void drawShapeProperties(cairo_t* cairoCtx, ShapeProperties shapeProps)
         // end
         // LibCairo.cairo_set_line_cap(cairo_ctx, @line_cap)
         // LibCairo.cairo_set_line_join(cairo_ctx, @line_join)
-        cairo_set_source_rgba(cairoCtx, shapeProps.stroke.r100,
-                              shapeProps.stroke.g100, shapeProps.stroke.b100, shapeProps.stroke.a100);
+        cairo_set_source_rgba(cairoCtx, shapeProps.stroke.toRGBAf.r,
+                              shapeProps.stroke.toRGBAf.g, shapeProps.stroke.toRGBAf.b, shapeProps.stroke.toRGBAf.a);
         cairo_stroke(cairoCtx);
     }
     else

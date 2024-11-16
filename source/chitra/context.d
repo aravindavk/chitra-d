@@ -111,4 +111,25 @@ class Context
 
         cairo_surface_finish(surface);
     }
+
+    // Reset the drawing to clean and empty canvas
+    // ```
+    // auto ctx = new Chitra;
+    // ctx.fill(0);
+    // ctx.rect(0, 0, width, height);
+    // ctx.saveAs("slide1.png");
+    // ctx.newDrawing;
+    // ctx.fill(0, 0, 1);
+    // ctx.rect(0, 0, width, height);
+    // ctx.saveAs("slide2.png");
+    // ```
+    void newDrawing()
+    {
+        elements = [];
+        defaultSurface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                                    this.width, this.height);
+        defaultCairoCtx = cairo_create(this.defaultSurface);
+        shapeProps = ShapeProperties.init;
+        textProps = TextProperties.init;
+    }
 }

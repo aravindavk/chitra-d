@@ -67,4 +67,20 @@ mixin template ovalFunctions()
     {
         oval(x, y, w);
     }
+
+    /**
+       Draw a Point
+
+       ---
+       // Point with default width(2)
+       //        x   y
+       ctx.point(50, 50);
+       // Point with custom width
+       ctx.point(50, 50, 1);
+       ---
+     */
+    void point(double x, double y, int w=2)
+    {
+        oval(x, y, w);
+    }
 }

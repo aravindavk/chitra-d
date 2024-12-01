@@ -106,4 +106,9 @@ mixin template rectFunctions()
     {
         rect(x, y, w, w, r, rtl, rtr, rbr, rbl);
     }
+
+    void pixel(double x, double y)
+    {
+        rect(x, y, 1);
+    }
 }

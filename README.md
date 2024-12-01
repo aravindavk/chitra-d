@@ -351,3 +351,19 @@ saveAs("rect.pdf");
 saveAs("rect.svg");
 ```
 
+## Thanks
+
+- [Cairo Graphics](https://www.cairographics.org/)
+- Drawing API syntax are inspired from [Drawbot](https://drawbot.com/) and [Processing](https://processing.org/).
+
+## Contributing
+
+- Fork it (https://github.com/aravindavk/chitra-d/fork)
+- Create your feature branch (git checkout -b my-new-feature)
+- Commit your changes (git commit -am 'Add some feature')
+- Push to the branch (git push origin my-new-feature)
+- Create a new Pull Request
+
+## Contributors
+
+- [Aravinda VK](https://github.com/aravindavk) - Creator and Maintainer

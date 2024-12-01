@@ -58,7 +58,7 @@ class Chitra : Context
      */
     this(int width = DEFAULT_WIDTH, int height = 0, int resolution = DEFAULT_RESOLUTION)
     {
-        super(width, height, DEFAULT_RESOLUTION);
+        super(width, height, resolution);
     }
 
     mixin propertiesFunctions;

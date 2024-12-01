@@ -32,7 +32,7 @@ struct Rect
             cairo_rectangle(cairoCtx, x, y, w, h);
         else
         {
-            // Border radius is given
+            // Border radius is not given
             if (rtl == 0) rtl = r;
             if (rtr == 0) rtr = r;
             if (rbl == 0) rbl = r;

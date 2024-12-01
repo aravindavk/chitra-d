@@ -21,7 +21,7 @@ void main()
 
 ## Sponsors
 
-![Kadalu Technologies](static/kadalu-technologies-logo.svg)
+<img src="static/kadalu-technologies-logo.svg" alt="Kadalu Technologies" width="200"/>
 
 ## Install
 

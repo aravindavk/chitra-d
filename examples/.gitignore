@@ -15,3 +15,4 @@ examples-test-*
 *.obj
 *.lst
 /*.png
+output

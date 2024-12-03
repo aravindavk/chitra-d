@@ -1,18 +1,16 @@
 module chitra.helpers;
 
-import chitra.context;
-
-T inch(T)(T value)
+double inch(T)(T value)
 {
-    return Context.resolution * value;
+    return value * 72;
 }
 
-T cm(T)(T value)
+double cm(T)(T value)
 {
     return (value / 2.54).inch;
 }
 
-T mm(T)(T value)
+double mm(T)(T value)
 {
     return (value / 10).cm;
 }

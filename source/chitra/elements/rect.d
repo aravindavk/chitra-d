@@ -86,6 +86,16 @@ mixin template rectFunctions()
      */
     void rect(double x, double y, double w, double h = 0.0, double r = 0, double rtl = 0.0, double rtr = 0.0, double rbr = 0, double rbl = 0)
     {
+        x = correctedSize(x);
+        y = correctedSize(y);
+        w = correctedSize(w);
+        h = correctedSize(h);
+        r = correctedSize(r);
+        rtl = correctedSize(rtl);
+        rtr = correctedSize(rtr);
+        rbr = correctedSize(rbr);
+        rbl = correctedSize(rbl);
+
         h = h == 0.0 ? w : h;
         auto rct = Rect(x, y, w, h, r, rtl, rtr, rbr, rbl);
         rct.shapeProps = this.shapeProps;

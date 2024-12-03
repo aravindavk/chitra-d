@@ -4,7 +4,7 @@ module chitra.paper_sizes;
 
 // Paper sizes in mm
 // dfmt off
-const int[][string] PAPER_SIZES = [
+int[][string] paperSizes = [
                                   "a0":     [841, 1189],
                                   "a1":     [594, 841],
                                   "a2":     [420, 594],

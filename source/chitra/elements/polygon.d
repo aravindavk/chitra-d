@@ -52,7 +52,11 @@ mixin template polygonFunctions()
      */
     void polygon(double[2][] points, bool close = true)
     {
-        auto s = Polygon(points, close);
+        double[2][] newPoints;
+        foreach(p; points)
+            newPoints ~= [correctedSize(p[0]), correctedSize(p[1])];
+
+        auto s = Polygon(newPoints, close);
         s.shapeProps = this.shapeProps;
         s.draw(this.defaultCairoCtx);
         this.elements ~= Element(s);

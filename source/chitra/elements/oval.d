@@ -47,6 +47,11 @@ mixin template ovalFunctions()
      */
     void oval(double x, double y, double w, double h = 0.0)
     {
+        x = correctedSize(x);
+        y = correctedSize(y);
+        w = correctedSize(w);
+        h = correctedSize(h);
+
         h = h == 0.0 ? w : h;
         auto s = Oval(x, y, w, h);
         s.shapeProps = this.shapeProps;

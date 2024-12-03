@@ -33,6 +33,9 @@ mixin template translateFunctions()
     */
     void translate(double x, double y)
     {
+        x = correctedSize(x);
+        y = correctedSize(y);
+
         // TODO: Handle when scaled state is implemented
         // @current_saved_context.add_transformation(s) if @current_saved_context.enabled?
         auto s = Translate(x, y);

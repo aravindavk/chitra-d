@@ -20,8 +20,8 @@ struct TextProperties
 
 struct ShapeProperties
 {
-    Color fill;
-    Color stroke;
+    Color fill = rgb(0, 0, 0);
+    Color stroke = rgb(0, 0, 0);
     int strokeWidth = 1;
     bool noFill = false;
     bool noStroke = false;
@@ -85,6 +85,7 @@ mixin template propertiesFunctions()
 
     void strokeWidth(int value)
     {
+        value = correctedSize(value);
         shapeProps.noStroke = false;
         shapeProps.strokeWidth = value;
     }

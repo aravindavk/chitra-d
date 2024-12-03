@@ -38,6 +38,11 @@ mixin template lineFunctions()
      */
     void line(double x1, double y1, double x2, double y2)
     {
+        x1 = correctedSize(x1);
+        y1 = correctedSize(y1);
+        x2 = correctedSize(x2);
+        y2 = correctedSize(y2);
+
         auto s = Line(x1, y1, x2, y2);
         s.shapeProps = this.shapeProps;
         s.draw(this.defaultCairoCtx);

@@ -27,7 +27,9 @@ mixin template backgroundFunctions()
 {
     void background(Color color)
     {
-        auto s = Background(this.width, this.height);
+        auto w = correctedSize(this.width);
+        auto h = correctedSize(this.height);
+        auto s = Background(w, h);
         s.shapeProps = this.shapeProps;
 
         // Override the new values for the background

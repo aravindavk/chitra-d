@@ -55,6 +55,9 @@ mixin template rotateFunctions()
 
         import std.math.constants;
 
+        centerX = correctedSize(centerX);
+        centerY = correctedSize(centerY);
+
         // TODO: Implement this with saved state
         // @current_saved_context.add_transformation(t) if @current_saved_context.enabled?
         auto rad = PI * angle / 180;

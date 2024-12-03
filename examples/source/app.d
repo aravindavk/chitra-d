@@ -11,11 +11,11 @@ void main()
         fill("#dddddd");
         line(0, 0, width, height);
         rect(50, 50, 500, 200);
-        fill(0, 0, 1);
+        fill(0, 0, 255);
         polygon([[50, 450], [50, 50], [450, 50], [100, 100]], true);
-        fill(0.5);
+        fill(127); // 255/2
         polygon([150, 450, 150, 50, 550, 50, 200, 100], true);
-        fill(0, 0, 1);
+        fill(0, 0, 255);
         writeln(width);
         oval(width/2, height/2, 200);
 
@@ -26,7 +26,7 @@ void main()
 
         newPage;
         scale(2);
-        fill(0, 0, 1);
+        fill(0, 0, 255);
         oval(200, 200, 200);
         saveAs("sample.png");
     }

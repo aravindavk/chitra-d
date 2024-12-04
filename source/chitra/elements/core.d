@@ -11,7 +11,7 @@ void drawShapeProperties(cairo_t* cairoCtx, ShapeProperties shapeProps)
         cairo_set_source_rgba(cairoCtx, shapeProps.fill.toRGBAf.r,
                               shapeProps.fill.toRGBAf.g, shapeProps.fill.toRGBAf.b, shapeProps.fill.toRGBAf.a);
 
-    if (shapeProps.strokeWidth > 0)
+    if (shapeProps.strokeWidth > 0 && !shapeProps.noStroke)
     {
         cairo_fill_preserve(cairoCtx);
         cairo_set_line_width(cairoCtx, shapeProps.strokeWidth);

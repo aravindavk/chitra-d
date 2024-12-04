@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
-## [0.1.1] - 2024-12-04
+## [v0.1.1] - 2024-12-04
 
 - Fixed the issue with different resolution settings. Changed the base resolution to
   `72` and default resolution to `300`. All the measurements and co-ordinates to
@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fixed the issue with `noStroke`.
 - Added a few examples.
 
-## [0.1.0] - 2024-12-01
+## [v0.1.0] - 2024-12-01
 
 - Added support for canvas size and resolution configuration while creating the Chitra instance.
 - Added support for basic shapes: `rect`, `point`, `square`, `oval`, `circle`, `pixel`, `line`, `polygon` etc.
@@ -30,6 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support added tp export to `pdf`, `svg` and `png` formats.
 - Published the project to https://code.dlang.org/packages/chitra
 
-[Unreleased]: https://github.com/aravindavk/chitra-d/compare/0.1.1...HEAD
-[0.1.0]: https://github.com/aravindavk/chitra-d/compare/17ba479...0.1.0
-[0.1.1]: https://github.com/aravindavk/chitra-d/compare/0.1.0...0.1.1
+[Unreleased]: https://github.com/aravindavk/chitra-d/compare/v0.1.1...HEAD
+[v0.1.0]: https://github.com/aravindavk/chitra-d/compare/17ba479...v0.1.0
+[v0.1.1]: https://github.com/aravindavk/chitra-d/compare/v0.1.0...v0.1.1

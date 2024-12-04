@@ -7,6 +7,7 @@ import std.conv : text;
 
 import chitra.context;
 import chitra.elements.core;
+public import chitra.elements.formatted_strings;
 
 const ELEMENTS = [
     "background",
@@ -18,7 +19,8 @@ const ELEMENTS = [
     "rotate",
     "scale",
     "translate",
-    "image"
+    "image",
+    "text"
 ];
 
 public

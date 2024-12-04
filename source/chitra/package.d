@@ -3,13 +3,15 @@ module chitra;
 import std.stdio;
 import std.conv;
 
-import colors;
-
-public import chitra.helpers;
-
+public
+{
+    import chitra.helpers;
+    import chitra.elements.formatted_strings;
+}
 import chitra.context;
 import chitra.properties;
 import chitra.elements;
+import chitra.rgba;
 
 class Chitra : Context
 {

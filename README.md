@@ -21,7 +21,7 @@ void main()
 
 ## Sponsors
 
-<img src="static/kadalu-technologies-logo.svg" alt="Kadalu Technologies" width="200"/>
+<a href="https://kadalu.tech"><img src="static/kadalu-technologies-logo.svg" alt="Kadalu Technologies" width="200"/></a>
 
 ## Install
 
@@ -340,6 +340,29 @@ rect(0, 0, 500, 200);
 ```
 
 This will be very useful to draw the complex shapes. Create the complex shape as a function and then call the function multiple times with different translate values.
+
+### PNG images
+
+Add PNG image to the canvas using,
+
+```d
+//    Path        x   y
+image("logo.png", 50, 50);
+```
+
+To scale the image,
+
+```d
+auto size = imageSize("logo.png");
+auto requiredWidth = 300;
+auto s = requiredWidth/size.width;
+// Scale the canvas
+scale(s);
+// Draw the image
+image("logo.png", 100/s, 100/s);
+// Scale the canvas back to its original scale
+scale(1/s);
+```
 
 ### Export/Save
 

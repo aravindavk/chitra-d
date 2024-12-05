@@ -44,6 +44,14 @@ class Context
         return cast(T)((value / baseResolution) * resolution);
     }
 
+    T actualSize(T)(T value)
+    {
+        if (resolution == baseResolution)
+            return value;
+
+        return cast(T)((value / cast(double)resolution) * baseResolution);
+    }
+
     this(int width = defaultWidth, int height = 0, int resolution = defaultResolution)
     {
         this.resolution = resolution;

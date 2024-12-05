@@ -16,7 +16,8 @@ const ELEMENTS = [
     "rect",
     "rotate",
     "scale",
-    "translate"
+    "translate",
+    "image"
 ];
 
 public

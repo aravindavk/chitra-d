@@ -3,31 +3,42 @@ module chitra.elements.rect;
 import std.format;
 import std.math.constants;
 
+import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
 
 struct Rect
 {
-    double x, y;
-    double w, h;
-    double r, rtl, rtr, rbl, rbr;
+    double x_, y_;
+    double w_, h_;
+    double r_, rtl_, rtr_, rbl_, rbr_;
     ShapeProperties shapeProps;
 
     this(double x, double y, double w, double h, double r, double rtl, double rtr, double rbr, double rbl)
     {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.r = r;
-        this.rtl = rtl;
-        this.rtr = rtr;
-        this.rbl = rbl;
-        this.rbr = rbr;
+        this.x_ = x;
+        this.y_ = y;
+        this.w_ = w;
+        this.h_ = h;
+        this.r_ = r;
+        this.rtl_ = rtl;
+        this.rtr_ = rtr;
+        this.rbl_ = rbl;
+        this.rbr_ = rbr;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
+        auto x = chitraCtx.correctedSize(x_);
+        auto y = chitraCtx.correctedSize(y_);
+        auto w = chitraCtx.correctedSize(w_);
+        auto h = chitraCtx.correctedSize(h_);
+        auto r = chitraCtx.correctedSize(r_);
+        auto rtl = chitraCtx.correctedSize(rtl_);
+        auto rtr = chitraCtx.correctedSize(rtr_);
+        auto rbr = chitraCtx.correctedSize(rbr_);
+        auto rbl = chitraCtx.correctedSize(rbl_);
+
         if (r + rtl + rtr + rbl + rbr == 0)
             cairo_rectangle(cairoCtx, x, y, w, h);
         else
@@ -65,7 +76,7 @@ struct Rect
 
             cairo_close_path(cairoCtx);
         }
-        drawShapeProperties(cairoCtx, shapeProps);
+        drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
     }
 }
 
@@ -86,20 +97,10 @@ mixin template rectFunctions()
      */
     void rect(double x, double y, double w, double h = 0.0, double r = 0, double rtl = 0.0, double rtr = 0.0, double rbr = 0, double rbl = 0)
     {
-        x = correctedSize(x);
-        y = correctedSize(y);
-        w = correctedSize(w);
-        h = correctedSize(h);
-        r = correctedSize(r);
-        rtl = correctedSize(rtl);
-        rtr = correctedSize(rtr);
-        rbr = correctedSize(rbr);
-        rbl = correctedSize(rbl);
-
         h = h == 0.0 ? w : h;
         auto rct = Rect(x, y, w, h, r, rtl, rtr, rbr, rbl);
         rct.shapeProps = this.shapeProps;
-        rct.draw(this.defaultCairoCtx);
+        rct.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(rct);
     }
 

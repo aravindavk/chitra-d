@@ -1,9 +1,10 @@
 module chitra.elements.core;
 
 public import chitra.pangocairo;
+import chitra.context;
 import chitra.properties;
 
-void drawShapeProperties(cairo_t* cairoCtx, ShapeProperties shapeProps)
+void drawShapeProperties(Context chitraCtx, cairo_t* cairoCtx, ShapeProperties shapeProps)
 {
     if (shapeProps.noFill)
         cairo_set_source_rgba(cairoCtx, 0, 0, 0, 0);
@@ -14,7 +15,8 @@ void drawShapeProperties(cairo_t* cairoCtx, ShapeProperties shapeProps)
     if (shapeProps.strokeWidth > 0 && !shapeProps.noStroke)
     {
         cairo_fill_preserve(cairoCtx);
-        cairo_set_line_width(cairoCtx, shapeProps.strokeWidth);
+        auto sw = chitraCtx.correctedSize(shapeProps.strokeWidth);
+        cairo_set_line_width(cairoCtx, sw);
         // if @line_dash.enabled?
         //   LibCairo.cairo_set_dash(cairo_ctx, @line_dash.values.to_unsafe, @line_dash.values.size, @line_dash.offset)
         // else

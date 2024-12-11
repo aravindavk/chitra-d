@@ -29,7 +29,7 @@ class Context
     cairo_t* defaultCairoCtx;
     int width;
     int height;
-    int resolution = defaultResolution;
+    int resolution_ = 0;
     ShapeProperties shapeProps;
     TextProperties textProps;
 
@@ -38,23 +38,22 @@ class Context
     // than the default one, then correct it accordingly.
     T correctedSize(T)(T value)
     {
-        if (resolution == baseResolution)
+        if (resolution_ == 0 || resolution_ == baseResolution)
             return value;
 
-        return cast(T)((value / baseResolution) * resolution);
+        return cast(T)((value / baseResolution) * resolution_);
     }
 
     T actualSize(T)(T value)
     {
-        if (resolution == baseResolution)
+        if (resolution_ == 0 || resolution_ == baseResolution)
             return value;
 
-        return cast(T)((value / cast(double)resolution) * baseResolution);
+        return cast(T)((value / cast(double)resolution_) * baseResolution);
     }
 
-    this(int width = defaultWidth, int height = 0, int resolution = defaultResolution)
+    this(int width = defaultWidth, int height = 0)
     {
-        this.resolution = resolution;
         this.width = width;
         this.height = height == 0 ? width : height;
         this.defaultSurface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
@@ -70,7 +69,7 @@ class Context
         shapeProps.stroke = rgb(0, 0, 0);
     }
 
-    this(string paper, int resolution = defaultResolution)
+    this(string paper)
     {
         string orientation = portraitMode;
         auto parts = paper.toLower.split(",");
@@ -99,11 +98,15 @@ class Context
         if (orientation == landscapeMode)
             swap(w, h);
 
-        this(w, h, resolution);
+        this(w, h);
     }
 
-    void saveAs(string outputFile)
+    void saveAs(string outputFile, int resolution = defaultResolution)
     {
+        auto prevResolution = resolution_;
+        if (resolution > 0)
+            resolution_ = resolution;
+
         cairo_surface_t* surface;
 
         auto w = correctedSize(this.width);
@@ -121,12 +124,15 @@ class Context
         auto cairoCtx = cairo_create(surface);
 
         foreach (element; elements)
-            element.draw(cairoCtx);
+            element.draw(this, cairoCtx);
 
         if (outputFile.endsWith(".png"))
             cairo_surface_write_to_png(surface, outputFile.toStringz);
 
         cairo_surface_finish(surface);
+        // Reset the previous resolution to make sure it works the same
+        // when multiple times saveAs is called.
+        resolution_ = prevResolution;
     }
 
     // Reset the drawing to clean and empty canvas

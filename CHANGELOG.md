@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Moved resolution settings to `saveAs` function.
+- Change default measurements to `point(pt)`.
+- Added support for `100.px`, `10.pt` while specifying the co-ordinates, size etc.
 - Added support for rendering PNG images (`image(PATH, x, y)`).
 - Added functions to get image dimentions, `imageWidth(PATH)`, `imageHeight(PATH)`
   and `imageSize(PATH)`. `imageSize` returns the `struct{double width, double height}`. 
@@ -20,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.1.0] - 2024-12-01
 
+- Added support for `10.mm`, `1.cm`, `2.inch` while specifying the co-ordinates, size etc.
 - Added support for canvas size and resolution configuration while creating the Chitra instance.
 - Added support for basic shapes: `rect`, `point`, `square`, `oval`, `circle`, `pixel`, `line`, `polygon` etc.
 - Added support for rounded rectangle.

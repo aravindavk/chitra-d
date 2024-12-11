@@ -2,21 +2,25 @@ module chitra.elements.rotate;
 
 import std.format;
 
+import chitra.context;
 import chitra.elements.core;
 
 struct Rotate
 {
-    double angle, centerX, centerY;
+    double angle, centerX_, centerY_;
 
     this(double angle, double centerX = 0.0, double centerY = 0.0)
     {
         this.angle = angle;
-        this.centerX = centerX;
-        this.centerY = centerY;
+        this.centerX_ = centerX;
+        this.centerY_ = centerY;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
+        auto centerX = chitraCtx.correctedSize(centerX_);
+        auto centerY = chitraCtx.correctedSize(centerY_);
+
         if (centerX != 0 && centerY != 0)
         {
             cairo_translate(cairoCtx, centerX, centerY);
@@ -52,17 +56,13 @@ mixin template rotateFunctions()
      */
     void rotate(double angle, double centerX = 0.0, double centerY = 0.0)
     {
-
         import std.math.constants;
-
-        centerX = correctedSize(centerX);
-        centerY = correctedSize(centerY);
 
         // TODO: Implement this with saved state
         // @current_saved_context.add_transformation(t) if @current_saved_context.enabled?
         auto rad = PI * angle / 180;
         auto t = Rotate(rad, centerX, centerY);
-        t.draw(this.defaultCairoCtx);
+        t.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(t);
     }
 }

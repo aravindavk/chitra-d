@@ -5,6 +5,7 @@ import std.string;
 import std.algorithm;
 import std.conv : text;
 
+import chitra.context;
 import chitra.elements.core;
 
 const ELEMENTS = [
@@ -37,7 +38,7 @@ string typeName(string name, bool capitalizeFirst = true)
 
 mixin("alias Element = SumType!(" ~ ELEMENTS.map!(ele => ele.typeName).join(",") ~ ");");
 
-void draw(Element element, cairo_t* cairoCtx)
+void draw(Element element, Context chitraCtx, cairo_t* cairoCtx)
 {
-    mixin("element.match!(" ~ ELEMENTS.map!(ele => "(" ~ ele.typeName ~ " p) => p.draw(cairoCtx)").join(",") ~ ");");
+    mixin("element.match!(" ~ ELEMENTS.map!(ele => "(" ~ ele.typeName ~ " p) => p.draw(chitraCtx, cairoCtx)").join(",") ~ ");");
 }

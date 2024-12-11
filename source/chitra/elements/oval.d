@@ -3,30 +3,36 @@ module chitra.elements.oval;
 import std.format;
 import std.math.constants;
 
+import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
 
 struct Oval
 {
-    double x, y, w, h;
+    double x_, y_, w_, h_;
     ShapeProperties shapeProps;
 
     this(double x, double y, double w, double h)
     {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+        this.x_ = x;
+        this.y_ = y;
+        this.w_ = w;
+        this.h_ = h;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
+        auto x = chitraCtx.correctedSize(x_);
+        auto y = chitraCtx.correctedSize(y_);
+        auto w = chitraCtx.correctedSize(w_);
+        auto h = chitraCtx.correctedSize(h_);
+
         cairo_save(cairoCtx);
         cairo_translate(cairoCtx, x + w / 2, y + h / 2);
         cairo_scale(cairoCtx, w / 2, h / 2);
         cairo_arc(cairoCtx, 0.0, 0.0, 1.0, 0.0, 2.0 * PI);
         cairo_restore(cairoCtx);
-        drawShapeProperties(cairoCtx, shapeProps);
+        drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
     }
 }
 
@@ -47,15 +53,10 @@ mixin template ovalFunctions()
      */
     void oval(double x, double y, double w, double h = 0.0)
     {
-        x = correctedSize(x);
-        y = correctedSize(y);
-        w = correctedSize(w);
-        h = correctedSize(h);
-
         h = h == 0.0 ? w : h;
         auto s = Oval(x, y, w, h);
         s.shapeProps = this.shapeProps;
-        s.draw(this.defaultCairoCtx);
+        s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
 

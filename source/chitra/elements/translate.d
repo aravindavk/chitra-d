@@ -2,20 +2,24 @@ module chitra.elements.translate;
 
 import std.format;
 
+import chitra.context;
 import chitra.elements.core;
 
 struct Translate
 {
-    double x, y;
+    double x_, y_;
 
     this(double x, double y)
     {
-        this.x = x;
-        this.y = y;
+        this.x_ = x;
+        this.y_ = y;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
+        auto x = chitraCtx.correctedSize(x_);
+        auto y = chitraCtx.correctedSize(y_);
+
         cairo_translate(cairoCtx, x, y);
     }
 }
@@ -33,13 +37,10 @@ mixin template translateFunctions()
     */
     void translate(double x, double y)
     {
-        x = correctedSize(x);
-        y = correctedSize(y);
-
         // TODO: Handle when scaled state is implemented
         // @current_saved_context.add_transformation(s) if @current_saved_context.enabled?
         auto s = Translate(x, y);
-        s.draw(this.defaultCairoCtx);
+        s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
 }

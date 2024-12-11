@@ -2,6 +2,7 @@ module chitra.elements.polygon;
 
 import std.format;
 
+import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
 
@@ -17,16 +18,20 @@ struct Polygon
         this.close = close;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
-        cairo_move_to(cairoCtx, points[0][0], points[0][1]);
-        foreach (p; points[1 .. $])
+        double[2][] newPoints;
+        foreach (p; points)
+            newPoints ~= [chitraCtx.correctedSize(p[0]), chitraCtx.correctedSize(p[1])];
+
+        cairo_move_to(cairoCtx, newPoints[0][0], newPoints[0][1]);
+        foreach (p; newPoints[1 .. $])
             cairo_line_to(cairoCtx, p[0], p[1]);
 
         if (this.close)
             cairo_close_path(cairoCtx);
 
-        drawShapeProperties(cairoCtx, shapeProps);
+        drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
     }
 }
 
@@ -52,13 +57,9 @@ mixin template polygonFunctions()
      */
     void polygon(double[2][] points, bool close = true)
     {
-        double[2][] newPoints;
-        foreach(p; points)
-            newPoints ~= [correctedSize(p[0]), correctedSize(p[1])];
-
-        auto s = Polygon(newPoints, close);
+        auto s = Polygon(points, close);
         s.shapeProps = this.shapeProps;
-        s.draw(this.defaultCairoCtx);
+        s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
 

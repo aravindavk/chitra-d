@@ -66,12 +66,8 @@ auto ctx = new Chitra(800);
 //                    w     h
 auto ctx = new Chitra(1600, 900);
 
-// Create the canvas with the given resolution (Default is 300)
-auto ctx = new Chitra(800, resolution: 72);
-
 // Create with the required paper size
 auto ctx = new Chitra("a4");
-auto ctx = new Chitra("a4", resolution: 72);
 auto ctx = new Chitra("a4,landscape");
 
 // By giving specific size in inch, cm, mm
@@ -372,6 +368,14 @@ PDF, PNG and SVG output formats are supported.
 saveAs("rect.png");
 saveAs("rect.pdf");
 saveAs("rect.svg");
+```
+
+Set resolution
+
+```d
+saveAs("rect.png", resolution: 300);
+saveAs("rect.pdf", resolution: 300);
+saveAs("rect.svg", resolution: 300);
 ```
 
 ## Thanks

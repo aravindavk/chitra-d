@@ -3,27 +3,33 @@ module chitra.elements.image;
 import std.format;
 import std.string : toStringz;
 
+import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
 
 struct Image
 {
     string path;
-    double w, h;
-    double x, y;
+    double w_, h_;
+    double x_, y_;
     ShapeProperties shapeProps;
 
     this(string path, double x, double y, double w, double h)
     {
         this.path = path;
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+        this.x_ = x;
+        this.y_ = y;
+        this.w_ = w;
+        this.h_ = h;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
+        auto x = chitraCtx.correctedSize(x_);
+        auto y = chitraCtx.correctedSize(y_);
+        auto w = chitraCtx.correctedSize(w_);
+        auto h = chitraCtx.correctedSize(h_);
+
         // TODO: Scale the image if width and height are given
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
         cairo_set_source_surface(cairoCtx, surface, x, y);
@@ -52,14 +58,9 @@ mixin template imageFunctions()
      */
     void image(string path, double x, double y, double w = 0.0, double h = 0.0)
     {
-        x = correctedSize(x);
-        y = correctedSize(y);
-        w = correctedSize(w);
-        h = correctedSize(h);
-
         auto s = Image(path, x, y, w, h);
         s.shapeProps = this.shapeProps;
-        s.draw(this.defaultCairoCtx);
+        s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
 
@@ -72,7 +73,7 @@ mixin template imageFunctions()
     {
         // TODO: Cache the surface for the given path?
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
-        return actualSize(cairo_image_surface_get_width(surface));
+        return cairo_image_surface_get_width(surface);
     }
 
     // Get height of the image
@@ -83,7 +84,7 @@ mixin template imageFunctions()
     double imageHeight(string path)
     {
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
-        return actualSize(cairo_image_surface_get_height(surface));
+        return cairo_image_surface_get_height(surface);
     }
 
     // Get width and height of the image

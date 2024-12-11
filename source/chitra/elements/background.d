@@ -2,24 +2,27 @@ module chitra.elements.background;
 
 import std.format;
 
+import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
 
 struct Background
 {
-    double w, h;
+    double w_, h_;
     ShapeProperties shapeProps;
 
     this(double w, double h)
     {
-        this.w = w;
-        this.h = h;
+        this.w_ = w;
+        this.h_ = h;
     }
 
-    void draw(cairo_t* cairoCtx)
+    void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
+        auto w = chitraCtx.correctedSize(w_);
+        auto h = chitraCtx.correctedSize(h_);
         cairo_rectangle(cairoCtx, 0, 0, w, h);
-        drawShapeProperties(cairoCtx, shapeProps);
+        drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
     }
 }
 
@@ -27,16 +30,14 @@ mixin template backgroundFunctions()
 {
     void background(Color color)
     {
-        auto w = correctedSize(this.width);
-        auto h = correctedSize(this.height);
-        auto s = Background(w, h);
+        auto s = Background(this.width, this.height);
         s.shapeProps = this.shapeProps;
 
         // Override the new values for the background
         s.shapeProps.fill = color;
         s.shapeProps.strokeWidth = 0;
 
-        s.draw(this.defaultCairoCtx);
+        s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
 

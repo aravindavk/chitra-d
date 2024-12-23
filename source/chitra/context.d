@@ -8,6 +8,7 @@ import std.algorithm;
 import chitra.pangocairo;
 import chitra.surfaces;
 import chitra.paper_sizes;
+import chitra.rgba;
 
 // Import all the elements
 import chitra.elements;
@@ -19,8 +20,6 @@ const defaultResolution = 300;
 const defaultWidth = 700;
 const portraitMode = "portrait";
 const landscapeMode = "landscape";
-
-import colors;
 
 class Context
 {
@@ -65,8 +64,8 @@ class Context
 
         // FIXME: fill and stroke colors are not initialized properly!
         // is this nested struct initialize issue or colors lib issue? Not sure.
-        shapeProps.fill = rgb(0, 0, 0);
-        shapeProps.stroke = rgb(0, 0, 0);
+        shapeProps.fill = RGBA(0, 0, 0);
+        shapeProps.stroke = RGBA(0, 0, 0);
     }
 
     this(string paper)

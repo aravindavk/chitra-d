@@ -28,7 +28,7 @@ struct Background
 
 mixin template backgroundFunctions()
 {
-    void background(Color color)
+    void background(RGBA color)
     {
         auto s = Background(this.width, this.height);
         s.shapeProps = this.shapeProps;
@@ -52,7 +52,7 @@ mixin template backgroundFunctions()
      */
     void background(int r, int g, int b, float a = 1.0)
     {
-        background(rgba(r, g, b, a));
+        background(RGBA(r, g, b, a));
     }
 
     /**
@@ -78,6 +78,6 @@ mixin template backgroundFunctions()
     */
     void background(string hexValue)
     {
-        background(color(hexValue));
+        background(RGBA.parse(hexValue).get);
     }
 }

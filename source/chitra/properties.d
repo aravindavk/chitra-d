@@ -4,24 +4,14 @@ import std.format;
 import std.string;
 import std.conv;
 
-import colors;
+import chitra.rgba;
 
-struct TextProperties
-{
-    string font = "Serif";
-    string slant = "Normal";
-    string weight = "Normal";
-    int height = 12;
-    double lineHeight = 1.5;
-    string align_ = "left";
-    string hyphenChar = "-";
-    bool hyphenation = false;
-}
+public import chitra.elements.formatted_strings;
 
 struct ShapeProperties
 {
-    Color fill = rgb(0, 0, 0);
-    Color stroke = rgb(0, 0, 0);
+    RGBA fill = RGBA(0, 0, 0);
+    RGBA stroke = RGBA(0, 0, 0);
     int strokeWidth = 1;
     bool noFill = false;
     bool noStroke = false;
@@ -35,47 +25,49 @@ mixin template propertiesFunctions()
     void fill(int r, int g, int b, float a = 1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = rgba(r, g, b, a);
+        shapeProps.fill = RGBA(r, g, b, a);
     }
 
     void fill(int gray, float a = 1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = rgba(gray, gray, gray, a);
+        shapeProps.fill = RGBA(gray, gray, gray, a);
     }
 
     void fill(string hexValue)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = color(hexValue);
+        // TODO: Handle if RGBA is null
+        shapeProps.fill = RGBA.parse(hexValue).get;
     }
 
     void fillOpacity(float a = 1.0)
     {
-        shapeProps.fill = rgba(shapeProps.fill.toRGBAf.r, shapeProps.fill.toRGBAf.g, shapeProps.fill.toRGBAf.b, a);
+        shapeProps.fill = RGBA(shapeProps.fill.r, shapeProps.fill.g, shapeProps.fill.b, a);
     }
 
     void stroke(int r, int g, int b, float a = 1.0)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = rgba(r, g, b, a);
+        shapeProps.stroke = RGBA(r, g, b, a);
     }
 
     void stroke(int gray, float a = 1.0)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = rgba(gray, gray, gray, a);
+        shapeProps.stroke = RGBA(gray, gray, gray, a);
     }
 
     void stroke(string hexValue)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = color(hexValue);
+        // TODO: Handle if RGBA is null
+        shapeProps.stroke = RGBA.parse(hexValue).get;
     }
 
     void strokeOpacity(float a = 1.0)
     {
-        shapeProps.stroke = rgba(shapeProps.stroke.toRGBAf.r, shapeProps.stroke.toRGBAf.g, shapeProps.stroke.toRGBAf.b, a);
+        shapeProps.stroke = RGBA(shapeProps.stroke.r, shapeProps.stroke.g, shapeProps.stroke.b, a);
     }
 
     void noStroke()
@@ -93,5 +85,33 @@ mixin template propertiesFunctions()
     void noFill()
     {
         shapeProps.noFill = true;
+    }
+
+    void textColor(int r, int g, int b, float a = 1.0)
+    {
+        textProps.color = RGBA(r, g, b, a);
+    }
+
+    void textColor(int gray, float a = 1.0)
+    {
+        textProps.color = RGBA(gray, gray, gray, a);
+    }
+
+    void textColor(string hexValue)
+    {
+        // TODO: Handle if RGBA is null
+        textProps.color = RGBA.parse(hexValue).get;
+    }
+
+    void textOpacity(float a = 1.0)
+    {
+        auto c = textProps.color;
+        if (!c.isNull)
+            textProps.color = RGBA(c.get.r, c.get.g, c.get.b, a);
+    }
+
+    void textSize(float size)
+    {
+        textProps.size = size;
     }
 }

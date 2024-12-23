@@ -360,6 +360,39 @@ image("logo.png", 100/s, 100/s);
 scale(1/s);
 ```
 
+### Text
+
+Set the properties and draw text using,
+
+```d
+textFont("Inter", 20);
+textColor("blue");
+text("Hello World!", 100, 100);
+```
+
+Use `FormattedString` type to customize the text formatting. Below code is equivalant to the above code.
+
+```d
+auto props = TextProperties(color: color("blue"), size: 20, font: "Inter");
+auto t = FormattedString("Hello World!", props);
+text(t, 100, 100);
+```
+
+Adding text and more formatting is very simple. For example,
+
+```d
+auto h1Style = TextProperties(size: 24.88, namedWeight: TextNamedWeight.bold, color: color(0));
+auto parStyle = TextProperties(size: 12, color: color(0));
+
+alias FS = FormattedString;
+
+FS sample;
+sample ~= FS("Hello World!\n", h1Style);
+sample ~= FS("This is a paragraph\n", parStyle);
+
+text(sample, 100, 100);
+```
+
 ### Export/Save
 
 PDF, PNG and SVG output formats are supported.

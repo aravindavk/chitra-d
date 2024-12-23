@@ -38,9 +38,14 @@ string toString(TextVariant variant)
     return replaceAll!(camelCaseToHyphen)(variant.to!string, regex("[A-Z]"));
 }
 
+string toString(TextUnderline value)
+{
+    return value.to!string.replace("_", "");
+}
+
 struct TextProperties
 {
-    string family;
+    string font;
     float size;
     TextNamedSize namedSize;
     TextStyle style;
@@ -80,8 +85,9 @@ struct TextProperties
     {
         string output;
 
-        if (family != "") output ~= i" font_family=\"$(family)\"".text;
+        if (font != "") output ~= i" font_family=\"$(font)\"".text;
 
+        if (!background.isNull) output ~= i" background=\"$(background.get.hexString)\"".text;
         if (!color.isNull) output ~= i" color=\"$(color.get.hexString)\"".text;
         if (size > 0)
         {
@@ -90,9 +96,21 @@ struct TextProperties
         }
         if (namedSize != TextNamedSize.none) output ~= i" font_size=\"$(namedSize)\"".text;
 
+        if (weight > 0) output ~= i" weight=\"$(weight)\"".text;
+        if (namedWeight != TextNamedWeight.none) output ~= i" weight=\"$(namedWeight)\"".text;
+
         if (style != TextStyle.none) output ~= i" font_style=\"$(style)\"".text;
 
+        if (underline != TextUnderline.none) output ~= i" underline=\"$(underline.toString)\"".text;
+        if (!underlineColor.isNull) output ~= i" underline_color=\"$(underlineColor.get.hexString)\"".text;
+
+        if (overline != TextOverline.none) output ~= i" overline=\"$(overline)\"".text;
+        if (!overlineColor.isNull) output ~= i" overline_color=\"$(overlineColor.get.hexString)\"".text;
+
         if (lineHeight > 0) output ~= i" line_height=\"$(lineHeight)\"".text;
+
+        if (!features.empty) output ~= i" font_features=\"$(features)\"".text;
+
         return output;
     }
 }
@@ -138,7 +156,7 @@ struct FormattedString
     // Ex:
     // ```
     // auto txt = FormattedString("Hello");
-    // txt.properties.family = "Futura";
+    // txt.properties.font = "Futura";
     // txt ~= "World!";
     // ```
     TextProperties properties;
@@ -164,7 +182,7 @@ struct FormattedString
         // If any properties updated after the initialization, that will be
         // stored in properties. Merge those properties with any properties
         // set by the RHS
-        auto props = updateProperties(properties, rhs.currentProperties);
+        auto props = updateProperties([properties, rhs.currentProperties]);
         rhs.currentProperties = props;
         children ~= rhs;
     }

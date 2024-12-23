@@ -110,8 +110,73 @@ mixin template propertiesFunctions()
             textProps.color = RGBA(c.get.r, c.get.g, c.get.b, a);
     }
 
+    void textBgColor(int r, int g, int b, float a = 1.0)
+    {
+        textProps.background = RGBA(r, g, b, a);
+    }
+
+    void textBgColor(int gray, float a = 1.0)
+    {
+        textProps.background = RGBA(gray, gray, gray, a);
+    }
+
+    void textBgColor(string hexValue)
+    {
+        // TODO: Handle if RGBA is null
+        textProps.background = RGBA.parse(hexValue).get;
+    }
+
+    void textBgOpacity(float a = 1.0)
+    {
+        auto c = textProps.background;
+        if (!c.isNull)
+            textProps.background = RGBA(c.get.r, c.get.g, c.get.b, a);
+    }
+
     void textSize(float size)
     {
         textProps.size = size;
+    }
+
+    void textSize(TextNamedSize size)
+    {
+        textProps.namedSize = size;
+    }
+
+    void textFont(string family)
+    {
+        textProps.font = family;
+    }
+
+    void textFont(string family, float size)
+    {
+        textFont(family);
+        textSize(size);
+    }
+
+    void textFont(string family, TextNamedSize size)
+    {
+        textFont(family);
+        textSize(size);
+    }
+
+    void textLineHeight(float value)
+    {
+        textProps.lineHeight = value;
+    }
+
+    void textWeight(float value)
+    {
+        textProps.weight = value;
+    }
+
+    void textWeight(TextNamedWeight value)
+    {
+        textProps.namedWeight = value;
+    }
+
+    void textFeatures(string value)
+    {
+        textProps.features = value;
     }
 }

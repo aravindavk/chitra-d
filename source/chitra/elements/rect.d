@@ -118,8 +118,21 @@ mixin template rectFunctions()
         rect(x, y, w, w, r, rtl, rtr, rbr, rbl);
     }
 
-    void pixel(double x, double y)
+    /**
+       Draw a pixel.
+
+       ---
+       //        x    y
+       ctx.pixel(100, 100);
+       // Pixel with custom width
+       ctx.pixel(50, 50, 2);
+       ---
+     */
+    void pixel(double x, double y, int w=1)
     {
-        rect(x, y, 1);
+        auto prevStrokeWidth = this.shapeProps.strokeWidth;
+        strokeWidth(0);
+        rect(x, y, w.px);
+        strokeWidth(prevStrokeWidth);
     }
 }

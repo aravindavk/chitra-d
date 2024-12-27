@@ -78,15 +78,18 @@ mixin template ovalFunctions()
        Draw a Point
 
        ---
-       // Point with default width(2)
+       // Point with default width(1)
        //        x   y
        ctx.point(50, 50);
        // Point with custom width
-       ctx.point(50, 50, 1);
+       ctx.point(50, 50, 2);
        ---
      */
-    void point(double x, double y, int w=2)
+    void point(double x, double y, int w=1)
     {
+        auto prevStrokeWidth = this.shapeProps.strokeWidth;
+        strokeWidth(0);
         oval(x, y, w);
+        strokeWidth(prevStrokeWidth);
     }
 }

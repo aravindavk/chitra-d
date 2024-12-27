@@ -39,15 +39,15 @@ struct Rect
         auto rbr = chitraCtx.correctedSize(rbr_);
         auto rbl = chitraCtx.correctedSize(rbl_);
 
-        if (r + rtl + rtr + rbl + rbr == 0)
+        if (r == 0 && rtl < 0 && rtr < 0 && rbl < 0 && rbr < 0)
             cairo_rectangle(cairoCtx, x, y, w, h);
         else
         {
             // Border radius is not given
-            if (rtl == 0) rtl = r;
-            if (rtr == 0) rtr = r;
-            if (rbl == 0) rbl = r;
-            if (rbr == 0) rbr = r;
+            if (rtl < 0) rtl = r;
+            if (rtr < 0) rtr = r;
+            if (rbl < 0) rbl = r;
+            if (rbr < 0) rbr = r;
 
             double fromX = x + rtl;
             double toX = x + w - rtr;
@@ -95,7 +95,7 @@ mixin template rectFunctions()
        ctx.rect(50, 50, 100, 50);
        ---
      */
-    void rect(double x, double y, double w, double h = 0.0, double r = 0, double rtl = 0.0, double rtr = 0.0, double rbr = 0, double rbl = 0)
+    void rect(double x, double y, double w, double h = 0.0, double r = 0, double rtl = -1.0, double rtr = -1.0, double rbr = -1.0, double rbl = -1.0)
     {
         h = h == 0.0 ? w : h;
         auto rct = Rect(x, y, w, h, r, rtl, rtr, rbr, rbl);
@@ -113,7 +113,7 @@ mixin template rectFunctions()
        ctx.square(50, 50, 100);
        ---
      */
-    void square(double x, double y, double w, double r = 0, double rtl = 0.0, double rtr = 0.0, double rbr = 0, double rbl = 0)
+    void square(double x, double y, double w, double r = 0, double rtl = -1.0, double rtr = -1.0, double rbr = -1.0, double rbl = -1.0)
     {
         rect(x, y, w, w, r, rtl, rtr, rbr, rbl);
     }

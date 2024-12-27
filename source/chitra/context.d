@@ -26,11 +26,21 @@ class Context
     Element[] elements;
     cairo_surface_t* defaultSurface;
     cairo_t* defaultCairoCtx;
-    int width;
-    int height;
+    private int width_;
+    private int height_;
     int resolution_ = 0;
     ShapeProperties shapeProps;
     TextProperties textProps;
+
+    int width()
+    {
+        return width_;
+    }
+
+    int height()
+    {
+        return height_;
+    }
 
     // Change the size as per the resolution specified
     // When a different resolution is specified other
@@ -53,10 +63,10 @@ class Context
 
     this(int width = defaultWidth, int height = 0)
     {
-        this.width = width;
-        this.height = height == 0 ? width : height;
+        this.width_ = width;
+        this.height_ = height == 0 ? width : height;
         this.defaultSurface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-            correctedSize(this.width), correctedSize(this.height));
+            correctedSize(this.width_), correctedSize(this.height_));
         this.defaultCairoCtx = cairo_create(this.defaultSurface);
 
         // Scale the default stroke width based on the resolution
@@ -108,8 +118,8 @@ class Context
 
         cairo_surface_t* surface;
 
-        auto w = correctedSize(this.width);
-        auto h = correctedSize(this.height);
+        auto w = correctedSize(this.width_);
+        auto h = correctedSize(this.height_);
 
         if (outputFile.endsWith(".pdf"))
             surface = createPdfSurface(outputFile, w, h);
@@ -149,7 +159,7 @@ class Context
     {
         elements = [];
         defaultSurface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-                                                    correctedSize(this.width), correctedSize(this.height));
+                                                    correctedSize(this.width_), correctedSize(this.height_));
         defaultCairoCtx = cairo_create(this.defaultSurface);
         shapeProps = ShapeProperties.init;
         textProps = TextProperties.init;

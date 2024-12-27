@@ -9,12 +9,12 @@ import chitra.elements.core;
 
 struct Rect
 {
-    double x_, y_;
-    double w_, h_;
-    double r_, rtl_, rtr_, rbl_, rbr_;
+    float x_, y_;
+    float w_, h_;
+    float r_, rtl_, rtr_, rbl_, rbr_;
     ShapeProperties shapeProps;
 
-    this(double x, double y, double w, double h, double r, double rtl, double rtr, double rbr, double rbl)
+    this(float x, float y, float w, float h, float r, float rtl, float rtr, float rbr, float rbl)
     {
         this.x_ = x;
         this.y_ = y;
@@ -49,10 +49,10 @@ struct Rect
             if (rbl < 0) rbl = r;
             if (rbr < 0) rbr = r;
 
-            double fromX = x + rtl;
-            double toX = x + w - rtr;
-            double fromY = y;
-            double toY = y;
+            float fromX = x + rtl;
+            float toX = x + w - rtr;
+            float fromY = y;
+            float toY = y;
             cairo_move_to(cairoCtx, fromX, fromY);
             cairo_line_to(cairoCtx, toX, toY);
             cairo_arc(cairoCtx, toX, toY+rtr, rtr, PI*3/2, 0);
@@ -82,6 +82,8 @@ struct Rect
 
 mixin template rectFunctions()
 {
+    import std.typecons;
+
     /**
        Draw a Square or Rectangle.
 
@@ -95,7 +97,7 @@ mixin template rectFunctions()
        ctx.rect(50, 50, 100, 50);
        ---
      */
-    void rect(double x, double y, double w, double h = 0.0, double r = 0, double rtl = -1.0, double rtr = -1.0, double rbr = -1.0, double rbl = -1.0)
+    void rect(float x, float y, float w, float h = 0.0, float r = 0, float rtl = -1.0, float rtr = -1.0, float rbr = -1.0, float rbl = -1.0)
     {
         h = h == 0.0 ? w : h;
         auto rct = Rect(x, y, w, h, r, rtl, rtr, rbr, rbl);
@@ -113,7 +115,7 @@ mixin template rectFunctions()
        ctx.square(50, 50, 100);
        ---
      */
-    void square(double x, double y, double w, double r = 0, double rtl = -1.0, double rtr = -1.0, double rbr = -1.0, double rbl = -1.0)
+    void square(float x, float y, float w, float r = 0, float rtl = -1.0, float rtr = -1.0, float rbr = -1.0, float rbl = -1.0)
     {
         rect(x, y, w, w, r, rtl, rtr, rbr, rbl);
     }
@@ -128,11 +130,37 @@ mixin template rectFunctions()
        ctx.pixel(50, 50, 2);
        ---
      */
-    void pixel(double x, double y, int w=1)
+    void pixel(float x, float y, int w=1)
     {
         auto prevStrokeWidth = this.shapeProps.strokeWidth;
         strokeWidth(0);
         rect(x, y, w.px);
         strokeWidth(prevStrokeWidth);
+    }
+
+    void border(int thickness = 2, Nullable!RGBA color = color(0),
+                float m = 0.0, float mt = -1.0, float mr = -1.0, float mb = -1.0, float ml = -1.0,
+                float r = 0.0, float rtl = -1.0, float rtr = -1.0, float rbr = -1.0, float rbl = -1.0)
+    {
+        auto prevFillColor = this.shapeProps.fill;
+        auto prevStrokeColor = this.shapeProps.stroke;
+        auto prevStrokeWidth = this.shapeProps.strokeWidth;
+        // Transparent fill and strokeWidth to given thickness
+        fillOpacity(0);
+        this.shapeProps.stroke = color.get;
+        strokeWidth(thickness);
+
+        if (mt < 0) mt = m;
+        if (mr < 0) mr = m;
+        if (mb < 0) mb = m;
+        if (ml < 0) ml = m;
+
+        auto halfThickness = thickness / 2.0;
+        rect(ml + halfThickness, mt + halfThickness, this.width - ml - mr - thickness, this.height - mt - mb - thickness,
+             r: r, rtl: rtl, rtr: rtr, rbl: rbl, rbr: rbr);
+
+        this.shapeProps.fill = prevFillColor;
+        this.shapeProps.stroke = prevStrokeColor;
+        this.shapeProps.strokeWidth = prevStrokeWidth;
     }
 }

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [v0.2.0] - 2024-12-27
+- Add support to draw border.
+- Remove stroke from `point` and `pixel` drawing APIs.
+- Allow override one corner radius while drawing a rectangle.
+- Disallow setting `width` and `height` after initialization.
+- Added FormattedString and text API
 - Moved resolution settings to `saveAs` function.
 - Change default measurements to `point(pt)`.
 - Added support for `100.px`, `10.pt` while specifying the co-ordinates, size etc.
@@ -36,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support added tp export to `pdf`, `svg` and `png` formats.
 - Published the project to https://code.dlang.org/packages/chitra
 
-[Unreleased]: https://github.com/aravindavk/chitra-d/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/aravindavk/chitra-d/compare/v0.2.0...HEAD
 [v0.1.0]: https://github.com/aravindavk/chitra-d/compare/17ba479...v0.1.0
 [v0.1.1]: https://github.com/aravindavk/chitra-d/compare/v0.1.0...v0.1.1
+[v0.1.1]: https://github.com/aravindavk/chitra-d/compare/v0.1.1...v0.2.0

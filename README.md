@@ -102,7 +102,7 @@ Access the width and height of the canvas.
 rect(100, 100, width - 200, height - 200);
 ```
 
-#### Background
+#### Background and Border
 
 Fill the background with given color. Color can be provided in `RGB`, or Gray scale or hex strings. Background will draw a rectangle with canvas width and height.
 
@@ -123,6 +123,23 @@ background("#9694FF");
 
 // Or color names
 background("blue");
+```
+
+Add border to canvas using,
+
+```d
+// Black border of thickness 2
+border;
+
+// Border with margin
+border(m: 10);
+border(m: 10, mt: 0);
+
+// Border with different color
+border(m: 10, color: color("blue"));
+
+// Border with radius
+border(m: 10, color: color("blue"), r: 7);
 ```
 
 #### Fill

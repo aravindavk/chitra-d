@@ -17,7 +17,7 @@ double cm(T)(T value)
 
 double mm(T)(T value)
 {
-    return (value / 10).cm;
+    return (value / 10.0).cm;
 }
 
 // 1 pt = 1/72 of inch and 1 px = 1/96 of inch

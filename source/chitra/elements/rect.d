@@ -138,10 +138,24 @@ mixin template rectFunctions()
         strokeWidth(prevStrokeWidth);
     }
 
-    void border(int thickness = 2, Nullable!RGBA color = color(0),
-                float m = 0.0, float mt = -1.0, float mr = -1.0, float mb = -1.0, float ml = -1.0,
-                float r = 0.0, float rtl = -1.0, float rtr = -1.0, float rbr = -1.0, float rbl = -1.0)
+    /**
+       Draw a border.
+
+       ---
+       ctx.border(5);
+       ctx.border(5, margin: 10, radius: 7, color: RGBA.parse("blue"));
+       ---
+     */
+    void border(int thickness = 2, Nullable!RGBA color = Nullable!RGBA.init,
+                float margin = 0.0, float marginTop = -1.0, float marginRight = -1.0,
+                float marginBottom = -1.0, float marginLeft = -1.0,
+                float radius = 0.0, float radiusTopLeft = -1.0, float radiusTopRight = -1.0,
+                float radiusBottomRight = -1.0, float radiusBottomLeft = -1.0)
     {
+
+        if (color.isNull)
+            color = this.borderProps.fill;
+
         auto prevFillColor = this.shapeProps.fill;
         auto prevStrokeColor = this.shapeProps.stroke;
         auto prevStrokeWidth = this.shapeProps.strokeWidth;
@@ -150,14 +164,23 @@ mixin template rectFunctions()
         this.shapeProps.stroke = color.get;
         strokeWidth(thickness);
 
-        if (mt < 0) mt = m;
-        if (mr < 0) mr = m;
-        if (mb < 0) mb = m;
-        if (ml < 0) ml = m;
+        if (marginTop < 0) marginTop = margin;
+        if (marginRight < 0) marginRight = margin;
+        if (marginBottom < 0) marginBottom = margin;
+        if (marginLeft < 0) marginLeft = margin;
 
         auto halfThickness = thickness / 2.0;
-        rect(ml + halfThickness, mt + halfThickness, this.width - ml - mr - thickness, this.height - mt - mb - thickness,
-             r: r, rtl: rtl, rtr: rtr, rbl: rbl, rbr: rbr);
+        rect(
+            marginLeft + halfThickness,
+            marginTop + halfThickness,
+            this.width - marginLeft - marginRight - thickness,
+            this.height - marginTop - marginBottom - thickness,
+            r: radius,
+            rtl: radiusTopLeft,
+            rtr: radiusTopRight,
+            rbl: radiusBottomLeft,
+            rbr: radiusBottomRight
+        );
 
         this.shapeProps.fill = prevFillColor;
         this.shapeProps.stroke = prevStrokeColor;

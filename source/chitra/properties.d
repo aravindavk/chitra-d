@@ -20,6 +20,11 @@ struct ShapeProperties
     //   line_join = LibCairo::LineJoinT::Miter
 }
 
+struct BorderProperties
+{
+    RGBA fill = RGBA(0);
+}
+
 mixin template propertiesFunctions()
 {
     void fill(int r, int g, int b, float a = 1.0)
@@ -178,5 +183,20 @@ mixin template propertiesFunctions()
     void textFeatures(string value)
     {
         textProps.features = value;
+    }
+
+    void borderColor(int r, int g, int b, float a = 1.0)
+    {
+        borderProps.fill = RGBA(r, g, b, a);
+    }
+
+    void borderColor(int gray, float a = 1.0)
+    {
+        borderProps.fill = RGBA(gray, gray, gray, a);
+    }
+
+    void borderColor(string hexValue)
+    {
+        borderProps.fill = RGBA.parse(hexValue).get;
     }
 }

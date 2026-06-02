@@ -13,10 +13,9 @@ void main()
     {
         fill(0, 0, 255);
         noStroke;
-        point(10, 10, 1);
 
-        fill(0, 255, 0);
-        pixel(15, 10);
-        saveAs("output/dot.png", resolution: 72);
+        borderColor("#eecc88");
+        border(5, margin: 20, radius: 7);
+        saveAs("output/border.png");
     }
 }

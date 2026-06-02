@@ -7,11 +7,11 @@ public
 {
     import chitra.helpers;
     import chitra.elements.formatted_strings;
+    import chitra.rgba;
 }
 import chitra.context;
 import chitra.properties;
 import chitra.elements;
-import chitra.rgba;
 
 class Chitra : Context
 {
@@ -47,7 +47,7 @@ class Chitra : Context
        auto ctx = new Chitra(1600, 900);
        ---
      */
-    this(int width = defaultWidth, int height = 0)
+    this(double width = defaultWidth, double height = 0)
     {
         super(width, height);
     }

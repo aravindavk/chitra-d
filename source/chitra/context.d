@@ -26,18 +26,19 @@ class Context
     Element[] elements;
     cairo_surface_t* defaultSurface;
     cairo_t* defaultCairoCtx;
-    private int width_;
-    private int height_;
+    private double width_;
+    private double height_;
     int resolution_ = 0;
     ShapeProperties shapeProps;
     TextProperties textProps;
+    BorderProperties borderProps;
 
-    int width()
+    double width()
     {
         return width_;
     }
 
-    int height()
+    double height()
     {
         return height_;
     }
@@ -61,12 +62,12 @@ class Context
         return cast(T)((value / cast(double)resolution_) * baseResolution);
     }
 
-    this(int width = defaultWidth, int height = 0)
+    this(double width = defaultWidth, double height = 0)
     {
         this.width_ = width;
         this.height_ = height == 0 ? width : height;
         this.defaultSurface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-            correctedSize(this.width_), correctedSize(this.height_));
+            correctedSize(this.width_).to!int, correctedSize(this.height_).to!int);
         this.defaultCairoCtx = cairo_create(this.defaultSurface);
 
         // Scale the default stroke width based on the resolution
@@ -101,8 +102,8 @@ class Context
         {
             throw new Exception("invalid paper");
         }
-        auto w = (*size)[0].mm.to!int;
-        auto h = (*size)[1].mm.to!int;
+        auto w = (*size)[0].mm;
+        auto h = (*size)[1].mm;
 
         if (orientation == landscapeMode)
             swap(w, h);
@@ -159,7 +160,7 @@ class Context
     {
         elements = [];
         defaultSurface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-                                                    correctedSize(this.width_), correctedSize(this.height_));
+                                                    correctedSize(this.width_).to!int, correctedSize(this.height_).to!int);
         defaultCairoCtx = cairo_create(this.defaultSurface);
         shapeProps = ShapeProperties.init;
         textProps = TextProperties.init;

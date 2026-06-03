@@ -27,14 +27,18 @@ struct BorderProperties
 
 mixin template propertiesFunctions()
 {
-    void fill(int r, int g, int b, float a = 1.0)
+    void fill(float r, float g, float b, float a = -1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = RGBA(r, g, b, a);
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        shapeProps.fill = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
+        import std.stdio;
     }
 
-    void fill(int gray, float a = 1.0)
+    void fill(float gray, float a = -1.0)
     {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         shapeProps.noFill = false;
         shapeProps.fill = RGBA(gray, gray, gray, a);
     }
@@ -46,19 +50,22 @@ mixin template propertiesFunctions()
         shapeProps.fill = RGBA.parse(hexValue).get;
     }
 
-    void fillOpacity(float a = 1.0)
+    void fillOpacity(float a)
     {
-        shapeProps.fill = RGBA(shapeProps.fill.r, shapeProps.fill.g, shapeProps.fill.b, a);
+        shapeProps.fill = RGBA(shapeProps.fill.r, shapeProps.fill.g, shapeProps.fill.b, a / colorScaleAlphaMax);
     }
 
-    void stroke(int r, int g, int b, float a = 1.0)
+    void stroke(float r, float g, float b, float a = -1.0)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = RGBA(r, g, b, a);
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        shapeProps.stroke = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    void stroke(int gray, float a = 1.0)
+    void stroke(float gray, float a = 1.0)
     {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         shapeProps.noStroke = false;
         shapeProps.stroke = RGBA(gray, gray, gray, a);
     }
@@ -70,9 +77,9 @@ mixin template propertiesFunctions()
         shapeProps.stroke = RGBA.parse(hexValue).get;
     }
 
-    void strokeOpacity(float a = 1.0)
+    void strokeOpacity(float a)
     {
-        shapeProps.stroke = RGBA(shapeProps.stroke.r, shapeProps.stroke.g, shapeProps.stroke.b, a);
+        shapeProps.stroke = RGBA(shapeProps.stroke.r, shapeProps.stroke.g, shapeProps.stroke.b, a / colorScaleAlphaMax);
     }
 
     void noStroke()
@@ -92,13 +99,16 @@ mixin template propertiesFunctions()
         shapeProps.noFill = true;
     }
 
-    void textColor(int r, int g, int b, float a = 1.0)
+    void textColor(float r, float g, float b, float a = -1.0)
     {
-        textProps.color = RGBA(r, g, b, a);
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        textProps.color = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    void textColor(int gray, float a = 1.0)
+    void textColor(float gray, float a = 1.0)
     {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         textProps.color = RGBA(gray, gray, gray, a);
     }
 
@@ -108,20 +118,23 @@ mixin template propertiesFunctions()
         textProps.color = RGBA.parse(hexValue).get;
     }
 
-    void textOpacity(float a = 1.0)
+    void textOpacity(float a)
     {
         auto c = textProps.color;
         if (!c.isNull)
-            textProps.color = RGBA(c.get.r, c.get.g, c.get.b, a);
+            textProps.color = RGBA(c.get.r, c.get.g, c.get.b, a / colorScaleAlphaMax);
     }
 
-    void textBgColor(int r, int g, int b, float a = 1.0)
+    void textBgColor(float r, float g, float b, float a = -1.0)
     {
-        textProps.background = RGBA(r, g, b, a);
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        textProps.background = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    void textBgColor(int gray, float a = 1.0)
+    void textBgColor(float gray, float a = -1.0)
     {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         textProps.background = RGBA(gray, gray, gray, a);
     }
 
@@ -131,11 +144,11 @@ mixin template propertiesFunctions()
         textProps.background = RGBA.parse(hexValue).get;
     }
 
-    void textBgOpacity(float a = 1.0)
+    void textBgOpacity(float a)
     {
         auto c = textProps.background;
         if (!c.isNull)
-            textProps.background = RGBA(c.get.r, c.get.g, c.get.b, a);
+            textProps.background = RGBA(c.get.r, c.get.g, c.get.b, a / colorScaleAlphaMax);
     }
 
     void textSize(float size)
@@ -185,18 +198,42 @@ mixin template propertiesFunctions()
         textProps.features = value;
     }
 
-    void borderColor(int r, int g, int b, float a = 1.0)
+    void borderColor(float r, float g, float b, float a = -1.0)
     {
-        borderProps.fill = RGBA(r, g, b, a);
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        borderProps.fill = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    void borderColor(int gray, float a = 1.0)
+    void borderColor(float gray, float a = -1.0)
     {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         borderProps.fill = RGBA(gray, gray, gray, a);
     }
 
     void borderColor(string hexValue)
     {
         borderProps.fill = RGBA.parse(hexValue).get;
+    }
+
+    /**
+       Switch between color Scales (Default is 0-255)
+
+       ---
+       ctx.colorScale(1); // 0-1 Scale
+       ctx.colorScale(255); // 0-255 Scale
+       ---
+
+       To use 0-255 scale for RGB and 0-1 for alpha
+
+       ---
+       ctx.colorScale(255, 1);
+       ctx.fill(186, 239, 60, 0.5);
+       ---
+     */
+    void colorScale(int max = 255, int maxA = 0)
+    {
+        colorScaleMax = max;
+        colorScaleAlphaMax = maxA == 0 ? max : maxA;
     }
 }

@@ -32,6 +32,8 @@ class Context
     ShapeProperties shapeProps;
     TextProperties textProps;
     BorderProperties borderProps;
+    float colorScaleMax = 255.0;
+    float colorScaleAlphaMax = 1.0;
 
     double width()
     {

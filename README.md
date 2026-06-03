@@ -23,6 +23,8 @@ void main()
 
 <a href="https://kadalu.tech"><img src="static/kadalu-technologies-logo.svg" alt="Kadalu Technologies" width="200"/></a>
 
+<a href="https://fossunited.org"><img src="static/FOSS United Logo Black.png" alt="FOSS United" width="200"/></a>
+
 ## Install
 
 Currently the Chitra project uses Cairo Graphics and Pango libraries. Once it gets the GIF and animation video creation capabilities, I will update the new dependencies here.

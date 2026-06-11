@@ -64,7 +64,7 @@ class Context
         return cast(T)((value / cast(double)resolution_) * baseResolution);
     }
 
-    this(double width = defaultWidth, double height = 0)
+    void setSize(double width = defaultWidth, double height = 0)
     {
         this.width_ = width;
         this.height_ = height == 0 ? width : height;
@@ -81,7 +81,12 @@ class Context
         shapeProps.stroke = RGBA(0, 0, 0);
     }
 
-    this(string paper)
+    this(double width = defaultWidth, double height = 0)
+    {
+        setSize(width, height);
+    }
+
+    void setSize(string paper)
     {
         string orientation = portraitMode;
         auto parts = paper.toLower.split(",");
@@ -110,7 +115,12 @@ class Context
         if (orientation == landscapeMode)
             swap(w, h);
 
-        this(w, h);
+        setSize(w, h);
+    }
+
+    this(string paper)
+    {
+        setSize(paper);
     }
 
     void saveAs(string outputFile, int resolution = defaultResolution)

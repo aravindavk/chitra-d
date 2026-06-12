@@ -55,7 +55,7 @@ struct TextProperties
     TextStretch stretch;
     // Ex: features='dlig=1, -kern, afrc on'
     string features;
-    Nullable!RGBA color;
+    Nullable!RGBA color = RGBA.parse(0);
     Nullable!RGBA background;
     float alpha;
     float backgroundAlpha;

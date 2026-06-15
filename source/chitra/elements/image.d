@@ -30,6 +30,11 @@ struct Image
         auto w = chitraCtx.correctedSize(w_);
         auto h = chitraCtx.correctedSize(h_);
 
+        auto resolutionScale = chitraCtx.correctedSize(1.0);
+
+        if (resolutionScale != 1)
+            cairo_scale(cairoCtx, resolutionScale, resolutionScale);
+
         // TODO: Scale the image if width and height are given
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
 
@@ -43,8 +48,12 @@ struct Image
             cairo_paint(imgCtx);
         }
 
-        cairo_set_source_surface(cairoCtx, surface, x, y);
+        cairo_set_source_surface(cairoCtx, surface, x/resolutionScale, y/resolutionScale);
         cairo_paint(cairoCtx);
+
+        // Reverse the Resolution scale applied
+        if (resolutionScale != 1)
+            cairo_scale(cairoCtx, 1/resolutionScale, 1/resolutionScale);
     }
 }
 

@@ -32,6 +32,17 @@ struct Image
 
         // TODO: Scale the image if width and height are given
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
+
+        if (!shapeProps.tint.isNull)
+        {
+            auto imgCtx = cairo_create(surface);
+            cairo_set_source_rgba(imgCtx, shapeProps.tint.get.r, shapeProps.tint.get.g,
+                                  shapeProps.tint.get.b, shapeProps.tint.get.a); 
+
+            cairo_set_operator(imgCtx, CAIRO_OPERATOR_MULTIPLY); 
+            cairo_paint(imgCtx);
+        }
+
         cairo_set_source_surface(cairoCtx, surface, x, y);
         cairo_paint(cairoCtx);
     }
@@ -71,9 +82,7 @@ mixin template imageFunctions()
     // ```
     double imageWidth(string path)
     {
-        // TODO: Cache the surface for the given path?
-        auto surface = cairo_image_surface_create_from_png(path.toStringz);
-        return cairo_image_surface_get_width(surface);
+        return imageSize(path).width;
     }
 
     // Get height of the image
@@ -83,8 +92,7 @@ mixin template imageFunctions()
     // ```
     double imageHeight(string path)
     {
-        auto surface = cairo_image_surface_create_from_png(path.toStringz);
-        return cairo_image_surface_get_height(surface);
+        return imageSize(path).height;
     }
 
     // Get width and height of the image
@@ -94,6 +102,11 @@ mixin template imageFunctions()
     // ```
     ImageSize imageSize(string path)
     {
-        return ImageSize(imageWidth(path), imageHeight(path));
+        // TODO: Cache the surface for the given path?
+        auto surface = cairo_image_surface_create_from_png(path.toStringz);
+        ImageSize size;
+        size.width = cairo_image_surface_get_width(surface);
+        size.height = cairo_image_surface_get_height(surface);
+        return size;
     }
 }

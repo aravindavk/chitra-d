@@ -3,6 +3,7 @@ module chitra.properties;
 import std.format;
 import std.string;
 import std.conv;
+import std.typecons : Nullable;
 
 import chitra.rgba;
 
@@ -18,6 +19,7 @@ struct ShapeProperties
     // line_dash = LineDash.new,
     //     line_cap = LibCairo::LineCapT::Butt,
     //   line_join = LibCairo::LineJoinT::Miter
+    Nullable!RGBA tint = Nullable!RGBA.init;
 }
 
 struct BorderProperties
@@ -32,7 +34,6 @@ mixin template propertiesFunctions()
         shapeProps.noFill = false;
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         shapeProps.fill = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
-        import std.stdio;
     }
 
     void fill(float gray, float a = -1.0)
@@ -43,11 +44,12 @@ mixin template propertiesFunctions()
         shapeProps.fill = RGBA(gray, gray, gray, a);
     }
 
-    void fill(string hexValue)
+    void fill(string hexValue, float a = -1.0)
     {
         shapeProps.noFill = false;
         // TODO: Handle if RGBA is null
         shapeProps.fill = RGBA.parse(hexValue).get;
+        shapeProps.fill = setAlpha(shapeProps.fill, a);
     }
 
     void fillOpacity(float a)
@@ -70,11 +72,12 @@ mixin template propertiesFunctions()
         shapeProps.stroke = RGBA(gray, gray, gray, a);
     }
 
-    void stroke(string hexValue)
+    void stroke(string hexValue, float a = -1.0)
     {
         shapeProps.noStroke = false;
         // TODO: Handle if RGBA is null
         shapeProps.stroke = RGBA.parse(hexValue).get;
+        shapeProps.stroke = setAlpha(shapeProps.stroke, a);
     }
 
     void strokeOpacity(float a)
@@ -112,10 +115,11 @@ mixin template propertiesFunctions()
         textProps.color = RGBA(gray, gray, gray, a);
     }
 
-    void textColor(string hexValue)
+    void textColor(string hexValue, float a = -1.0)
     {
         // TODO: Handle if RGBA is null
         textProps.color = RGBA.parse(hexValue).get;
+        textProps.color = setAlpha(textProps.color.get, a);
     }
 
     void textOpacity(float a)
@@ -138,10 +142,11 @@ mixin template propertiesFunctions()
         textProps.background = RGBA(gray, gray, gray, a);
     }
 
-    void textBgColor(string hexValue)
+    void textBgColor(string hexValue, float a = -1.0)
     {
         // TODO: Handle if RGBA is null
         textProps.background = RGBA.parse(hexValue).get;
+        textProps.background = setAlpha(textProps.background.get, a);
     }
 
     void textBgOpacity(float a)
@@ -211,9 +216,17 @@ mixin template propertiesFunctions()
         borderProps.fill = RGBA(gray, gray, gray, a);
     }
 
-    void borderColor(string hexValue)
+    RGBA setAlpha(RGBA col, float a = -1.0)
+    {
+        a = a == -1 ? col.a : a / colorScaleAlphaMax;
+
+        return RGBA(col.r, col.g, col.b, a);
+    }
+
+    void borderColor(string hexValue, float a = -1.0)
     {
         borderProps.fill = RGBA.parse(hexValue).get;
+        borderProps.fill = setAlpha(borderProps.fill, a);
     }
 
     /**
@@ -235,5 +248,32 @@ mixin template propertiesFunctions()
     {
         colorScaleMax = max;
         colorScaleAlphaMax = maxA == 0 ? max : maxA;
+    }
+
+    void tint(float r, float g, float b, float a = -1.0)
+    {
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        shapeProps.tint = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
+    }
+
+    void tint(float gray, float a = -1.0)
+    {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        shapeProps.tint = RGBA(gray, gray, gray, a);
+    }
+
+    void tint(string hexValue, float a = -1.0)
+    {
+        // TODO: Handle if RGBA is null
+        shapeProps.tint = RGBA.parse(hexValue).get;
+        shapeProps.tint = setAlpha(shapeProps.tint.get, a);
+    }
+
+    void noTint()
+    {
+        import std.typecons : Nullable;
+
+        shapeProps.tint = Nullable!RGBA.init;
     }
 }

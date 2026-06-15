@@ -53,3 +53,25 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+
+collections:
+  docs:
+    output: true
+    permalink: /docs/:path
+
+  gallery:
+    output: true
+    permalink: /gallery/:path
+
+defaults:
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: docs
+  - scope:
+      path: ""
+      type: gallery
+    values:
+      layout: gallery

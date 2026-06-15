@@ -1,0 +1,12 @@
+---
+title: Gallery
+---
+
+{% for entry in site.gallery %}
+{% if entry.slug != "index" %}
+<h2>{{ entry.title }}</h2>
+<p>
+  <img src="{{ entry.image }}"/>
+</p>
+{% endif %}
+{% endfor %}

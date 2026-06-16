@@ -9,6 +9,11 @@ import chitra.rgba;
 
 public import chitra.elements.formatted_strings;
 
+enum CENTER = "center";
+enum RADIUS = "radius";
+enum CORNER = "corner";
+enum CORNERS = "corners";
+
 struct ShapeProperties
 {
     RGBA fill = RGBA(0, 0, 0);
@@ -20,6 +25,7 @@ struct ShapeProperties
     //     line_cap = LibCairo::LineCapT::Butt,
     //   line_join = LibCairo::LineJoinT::Miter
     Nullable!RGBA tint = Nullable!RGBA.init;
+    string ovalMode = CENTER;
 }
 
 struct BorderProperties
@@ -275,5 +281,10 @@ mixin template propertiesFunctions()
         import std.typecons : Nullable;
 
         shapeProps.tint = Nullable!RGBA.init;
+    }
+
+    void ovalMode(string value)
+    {
+        shapeProps.ovalMode = value;
     }
 }

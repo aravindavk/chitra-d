@@ -54,6 +54,27 @@ mixin template ovalFunctions()
     void oval(double x, double y, double w, double h = 0.0)
     {
         h = h == 0.0 ? w : h;
+        switch (this.shapeProps.ovalMode)
+        {
+        case CENTER:
+            x = x - (w / 2.0);
+            y = y - (h / 2.0);
+            break;
+        case RADIUS:
+            x = x - w;
+            y = y - h;
+            w = w * 2.0;
+            h = h * 2.0;
+            break;
+        case CORNER:
+            break;
+        case CORNERS:
+            w = w - x;
+            h = h - y;
+            break;
+        default:
+            break;
+        }
         auto s = Oval(x, y, w, h);
         s.shapeProps = this.shapeProps;
         s.draw(this, this.defaultCairoCtx);
@@ -69,9 +90,9 @@ mixin template ovalFunctions()
        ctx.circle(50, 50, 100);
        ---
      */
-    void circle(double x, double y, double w)
+    void circle(double x, double y, double w, double y2 = 0.0)
     {
-        oval(x, y, w);
+        oval(x, y, w, y2);
     }
 
     /**
@@ -88,8 +109,13 @@ mixin template ovalFunctions()
     void point(double x, double y, int w=1)
     {
         auto prevStrokeWidth = this.shapeProps.strokeWidth;
+        auto prevNoStroke = this.shapeProps.noStroke;
+        auto prevOvalMode = this.shapeProps.ovalMode;
         strokeWidth(0);
+        ovalMode(CENTER);
         oval(x, y, w);
         strokeWidth(prevStrokeWidth);
+        if (prevNoStroke) noStroke;
+        ovalMode(prevOvalMode);
     }
 }

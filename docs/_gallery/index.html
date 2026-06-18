@@ -2,11 +2,25 @@
 title: Gallery
 ---
 
-{% for entry in site.gallery %}
-{% if entry.slug != "index" %}
-<h2>{{ entry.title }}</h2>
-<p>
-  <img src="{{ entry.image }}"/>
-</p>
-{% endif %}
-{% endfor %}
+<div class="columns is-multiline">
+    {% for entry in site.gallery reversed %}
+    {% if entry.slug != "index" %}
+    <a class="column is-4" href="/gallery/{{ entry.slug }}">
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img
+                        src="{{ entry.image | replace: "/static/images/", "/static/images/thumbs/"}}"
+                        alt="{{ entry.title }}"
+                    />
+                </figure>
+            </div>
+            <div class="card-content">
+
+                <p class="title is-4">{{ entry.title }}</p>
+            </div>
+        </div>
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>

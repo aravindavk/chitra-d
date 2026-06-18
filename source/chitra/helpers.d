@@ -46,3 +46,13 @@ Nullable!RGBA color(string hexValue)
 {
     return RGBA.parse(hexValue);
 }
+
+double findDistance(double x1, double y1, double x2, double y2)
+{
+    import std.math : sqrt, abs;
+
+    auto xDist = abs(x2 - x1);
+    auto yDist = abs(y2 - y1);
+
+    return sqrt(xDist * xDist + yDist * yDist);
+}

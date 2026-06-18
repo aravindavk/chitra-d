@@ -27,12 +27,15 @@ struct Oval
         auto w = chitraCtx.correctedSize(w_);
         auto h = chitraCtx.correctedSize(h_);
 
-        cairo_save(cairoCtx);
-        cairo_translate(cairoCtx, x + w / 2, y + h / 2);
-        cairo_scale(cairoCtx, w / 2, h / 2);
-        cairo_arc(cairoCtx, 0.0, 0.0, 1.0, 0.0, 2.0 * PI);
-        cairo_restore(cairoCtx);
-        drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
+        if (w > 0 && h > 0)
+        {
+            cairo_save(cairoCtx);
+            cairo_translate(cairoCtx, x + w / 2.0, y + h / 2.0);
+            cairo_scale(cairoCtx, w / 2.0, h / 2.0);
+            cairo_arc(cairoCtx, 0.0, 0.0, 1.0, 0.0, 2.0 * PI);
+            cairo_restore(cairoCtx);
+            drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
+        }
     }
 }
 
@@ -75,6 +78,7 @@ mixin template ovalFunctions()
         default:
             break;
         }
+
         auto s = Oval(x, y, w, h);
         s.shapeProps = this.shapeProps;
         s.draw(this, this.defaultCairoCtx);

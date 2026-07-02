@@ -67,4 +67,14 @@ mixin template textFunctions()
         s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
+
+    void text(string txt, GridCell cell)
+    {
+        text(txt, cell.x, cell.y);
+    }
+
+    void text(FormattedString txt, GridCell cell)
+    {
+        text(txt, cell.x, cell.y);
+    }
 }

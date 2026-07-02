@@ -34,6 +34,7 @@ class Context
     BorderProperties borderProps;
     float colorScaleMax = 255.0;
     float colorScaleAlphaMax = 1.0;
+    Grid[string] grids_;
 
     double width()
     {

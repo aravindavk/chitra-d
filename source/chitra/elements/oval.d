@@ -85,6 +85,11 @@ mixin template ovalFunctions()
         this.elements ~= Element(s);
     }
 
+    void oval(GridCell cell)
+    {
+        oval(cell.x, cell.y, cell.width, cell.height);
+    }
+
     /**
        Draw a Circle.
 

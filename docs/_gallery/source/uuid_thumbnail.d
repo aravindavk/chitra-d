@@ -3,38 +3,28 @@
 dependency "chitra" path="../../../"
 +/
 
-import std.array : replicate, replace;
+import std.array : replicate, replace, array;
+import std.range : chunks;
+import std.algorithm : map;
+import std.conv;
 
 import chitra;
 
 void main()
 {
     string sampleUuid = "f13a2e83-420d-4d9b-9e10-9f23eddba74e";
-    sampleUuid = sampleUuid.replicate(3).replace("-", "");
+    string[] colors = sampleUuid.replicate(3).replace("-", "").chunks(6).map!(c => "#" ~ c.to!string).array;
+
     auto ctx = new Chitra(800);
     with (ctx)
     {
         background(0);
         noStroke;
-        string[] colors;
-
-        auto x = 0;
-        auto y = 0;
-
-        foreach(i; 0 .. 16)
+        grid(4, 4);
+        foreach(col; colors)
         {
-            auto col = "#" ~ sampleUuid[i * 6 .. i * 6 + 6];
-
-            if (i != 0 && i % 4 == 0)
-            {
-                y += 200;
-                x = 0;
-            }
-            
             fill(col);
-            square(x, y, 200);
-
-            x += 200;
+            rect(nextGridCell);
         }
 
         saveAs("static/images/uuid_thumbnail.png");

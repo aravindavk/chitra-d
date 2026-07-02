@@ -1,6 +1,6 @@
 #!/usr/bin/env dub
 /+ dub.sdl:
-dependency "chitra" path="../../../"
+ dependency "chitra" version="~>0.4.0"
 +/
 
 import std.stdio;

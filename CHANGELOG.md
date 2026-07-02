@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.4.0] - 2026-07-02
+* `border` and `borderColor` functions by @aravindavk in https://github.com/aravindavk/chitra-d/pull/12
+* Color Scale support (`0 - 1.0` or `0 - 255`) added by @aravindavk in https://github.com/aravindavk/chitra-d/pull/13
+* Add FOSS United as Sponsor by @aravindavk in https://github.com/aravindavk/chitra-d/pull/14
+* Set size function by @aravindavk in https://github.com/aravindavk/chitra-d/pull/15
+* Fix the Translate example by @aravindavk in https://github.com/aravindavk/chitra-d/pull/16
+* Set the default color of text to Black by @aravindavk in https://github.com/aravindavk/chitra-d/pull/17
+* Added Trafic signal example by @aravindavk in https://github.com/aravindavk/chitra-d/pull/18
+* Scale example by @aravindavk in https://github.com/aravindavk/chitra-d/pull/19
+* Add tint feature for images by @aravindavk in https://github.com/aravindavk/chitra-d/pull/20
+* Fix image scale when output resolution changes by @aravindavk in https://github.com/aravindavk/chitra-d/pull/21
+* Jekyll Project initialized (/docs) by @aravindavk in https://github.com/aravindavk/chitra-d/pull/22
+* Jekyll collections by @aravindavk in https://github.com/aravindavk/chitra-d/pull/23
+* feature: `ovalMode` to chose modes for co-ordinates while drawing by @aravindavk in https://github.com/aravindavk/chitra-d/pull/24
+* Dist by @aravindavk in https://github.com/aravindavk/chitra-d/pull/25
+* Grid feature by @aravindavk in https://github.com/aravindavk/chitra-d/pull/26
+
+## [v0.3.0] - 2025-12-14
+* Fix mm to px conversion by @aravindavk
+* Fix dependencies issues in MacOS by @cyrusmsk
+
 ## [v0.2.0] - 2024-12-27
 - Add support to draw border.
 - Remove stroke from `point` and `pixel` drawing APIs.
@@ -46,4 +67,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Unreleased]: https://github.com/aravindavk/chitra-d/compare/v0.2.0...HEAD
 [v0.1.0]: https://github.com/aravindavk/chitra-d/compare/17ba479...v0.1.0
 [v0.1.1]: https://github.com/aravindavk/chitra-d/compare/v0.1.0...v0.1.1
-[v0.1.1]: https://github.com/aravindavk/chitra-d/compare/v0.1.1...v0.2.0
+[v0.2.0]: https://github.com/aravindavk/chitra-d/compare/v0.1.1...v0.2.0
+[v0.3.0]: https://github.com/aravindavk/chitra-d/compare/v0.2.0...v0.3.0
+[v0.4.0]: https://github.com/aravindavk/chitra-d/compare/v0.3.0...v0.4.0

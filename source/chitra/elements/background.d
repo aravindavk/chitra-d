@@ -75,9 +75,21 @@ mixin template backgroundFunctions()
        // Draw blue background
        ctx.background("#0000FF");
        ---
+
+       Draw an image as background
+
+       ---
+       ctx.background("awesome.png", fit: COVER);
+       ---
     */
-    void background(string hexValue)
+    void background(string value, string fit = FILL, double offsetX = 0.0, double offsetY = 0.0)
     {
-        background(RGBA.parse(hexValue).get);
+        auto col = RGBA.parse(value);
+        // If the given value is not a valid Hex code or color name,
+        // then it may be a file path.
+        if (!col.isNull)
+            background(col.get);
+        else
+            image(value, 0, 0, this.width, this.height, fit: fit, offsetX: offsetX, offsetY: offsetY);
     }
 }

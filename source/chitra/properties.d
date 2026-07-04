@@ -15,6 +15,12 @@ enum RADIUS = "radius";
 enum CORNER = "corner";
 enum CORNERS = "corners";
 
+// Image or Background Fitting
+enum FILL = "fill";
+enum CONTAIN = "contain";
+enum COVER = "cover";
+enum CROP = "crop";
+
 struct GridCell
 {
     double x;

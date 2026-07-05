@@ -147,12 +147,6 @@ mixin template imageFunctions()
 
     import chitra.elements.core;
 
-    struct ImageSize
-    {
-        double width;
-        double height;
-    }
-
     /**
        Draw the Image.
 
@@ -168,7 +162,7 @@ mixin template imageFunctions()
         this.elements ~= Element(s);
     }
 
-    void image(string path, GridCell cell, bool autoW = false, bool autoH = false, string fit = FILL, double offsetX = 0.0, double offsetY = 0.0)
+    void image(string path, Box cell, bool autoW = false, bool autoH = false, string fit = FILL, double offsetX = 0.0, double offsetY = 0.0)
     {
         auto w = autoW ? 0.0 : cell.width;
         auto h = autoH ? 0.0 : cell.height;
@@ -215,11 +209,11 @@ mixin template imageFunctions()
     // auto ctx = new Chitra;
     // auto size = ctx.imageSize("logo.png");
     // ```
-    ImageSize imageSize(string path)
+    Box imageSize(string path)
     {
         // TODO: Cache the surface for the given path?
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
-        ImageSize size;
+        Box size;
         size.width = cairo_image_surface_get_width(surface);
         size.height = cairo_image_surface_get_height(surface);
         return size;

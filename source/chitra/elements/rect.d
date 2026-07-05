@@ -106,7 +106,7 @@ mixin template rectFunctions()
         this.elements ~= Element(rct);
     }
 
-    void rect(GridCell cell)
+    void rect(Box cell)
     {
         rect(cell.x, cell.y, cell.width, cell.height);
     }

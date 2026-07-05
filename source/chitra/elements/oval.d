@@ -85,7 +85,7 @@ mixin template ovalFunctions()
         this.elements ~= Element(s);
     }
 
-    void oval(GridCell cell)
+    void oval(Box cell)
     {
         oval(cell.x, cell.y, cell.width, cell.height);
     }

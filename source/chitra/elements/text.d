@@ -68,12 +68,12 @@ mixin template textFunctions()
         this.elements ~= Element(s);
     }
 
-    void text(string txt, GridCell cell)
+    void text(string txt, Box cell)
     {
         text(txt, cell.x, cell.y);
     }
 
-    void text(FormattedString txt, GridCell cell)
+    void text(FormattedString txt, Box cell)
     {
         text(txt, cell.x, cell.y);
     }

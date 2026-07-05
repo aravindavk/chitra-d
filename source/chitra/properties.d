@@ -21,7 +21,7 @@ enum CONTAIN = "contain";
 enum COVER = "cover";
 enum CROP = "crop";
 
-struct GridCell
+struct Box
 {
     double x;
     double y;
@@ -78,16 +78,16 @@ struct Grid
     }
 
     // Fetch Grid Cell by column number and row number
-    GridCell cell(int col, int row)
+    Box cell(int col, int row)
     {
         double x = originX + columnGap * col + colWidth * (col - 1);
         double y = originY + rowGap * row + rowHeight * (row - 1);
         lastAccessedCell = row * cols - (cols - col);
-        return GridCell(x, y, colWidth, rowHeight);
+        return Box(x, y, colWidth, rowHeight);
     }
 
     // Fetch the Grid cell by cell number
-    GridCell cell(int idx)
+    Box cell(int idx)
     {
         import std.math.rounding : ceil;
 
@@ -102,16 +102,16 @@ struct Grid
         return cell(col, row);
     }
 
-    GridCell prevCell()
+    Box prevCell()
     {
-        if (lastAccessedCell == 1) return GridCell(0, 0, 0, 0);
+        if (lastAccessedCell == 1) return Box(0, 0, 0, 0);
 
         return cell(lastAccessedCell - 1);
     }
 
-    GridCell nextCell()
+    Box nextCell()
     {
-        if (lastAccessedCell == cellsCount) return GridCell(0, 0, 0, 0);
+        if (lastAccessedCell == cellsCount) return Box(0, 0, 0, 0);
 
         return cell(lastAccessedCell + 1);
     }
@@ -491,7 +491,7 @@ mixin template propertiesFunctions()
        ctx.gridSize("subgrid", firstCell);
        ---
      */
-    void gridSize(string name, GridCell cell)
+    void gridSize(string name, Box cell)
     {
         gridSize(name, cell.x, cell.y, cell.width, cell.height);
     }
@@ -511,7 +511,7 @@ mixin template propertiesFunctions()
        ctx.gridSize(middleCell);
        ---
      */
-    void gridSize(GridCell cell)
+    void gridSize(Box cell)
     {
         gridSize("default", cell.x, cell.y, cell.width, cell.height);
     }
@@ -524,7 +524,7 @@ mixin template propertiesFunctions()
        auto cell = gridCell("main", 2,   2);
        ---
      */
-    GridCell gridCell(string name, int col, int row)
+    Box gridCell(string name, int col, int row)
     {
         return grids_[name].cell(col, row);
     }
@@ -537,7 +537,7 @@ mixin template propertiesFunctions()
        auto cell = gridCell(2,   2);
        ---
      */
-    GridCell gridCell(int col, int row)
+    Box gridCell(int col, int row)
     {
         return gridCell("default", col, row);
     }
@@ -556,7 +556,7 @@ mixin template propertiesFunctions()
        auto cell = gridCell("main", -1);
        ---
     */
-    GridCell gridCell(string name, int idx)
+    Box gridCell(string name, int idx)
     {
         return grids_[name].cell(idx);
     }
@@ -575,7 +575,7 @@ mixin template propertiesFunctions()
        auto cell = gridCell(-1);
        ---
      */
-    GridCell gridCell(int idx)
+    Box gridCell(int idx)
     {
         return gridCell("default", idx);
     }
@@ -587,7 +587,7 @@ mixin template propertiesFunctions()
        auto cell = prevGridCell("main");
        ---
      */
-    GridCell prevGridCell(string name)
+    Box prevGridCell(string name)
     {
         return grids_[name].prevCell;
     }
@@ -599,7 +599,7 @@ mixin template propertiesFunctions()
        auto cell = prevGridCell;
        ---
      */
-    GridCell prevGridCell()
+    Box prevGridCell()
     {
         return prevGridCell("default");
     }
@@ -611,7 +611,7 @@ mixin template propertiesFunctions()
        auto cell = nextGridCell("main");
        ---
      */
-    GridCell nextGridCell(string name)
+    Box nextGridCell(string name)
     {
         return grids_[name].nextCell;
     }
@@ -623,7 +623,7 @@ mixin template propertiesFunctions()
        auto cell = nextGridCell;
        ---
      */
-    GridCell nextGridCell()
+    Box nextGridCell()
     {
         return nextGridCell("default");
     }
@@ -643,7 +643,7 @@ mixin template propertiesFunctions()
        // Add Text ..
        ---
      */
-    GridCell gridArea(string name, GridCell c1, GridCell c2)
+    Box gridArea(string name, Box c1, Box c2)
     {
         double startX, endX, startY, endY;
 
@@ -669,7 +669,7 @@ mixin template propertiesFunctions()
             endY = c1.y + c1.height;
         }
 
-        return GridCell(startX, startY, endX - startX, endY - startY);
+        return Box(startX, startY, endX - startX, endY - startY);
     }
 
     /**
@@ -688,7 +688,7 @@ mixin template propertiesFunctions()
        // Add Text ..
        ---
      */
-    GridCell gridArea(GridCell start, GridCell end)
+    Box gridArea(Box start, Box end)
     {
         return gridArea("default", start, end);
     }
@@ -706,7 +706,7 @@ mixin template propertiesFunctions()
        // Add Text ..
        ---
      */
-    GridCell gridArea(string name, int start, int end)
+    Box gridArea(string name, int start, int end)
     {
         auto c1 = gridCell(name, start);
         auto c2 = gridCell(name, end);
@@ -728,7 +728,7 @@ mixin template propertiesFunctions()
        // Add Text ..
        ---
      */
-    GridCell gridArea(int start, int end)
+    Box gridArea(int start, int end)
     {
         return gridArea("default", start, end);
     }

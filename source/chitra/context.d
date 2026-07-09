@@ -35,6 +35,7 @@ class Context
     float colorScaleMax = 255.0;
     float colorScaleAlphaMax = 1.0;
     Grid[string] grids_;
+    string overflowMarkup_;
 
     double width()
     {

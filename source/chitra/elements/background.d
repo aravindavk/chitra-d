@@ -50,9 +50,10 @@ mixin template backgroundFunctions()
        ctx.background(0, 0, 255);
        ---
      */
-    void background(int r, int g, int b, float a = 1.0)
+    void background(float r, float g, float b, float a = -1.0)
     {
-        background(RGBA(r, g, b, a));
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
+        background(RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a));
     }
 
     /**
@@ -63,8 +64,10 @@ mixin template backgroundFunctions()
        ctx.background(124);
        ---
      */
-    void background(int gray, float a = 1.0)
+    void background(float gray, float a = -1.0)
     {
+        gray = gray / colorScaleMax;
+        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         background(gray, gray, gray, a);
     }
 
@@ -82,13 +85,13 @@ mixin template backgroundFunctions()
        ctx.background("awesome.png", fit: COVER);
        ---
     */
-    void background(string value, string fit = FILL, double offsetX = 0.0, double offsetY = 0.0)
+    void background(string value, float a = -1.0, string fit = FILL, double offsetX = 0.0, double offsetY = 0.0)
     {
         auto col = RGBA.parse(value);
         // If the given value is not a valid Hex code or color name,
         // then it may be a file path.
         if (!col.isNull)
-            background(col.get);
+            background(setAlpha(col.get, a));
         else
             image(value, 0, 0, this.width, this.height, fit: fit, offsetX: offsetX, offsetY: offsetY);
     }

@@ -37,12 +37,12 @@ class Context
     Grid[string] grids_;
     string overflowMarkup_;
 
-    double width()
+    @property double width() const
     {
         return width_;
     }
 
-    double height()
+    @property double height() const
     {
         return height_;
     }

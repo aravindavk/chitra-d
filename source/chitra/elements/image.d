@@ -209,11 +209,11 @@ mixin template imageFunctions()
     // auto ctx = new Chitra;
     // auto size = ctx.imageSize("logo.png");
     // ```
-    Box imageSize(string path)
+    Size imageSize(string path)
     {
         // TODO: Cache the surface for the given path?
         auto surface = cairo_image_surface_create_from_png(path.toStringz);
-        Box size;
+        Size size;
         size.width = cairo_image_surface_get_width(surface);
         size.height = cairo_image_surface_get_height(surface);
         return size;

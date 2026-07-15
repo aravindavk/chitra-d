@@ -21,102 +21,6 @@ enum CONTAIN = "contain";
 enum COVER = "cover";
 enum CROP = "crop";
 
-struct Box
-{
-    double x;
-    double y;
-    double width;
-    double height;
-}
-
-struct Grid
-{
-    int cols;
-    int rows;
-    int cellsCount;
-    double columnGap = 0;
-    double rowGap = 0;
-    double width;
-    double height;
-    double originX = 0;
-    double originY = 0;
-    double colWidth = 0;
-    double rowHeight = 0;
-    int lastAccessedCell = 0;
-
-    // Initialize a new Grid
-    static Grid create(int cols, int rows, double gap = 0, double columnGap = double.init, double rowGap = double.init)
-    {
-        Grid g;
-        if (columnGap.isNaN) columnGap = gap;
-        if (rowGap.isNaN) rowGap = gap;
-        g.cols = cols;
-        g.rows = rows;
-        g.columnGap = columnGap;
-        g.rowGap = rowGap;
-        g.cellsCount = cols * rows;
-
-        return g;
-    }
-
-    // Calculate column and row width based on canvas size and number
-    // of columns and rows.
-    private void setColWidthRowHeight()
-    {
-        colWidth = (width - columnGap * (cols + 1)) / cols;
-        rowHeight = (height - rowGap * (rows + 1)) / rows;
-    }
-
-    // Limit the size of a grid
-    void setSize(double x, double y, double w, double h)
-    {
-        originX = x;
-        originY = y;
-        width = w;
-        height = h;
-        setColWidthRowHeight;
-    }
-
-    // Fetch Grid Cell by column number and row number
-    Box cell(int col, int row)
-    {
-        double x = originX + columnGap * col + colWidth * (col - 1);
-        double y = originY + rowGap * row + rowHeight * (row - 1);
-        lastAccessedCell = row * cols - (cols - col);
-        return Box(x, y, colWidth, rowHeight);
-    }
-
-    // Fetch the Grid cell by cell number
-    Box cell(int idx)
-    {
-        import std.math.rounding : ceil;
-
-        if (idx < 0)
-            idx = cellsCount + 1 + idx;
-
-        int col = idx % cols;
-        if (col == 0) col = cols;
-
-        int row = cast(int)ceil(cast(double)idx / cols);
-
-        return cell(col, row);
-    }
-
-    Box prevCell()
-    {
-        if (lastAccessedCell == 1) return Box(0, 0, 0, 0);
-
-        return cell(lastAccessedCell - 1);
-    }
-
-    Box nextCell()
-    {
-        if (lastAccessedCell == cellsCount) return Box(0, 0, 0, 0);
-
-        return cell(lastAccessedCell + 1);
-    }
-}
-
 struct ShapeProperties
 {
     RGBA fill = RGBA(0, 0, 0);
@@ -645,31 +549,7 @@ mixin template propertiesFunctions()
      */
     Box gridArea(string name, Box c1, Box c2)
     {
-        double startX, endX, startY, endY;
-
-        if (c1.x < c2.x)
-        {
-            startX = c1.x;
-            endX = c2.x + c2.width;
-        }
-        else
-        {
-            startX = c2.x;
-            endX = c1.x + c1.width;
-        }
-
-        if (c1.y < c2.y)
-        {
-            startY = c1.y;
-            endY = c2.y + c2.height;
-        }
-        else
-        {
-            startY = c2.y;
-            endY = c1.y + c1.height;
-        }
-
-        return Box(startX, startY, endX - startX, endY - startY);
+        return combine(c1, c2);
     }
 
     /**

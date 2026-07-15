@@ -54,6 +54,8 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
+markdown: kramdown
+highlighter: rouge
 
 collections:
   docs:

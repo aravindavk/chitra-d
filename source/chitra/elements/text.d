@@ -10,6 +10,7 @@ import chitra.elements.core;
 import chitra.elements.formatted_strings;
 import chitra.rgba;
 import chitra.elements.markup_tokens;
+import chitra.helpers : Size, Box;
 
 struct Text
 {
@@ -129,12 +130,12 @@ struct Text
         g_object_unref(layout);
     }
 
-    Box size(Context chitraCtx, cairo_t* cairoCtx)
+    Size size(Context chitraCtx, cairo_t* cairoCtx)
     {
         return size(chitraCtx, cairoCtx, txt.content(chitraCtx), w_, h_);
     }
 
-    Box size(Context chitraCtx, cairo_t* cairoCtx, string value, double w = 0.0, double h = 0.0)
+    Size size(Context chitraCtx, cairo_t* cairoCtx, string value, double w = 0.0, double h = 0.0)
     {
         cairo_save(cairoCtx);
         // Do not use fill color since the text color will be added
@@ -163,7 +164,7 @@ struct Text
         cairo_restore(cairoCtx);
         g_object_unref(layout);
 
-        return Box(x_, y_, (cast(double)w1) / PANGO_SCALE, (cast(double)h1) / PANGO_SCALE);
+        return Size((cast(double)w1) / PANGO_SCALE, (cast(double)h1) / PANGO_SCALE);
     }
 }
 
@@ -204,13 +205,13 @@ mixin template textFunctions()
         text(txt, cell.x, cell.y, cell.width, cell.height);
     }
 
-    Box textSize(string txt, double w = 0.0, double h = 0.0)
+    Size textSize(string txt, double w = 0.0, double h = 0.0)
     {
         auto formatted = FormattedString(txt);
         return textSize(formatted, w, h);
     }
 
-    Box textSize(FormattedString txt, double w = 0.0, double h = 0.0)
+    Size textSize(FormattedString txt, double w = 0.0, double h = 0.0)
     {
         auto props = updateProperties([defaultTextProperties, this.textProps, txt.currentProperties]);
         txt.currentProperties = props;

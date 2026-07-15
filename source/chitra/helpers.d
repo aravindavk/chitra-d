@@ -231,7 +231,7 @@ Box intersect(Box b1, Box b2)
 
 Box shift(Box box, double dx = 0.0, double dy = 0.0)
 {
-    return Box(box.x + dy, box.y + dy, box.width, box.height);
+    return Box(box.x + dx, box.y + dy, box.width, box.height);
 }
 
 Box shift(Box box, Point pt)

@@ -169,31 +169,31 @@ mixin template propertiesFunctions()
             textProps.background = RGBA(c.get.r, c.get.g, c.get.b, a / colorScaleAlphaMax);
     }
 
-    void textSize(float size)
+    void fontSize(float size)
     {
         textProps.size = size;
     }
 
-    void textSize(TextNamedSize size)
+    void fontSize(TextNamedSize size)
     {
         textProps.namedSize = size;
     }
 
-    void textFont(string family)
+    void font(string family)
     {
         textProps.font = family;
     }
 
-    void textFont(string family, float size)
+    void font(string family, float size)
     {
-        textFont(family);
-        textSize(size);
+        font(family);
+        fontSize(size);
     }
 
-    void textFont(string family, TextNamedSize size)
+    void font(string family, TextNamedSize size)
     {
-        textFont(family);
-        textSize(size);
+        font(family);
+        fontSize(size);
     }
 
     void textLineHeight(float value)

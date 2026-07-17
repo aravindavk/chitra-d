@@ -76,4 +76,13 @@ mixin template polygonFunctions()
         polygon(points1);
     }
 
+    void triangle(double x1, double y1, double x2, double y2, double x3, double y3)
+    {
+        polygon([[x1, y1], [x2, y2], [x3, y3]], close: true);
+    }
+
+    void triangle(Point p1, Point p2, Point p3)
+    {
+        triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+    }
 }

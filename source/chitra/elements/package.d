@@ -20,7 +20,10 @@ const ELEMENTS = [
     "scale",
     "translate",
     "image",
-    "text"
+    "text",
+    "blend_mode",
+    "save_state",
+    "restore_state"
 ];
 
 public

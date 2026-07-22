@@ -21,6 +21,16 @@ const defaultWidth = 700;
 const portraitMode = "portrait";
 const landscapeMode = "landscape";
 
+struct SavedStateContext
+{
+    ShapeProperties shapeProps;
+    TextProperties textProps;
+    BorderProperties borderProps;
+    float colorScaleMax;
+    float colorScaleAlphaMax;
+    bool group;
+}
+
 class Context
 {
     Element[] elements;
@@ -36,6 +46,7 @@ class Context
     float colorScaleAlphaMax = 1.0;
     Grid[string] grids_;
     string overflowMarkup_;
+    SavedStateContext[] savedStateContexts;
 
     @property double width() const
     {

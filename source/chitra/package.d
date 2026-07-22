@@ -8,7 +8,7 @@ public
     import chitra.helpers;
     import chitra.elements.formatted_strings;
     import chitra.rgba;
-    import chitra.properties : CENTER, RADIUS, CORNER, CORNERS, FILL, COVER, CONTAIN, CROP;
+    import chitra.constants;
 }
 import chitra.context;
 import chitra.properties;

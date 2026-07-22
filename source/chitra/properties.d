@@ -7,19 +7,10 @@ import std.typecons : Nullable;
 import std.math : isNaN;
 
 import chitra.rgba;
+import chitra.pangocairo;
+import chitra.constants;
 
 public import chitra.elements.formatted_strings;
-
-enum CENTER = "center";
-enum RADIUS = "radius";
-enum CORNER = "corner";
-enum CORNERS = "corners";
-
-// Image or Background Fitting
-enum FILL = "fill";
-enum CONTAIN = "contain";
-enum COVER = "cover";
-enum CROP = "crop";
 
 struct ShapeProperties
 {

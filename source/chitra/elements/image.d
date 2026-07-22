@@ -6,6 +6,7 @@ import std.string : toStringz;
 import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
+import chitra.constants;
 
 struct Image
 {

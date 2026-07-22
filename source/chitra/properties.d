@@ -22,7 +22,7 @@ struct ShapeProperties
     double[] strokeDash;
     double strokeDashOffset = 0.0;
     auto strokeCap = BUTT;
-    //   line_join = LibCairo::LineJoinT::Miter
+    auto strokeJoin = MITER;
     Nullable!RGBA tint = Nullable!RGBA.init;
     string ovalMode = CENTER;
 }
@@ -664,5 +664,28 @@ mixin template propertiesFunctions()
     void lineCap(T)(T value)
     {
         strokeCap(value);
+    }
+
+    void strokeJoin(T)(T value)
+    {
+        // Conflict of Constants!
+        import std.conv : asOriginalType;
+        switch(value.asOriginalType)
+        {
+        case ROUND:
+            shapeProps.strokeJoin = ROUND_;
+            break;
+        case BEVEL:
+            shapeProps.strokeJoin = BEVEL;
+            break;
+        default:
+            shapeProps.strokeJoin = MITER;
+            break;
+        }
+    }
+
+    void lineJoin(T)(T value)
+    {
+        strokeJoin(value);
     }
 }

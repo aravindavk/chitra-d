@@ -29,6 +29,9 @@ void main()
         strokeCap(SQUARE);
         line(380, 310, 380, 410);
 
+        strokeJoin(ROUND);
+        rect(410, 410, 100, 100);
+
         // Save as png image
         saveAs("output/stroke_dash.png", resolution: 72);
     }

@@ -15,6 +15,19 @@ auto strokeCaps()
     ];
 }
 
+enum MITER = CAIRO_LINE_JOIN_MITER;
+enum BEVEL = CAIRO_LINE_JOIN_BEVEL;
+enum ROUND_ = CAIRO_LINE_JOIN_ROUND;
+
+auto strokeJoins()
+{
+    return [
+        "MITER": MITER,
+        "BEVEL": BEVEL,
+        "ROUND": ROUND_
+    ];
+}
+
 enum CENTER = "center";
 enum RADIUS = "radius";
 enum CORNER = "corner";

@@ -19,7 +19,8 @@ struct ShapeProperties
     int strokeWidth = 1;
     bool noFill = false;
     bool noStroke = false;
-    // line_dash = LineDash.new,
+    double[] strokeDash;
+    double strokeDashOffset = 0.0;
     //     line_cap = LibCairo::LineCapT::Butt,
     //   line_join = LibCairo::LineJoinT::Miter
     Nullable!RGBA tint = Nullable!RGBA.init;
@@ -99,6 +100,11 @@ mixin template propertiesFunctions()
         value = correctedSize(value);
         shapeProps.noStroke = false;
         shapeProps.strokeWidth = value;
+    }
+
+    void strokeWeight(int value)
+    {
+        strokeWidth(value);
     }
 
     void noFill()
@@ -602,5 +608,41 @@ mixin template propertiesFunctions()
     Box gridArea(int start, int end)
     {
         return gridArea("default", start, end);
+    }
+
+    /** Set line dash pattern. `line_dash 0` disables
+        the dash.Symmetric dash pattern with one value
+        to this function.
+        ---
+        ctx.strokeDash(2);
+        ---
+        To set the offset value to start the pattern
+        ---
+        ctx.strokeDash(2, offset: 1);
+        ---
+    */
+    void strokeDash(double inkSkip, double offset = 0)
+    {
+        shapeProps.strokeDash = inkSkip > 0 ? [inkSkip, inkSkip] : [];
+        shapeProps.strokeDashOffset = offset;
+    }
+
+    /** Set line dash pattern. `line_dash 0` disables
+        the dash.Symmetric dash pattern with one value
+        to this function.
+
+        Asymmetric pattern
+        ---
+        ctx.strokeDash([2, 4, 10]);
+        ---
+        To set the offset value to start the pattern
+        ---
+        ctx.strokeDash([2, 4, 10], offset: 1);
+        ---
+    */
+    void strokeDash(double[] inkSkip, double offset=0)
+    {
+        shapeProps.strokeDash = inkSkip;
+        shapeProps.strokeDashOffset = offset;
     }
 }

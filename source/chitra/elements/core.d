@@ -17,11 +17,12 @@ void drawShapeProperties(Context chitraCtx, cairo_t* cairoCtx, ShapeProperties s
         cairo_fill_preserve(cairoCtx);
         auto sw = chitraCtx.correctedSize(shapeProps.strokeWidth);
         cairo_set_line_width(cairoCtx, sw);
-        // if @line_dash.enabled?
-        //   LibCairo.cairo_set_dash(cairo_ctx, @line_dash.values.to_unsafe, @line_dash.values.size, @line_dash.offset)
-        // else
-        //   LibCairo.cairo_set_dash(cairo_ctx, [] of Float64, 0, 0)
-        // end
+
+        if (shapeProps.strokeDash.length > 0)
+            cairo_set_dash(cairoCtx, shapeProps.strokeDash.ptr, shapeProps.strokeDash.sizeof, shapeProps.strokeDashOffset);
+        else
+            cairo_set_dash(cairoCtx, null, 0, 0);
+
         // LibCairo.cairo_set_line_cap(cairo_ctx, @line_cap)
         // LibCairo.cairo_set_line_join(cairo_ctx, @line_join)
         cairo_set_source_rgba(cairoCtx, shapeProps.stroke.r,

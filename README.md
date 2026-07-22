@@ -1,6 +1,6 @@
 # Chitra - 2D graphics library - D programming language
 
-<a href="https://chitra.aravindavk.in"><img src="static/chitra-logo.png" alt="CHITRA" width="200"/></a>
+<a href="https://chitra.aravindavk.in"><img src="static/chitra-logo.png" alt="CHITRA" width="300"/></a>
 
 ## Hello Rectangle
 

@@ -2,6 +2,19 @@ module chitra.constants;
 
 import chitra.pangocairo;
 
+enum BUTT = CAIRO_LINE_CAP_BUTT;
+enum ROUND = CAIRO_LINE_CAP_ROUND;
+enum SQUARE = CAIRO_LINE_CAP_SQUARE;
+
+auto strokeCaps()
+{
+    return [
+        "BUTT": BUTT,
+        "ROUND": ROUND,
+        "SQUARE": SQUARE
+    ];
+}
+
 enum CENTER = "center";
 enum RADIUS = "radius";
 enum CORNER = "corner";

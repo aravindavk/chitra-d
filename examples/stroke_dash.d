@@ -20,6 +20,15 @@ void main()
         strokeDash(4);
         rect(210, 210, 100);
 
+        strokeDash(0);
+        strokeWeight(10);
+        strokeCap(BUTT);
+        line(320, 310, 320, 410);
+        strokeCap(ROUND);
+        line(350, 310, 350, 410);
+        strokeCap(SQUARE);
+        line(380, 310, 380, 410);
+
         // Save as png image
         saveAs("output/stroke_dash.png", resolution: 72);
     }

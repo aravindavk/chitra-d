@@ -23,7 +23,7 @@ void drawShapeProperties(Context chitraCtx, cairo_t* cairoCtx, ShapeProperties s
         else
             cairo_set_dash(cairoCtx, null, 0, 0);
 
-        // LibCairo.cairo_set_line_cap(cairo_ctx, @line_cap)
+        cairo_set_line_cap(cairoCtx, shapeProps.strokeCap);
         // LibCairo.cairo_set_line_join(cairo_ctx, @line_join)
         cairo_set_source_rgba(cairoCtx, shapeProps.stroke.r,
                               shapeProps.stroke.g, shapeProps.stroke.b, shapeProps.stroke.a);

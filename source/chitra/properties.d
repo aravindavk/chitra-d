@@ -21,7 +21,7 @@ struct ShapeProperties
     bool noStroke = false;
     double[] strokeDash;
     double strokeDashOffset = 0.0;
-    //     line_cap = LibCairo::LineCapT::Butt,
+    auto strokeCap = BUTT;
     //   line_join = LibCairo::LineJoinT::Miter
     Nullable!RGBA tint = Nullable!RGBA.init;
     string ovalMode = CENTER;
@@ -627,6 +627,11 @@ mixin template propertiesFunctions()
         shapeProps.strokeDashOffset = offset;
     }
 
+    void lineDash(double inkSkip, double offset = 0)
+    {
+        strokeDash(inkSkip, offset);
+    }
+
     /** Set line dash pattern. `line_dash 0` disables
         the dash.Symmetric dash pattern with one value
         to this function.
@@ -644,5 +649,20 @@ mixin template propertiesFunctions()
     {
         shapeProps.strokeDash = inkSkip;
         shapeProps.strokeDashOffset = offset;
+    }
+
+    void lineDash(double[] inkSkip, double offset=0)
+    {
+        strokeDash(inkSkip, offset);
+    }
+
+    void strokeCap(T)(T value)
+    {
+        shapeProps.strokeCap = value;
+    }
+
+    void lineCap(T)(T value)
+    {
+        strokeCap(value);
     }
 }

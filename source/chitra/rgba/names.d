@@ -671,5 +671,6 @@ const colorNames = [
     "yellow2"              : RGB(238, 238,   0),
     "yellow3"              : RGB(205, 205,   0),
     "yellow4"              : RGB(139, 139,   0),
-    "yellowgreen"          : RGB(154, 205,  50)
+    "yellowgreen"          : RGB(154, 205,  50),
+    "sapphireblue"         : RGB( 15,  82, 186),
     ];

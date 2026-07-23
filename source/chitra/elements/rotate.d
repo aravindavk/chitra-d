@@ -56,12 +56,10 @@ mixin template rotateFunctions()
      */
     void rotate(double angle, double centerX = 0.0, double centerY = 0.0)
     {
-        import std.math.constants;
+        if (shapeProps.angleMode == DEGREES)
+            angle = toRadians(angle);
 
-        // TODO: Implement this with saved state
-        // @current_saved_context.add_transformation(t) if @current_saved_context.enabled?
-        auto rad = PI * angle / 180;
-        auto t = Rotate(rad, centerX, centerY);
+        auto t = Rotate(angle, centerX, centerY);
         t.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(t);
     }

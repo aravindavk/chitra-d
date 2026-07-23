@@ -4,7 +4,6 @@ import std.format;
 import std.string;
 import std.conv;
 import std.typecons : Nullable;
-import std.math : isNaN;
 
 import chitra.rgba;
 import chitra.pangocairo;
@@ -25,6 +24,7 @@ struct ShapeProperties
     auto strokeJoin = MITER;
     Nullable!RGBA tint = Nullable!RGBA.init;
     string ovalMode = CENTER;
+    string angleMode = RADIANS;
 }
 
 struct BorderProperties
@@ -687,5 +687,10 @@ mixin template propertiesFunctions()
     void lineJoin(T)(T value)
     {
         strokeJoin(value);
+    }
+
+    void angleMode(string value)
+    {
+        shapeProps.angleMode = value;
     }
 }

@@ -2,15 +2,22 @@ module chitra.elements.oval;
 
 import std.format;
 import std.math.constants;
+import std.math : isNaN;
 
 import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
+import chitra.constants;
+import chitra.helpers : toRadians;
 
 struct Oval
 {
     double x_, y_, w_, h_;
     ShapeProperties shapeProps;
+    double angle1 = 0.0;
+    double angle2 = 2.0 * PI;
+    bool close = false;
+    string closeMode = PIE;
 
     this(double x, double y, double w, double h)
     {
@@ -32,7 +39,22 @@ struct Oval
             cairo_save(cairoCtx);
             cairo_translate(cairoCtx, x + w / 2.0, y + h / 2.0);
             cairo_scale(cairoCtx, w / 2.0, h / 2.0);
-            cairo_arc(cairoCtx, 0.0, 0.0, 1.0, 0.0, 2.0 * PI);
+            if (close && closeMode == PIE)
+                cairo_move_to(cairoCtx, 0, 0);
+
+            if (angle2 > angle1)
+                cairo_arc(cairoCtx, 0.0, 0.0, 1.0, angle1, angle2);
+            else
+                cairo_arc_negative(cairoCtx, 0.0, 0.0, 1.0, angle1, angle2);
+
+            if (close)
+            {
+                if (closeMode == PIE)
+                    cairo_line_to(cairoCtx, 0, 0);
+                else
+                    cairo_close_path(cairoCtx);
+            }
+
             cairo_restore(cairoCtx);
             drawShapeProperties(chitraCtx, cairoCtx, shapeProps);
         }
@@ -56,30 +78,8 @@ mixin template ovalFunctions()
      */
     void oval(double x, double y, double w, double h = 0.0)
     {
-        h = h == 0.0 ? w : h;
-        switch (this.shapeProps.ovalMode)
-        {
-        case CENTER:
-            x = x - (w / 2.0);
-            y = y - (h / 2.0);
-            break;
-        case RADIUS:
-            x = x - w;
-            y = y - h;
-            w = w * 2.0;
-            h = h * 2.0;
-            break;
-        case CORNER:
-            break;
-        case CORNERS:
-            w = w - x;
-            h = h - y;
-            break;
-        default:
-            break;
-        }
-
-        auto s = Oval(x, y, w, h);
+        auto box = basedOnOvalMode(this.shapeProps.ovalMode, x, y, w, h);
+        auto s = Oval(box.x, box.y, box.width, box.height);
         s.shapeProps = this.shapeProps;
         s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
@@ -126,5 +126,58 @@ mixin template ovalFunctions()
         strokeWidth(prevStrokeWidth);
         if (prevNoStroke) noStroke;
         ovalMode(prevOvalMode);
+    }
+
+    private Box basedOnOvalMode(string mode, double x, double y, double w, double h = 0.0)
+    {
+        h = h == 0.0 ? w : h;
+        switch (mode)
+        {
+        case CENTER:
+            x = x - (w / 2.0);
+            y = y - (h / 2.0);
+            break;
+        case RADIUS:
+            x = x - w;
+            y = y - h;
+            w = w * 2.0;
+            h = h * 2.0;
+            break;
+        case CORNER:
+            break;
+        case CORNERS:
+            w = w - x;
+            h = h - y;
+            break;
+        default:
+            break;
+        }
+
+        return Box(x, y, w, h);
+    }
+
+    void arc(double x, double y, double w, double h, double angle1, double angle2, string mode = OPEN)
+    {
+        auto box = basedOnOvalMode(this.shapeProps.ovalMode, x, y, w, h);
+        auto s = Oval(box.x, box.y, box.width, box.height);
+
+        s.angle1 = angle1;
+        s.angle2 = angle2;
+        if (shapeProps.angleMode == DEGREES)
+        {
+            s.angle1 = toRadians(angle1);
+            s.angle2 = toRadians(angle2);
+        }
+
+        s.close = mode != OPEN;
+        s.closeMode = mode;
+        s.shapeProps = this.shapeProps;
+        s.draw(this, this.defaultCairoCtx);
+        this.elements ~= Element(s);
+    }
+
+    void arc(double x, double y, double w, double angle1, double angle2, string mode = OPEN)
+    {
+        arc(x, y, w, 0.0, angle1, angle2, mode);
     }
 }

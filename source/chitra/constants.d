@@ -1,6 +1,21 @@
 module chitra.constants;
 
+import std.math.constants;
+
 import chitra.pangocairo;
+
+// Math constants
+
+enum TWO_PI = 2.0 * PI;
+alias HALF_PI = PI_2;
+alias QUARTER_PI = PI_4;
+
+enum OPEN = "open";
+enum PIE = "pie";
+enum CHORD = "chord";
+
+enum DEGREES = "degrees";
+enum RADIANS = "radians";
 
 enum BUTT = CAIRO_LINE_CAP_BUTT;
 enum ROUND = CAIRO_LINE_CAP_ROUND;

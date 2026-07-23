@@ -3,6 +3,7 @@ module chitra.helpers;
 import std.typecons;
 import std.math : isNaN;
 import std.algorithm : min, max;
+import std.math.constants : PI;
 
 import chitra.rgba;
 
@@ -320,4 +321,14 @@ double dist(double x1, double y1, double x2, double y2)
 double dist(Point p1, Point p2)
 {
     return findDistance(p1, p2);
+}
+
+double toRadians(double angle)
+{
+    return PI * angle / 180;
+}
+
+double toDegrees(double angle)
+{
+    return 180 * angle / PI;
 }

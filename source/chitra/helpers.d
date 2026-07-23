@@ -332,3 +332,15 @@ double toDegrees(double angle)
 {
     return 180 * angle / PI;
 }
+
+// 90.degrees will be converted to equivalant Radians value
+double degrees(T)(T angle)
+{
+    return PI * angle / 180;
+}
+
+// No Conversion needed
+double radians(T)(T angle)
+{
+    return angle;
+}

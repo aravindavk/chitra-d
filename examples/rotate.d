@@ -19,6 +19,8 @@ void main()
         // OR Use:
         // angleMode(DEGREES);
         // auto part = 30; // 360 / 12
+        // OR without changing angleMode,
+        // auto part = 30.degrees;
 
         foreach(i; 0 .. 12)
         {

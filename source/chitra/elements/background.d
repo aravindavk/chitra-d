@@ -68,7 +68,7 @@ mixin template backgroundFunctions()
     {
         gray = gray / colorScaleMax;
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
-        background(gray, gray, gray, a);
+        background(RGBA(gray, gray, gray, a));
     }
 
     /**

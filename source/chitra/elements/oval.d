@@ -128,6 +128,11 @@ mixin template ovalFunctions()
         ovalMode(prevOvalMode);
     }
 
+    void point(Box box, int w=1)
+    {
+        point(box.x, box.y, w);
+    }
+
     private Box basedOnOvalMode(string mode, double x, double y, double w, double h = 0.0)
     {
         h = h == 0.0 ? w : h;

@@ -171,6 +171,11 @@ mixin template imageFunctions()
         image(path, cell.x, cell.y, w, h, fit: fit, offsetX: offsetX, offsetY: offsetY);
     }
 
+    void image(string path, Point p, double w = 0.0, double h = 0.0, string fit = FILL, double offsetX = 0.0, double offsetY = 0.0)
+    {
+        image(path, p.x, p.y, w, h, fit: fit, offsetX: offsetX, offsetY: offsetY);
+    }
+
     void image(string path, string fit = "", double offsetX = 0.0, double offsetY = 0.0)
     {
         auto w = 0.0;

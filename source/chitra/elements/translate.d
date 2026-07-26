@@ -37,10 +37,13 @@ mixin template translateFunctions()
     */
     void translate(double x, double y)
     {
-        // TODO: Handle when scaled state is implemented
-        // @current_saved_context.add_transformation(s) if @current_saved_context.enabled?
         auto s = Translate(x, y);
         s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
+    }
+
+    void translate(Point p)
+    {
+        translate(p.x, p.y);
     }
 }

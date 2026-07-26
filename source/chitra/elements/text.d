@@ -205,6 +205,11 @@ mixin template textFunctions()
         text(txt, cell.x, cell.y, cell.width, cell.height);
     }
 
+    void text(string txt, Point p, double w = 0.0, double h = 0.0)
+    {
+        text(txt, p.x, p.y, w, h);
+    }
+
     Size textSize(string txt, double w = 0.0, double h = 0.0)
     {
         auto formatted = FormattedString(txt);

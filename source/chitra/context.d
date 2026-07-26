@@ -14,6 +14,7 @@ import chitra.rgba;
 import chitra.elements;
 import chitra.properties;
 import chitra.helpers;
+import chitra.elements.path;
 
 const baseResolution = 72.0;
 const defaultResolution = 300;
@@ -47,6 +48,7 @@ class Context
     Grid[string] grids_;
     string overflowMarkup_;
     SavedStateContext[] savedStateContexts;
+    Path lastPath_;
 
     @property double width() const
     {

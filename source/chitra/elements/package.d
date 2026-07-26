@@ -23,7 +23,8 @@ const ELEMENTS = [
     "text",
     "blend_mode",
     "save_state",
-    "restore_state"
+    "restore_state",
+    "draw_path"
 ];
 
 public

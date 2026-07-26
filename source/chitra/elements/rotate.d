@@ -63,4 +63,9 @@ mixin template rotateFunctions()
         t.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(t);
     }
+
+    void rotate(double angle, Point center = Point(0, 0))
+    {
+        rotate(angle, center.x, center.y);
+    }
 }

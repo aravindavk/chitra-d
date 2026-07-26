@@ -90,6 +90,11 @@ mixin template ovalFunctions()
         oval(cell.x, cell.y, cell.width, cell.height);
     }
 
+    void oval(Point p, double w, double h = 0.0)
+    {
+        oval(p.x, p.y, w, h);
+    }
+
     /**
        Draw a Circle.
 
@@ -102,6 +107,11 @@ mixin template ovalFunctions()
     void circle(double x, double y, double w, double y2 = 0.0)
     {
         oval(x, y, w, y2);
+    }
+
+    void circle(Point p, double w, double y2 = 0.0)
+    {
+        oval(p.x, p.y, w, y2);
     }
 
     /**
@@ -131,6 +141,11 @@ mixin template ovalFunctions()
     void point(Box box, int w=1)
     {
         point(box.x, box.y, w);
+    }
+
+    void point(Point p, int w=1)
+    {
+        point(p.x, p.y, w);
     }
 
     private Box basedOnOvalMode(string mode, double x, double y, double w, double h = 0.0)
@@ -184,5 +199,15 @@ mixin template ovalFunctions()
     void arc(double x, double y, double w, double angle1, double angle2, string mode = OPEN)
     {
         arc(x, y, w, 0.0, angle1, angle2, mode);
+    }
+
+    void arc(Point p, double w, double h, double angle1, double angle2, string mode = OPEN)
+    {
+        arc(p.x, p.y, w, h, angle1, angle2, mode);
+    }
+
+    void arc(Point p, double w, double angle1, double angle2, string mode = OPEN)
+    {
+        arc(p.x, p.y, w, 0.0, angle1, angle2, mode);
     }
 }

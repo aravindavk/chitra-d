@@ -49,4 +49,9 @@ mixin template lineFunctions()
         s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
     }
+
+    void line(Point p1, Point p2)
+    {
+        line(p1.x, p1.y, p2.x, p2.y);
+    }
 }

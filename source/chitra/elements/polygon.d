@@ -5,14 +5,15 @@ import std.format;
 import chitra.context;
 import chitra.properties;
 import chitra.elements.core;
+import chitra.helpers;
 
 struct Polygon
 {
-    double[2][] points;
+    Point[] points;
     bool close;
     ShapeProperties shapeProps;
 
-    this(double[2][] points, bool close = false)
+    this(Point[] points, bool close = false)
     {
         this.points = points;
         this.close = close;
@@ -20,13 +21,13 @@ struct Polygon
 
     void draw(Context chitraCtx, cairo_t* cairoCtx)
     {
-        double[2][] newPoints;
+        Point[] newPoints;
         foreach (p; points)
-            newPoints ~= [chitraCtx.correctedSize(p[0]), chitraCtx.correctedSize(p[1])];
+            newPoints ~= Point(chitraCtx.correctedSize(p.x), chitraCtx.correctedSize(p.y));
 
-        cairo_move_to(cairoCtx, newPoints[0][0], newPoints[0][1]);
+        cairo_move_to(cairoCtx, newPoints[0].x, newPoints[0].y);
         foreach (p; newPoints[1 .. $])
-            cairo_line_to(cairoCtx, p[0], p[1]);
+            cairo_line_to(cairoCtx, p.x, p.y);
 
         if (this.close)
             cairo_close_path(cairoCtx);
@@ -37,12 +38,12 @@ struct Polygon
 
 mixin template polygonFunctions()
 {
-    private double[2][] pointsFromArray(double[] data)
+    private Point[] pointsFromArray(double[] data)
     {
-        double[2][] points;
+        Point[] points;
         for (int i = 0; i < data.length / 2; i++)
         {
-            points ~= [data[i * 2], data[i * 2 + 1]];
+            points ~= Point(data[i * 2], data[i * 2 + 1]);
         }
 
         return points;
@@ -55,7 +56,7 @@ mixin template polygonFunctions()
        ctx.polygon([[50, 450], [50, 50], [450, 50], [100, 100]], true);
        ---
      */
-    void polygon(double[2][] points, bool close = true)
+    void polygon(Point[] points, bool close = true)
     {
         auto s = Polygon(points, close);
         s.shapeProps = this.shapeProps;
@@ -78,7 +79,7 @@ mixin template polygonFunctions()
 
     void triangle(double x1, double y1, double x2, double y2, double x3, double y3)
     {
-        polygon([[x1, y1], [x2, y2], [x3, y3]], close: true);
+        polygon([Point(x1, y1), Point(x2, y2), Point(x3, y3)], close: true);
     }
 
     void triangle(Point p1, Point p2, Point p3)

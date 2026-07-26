@@ -138,6 +138,16 @@ class Context
         setSize(paper);
     }
 
+    void size(double width = defaultWidth, double height = 0)
+    {
+        setSize(width, height);
+    }
+
+    void size(string paper)
+    {
+        setSize(paper);
+    }
+
     void saveAs(string outputFile, int resolution = defaultResolution)
     {
         auto prevResolution = resolution_;

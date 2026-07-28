@@ -9,6 +9,7 @@ public
     import chitra.elements.formatted_strings;
     import chitra.rgba;
     import chitra.constants;
+    import chitra.elements.path : Segment;
 }
 import chitra.context;
 import chitra.properties;

@@ -114,40 +114,6 @@ mixin template ovalFunctions()
         oval(p.x, p.y, w, y2);
     }
 
-    /**
-       Draw a Point
-
-       ---
-       // Point with default width(1)
-       //        x   y
-       ctx.point(50, 50);
-       // Point with custom width
-       ctx.point(50, 50, 2);
-       ---
-     */
-    void point(double x, double y, int w=1)
-    {
-        auto prevStrokeWidth = this.shapeProps.strokeWidth;
-        auto prevNoStroke = this.shapeProps.noStroke;
-        auto prevOvalMode = this.shapeProps.ovalMode;
-        strokeWidth(0);
-        ovalMode(CENTER);
-        oval(x, y, w);
-        strokeWidth(prevStrokeWidth);
-        if (prevNoStroke) noStroke;
-        ovalMode(prevOvalMode);
-    }
-
-    void point(Box box, int w=1)
-    {
-        point(box.x, box.y, w);
-    }
-
-    void point(Point p, int w=1)
-    {
-        point(p.x, p.y, w);
-    }
-
     private Box basedOnOvalMode(string mode, double x, double y, double w, double h = 0.0)
     {
         h = h == 0.0 ? w : h;

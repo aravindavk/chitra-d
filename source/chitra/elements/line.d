@@ -54,4 +54,34 @@ mixin template lineFunctions()
     {
         line(p1.x, p1.y, p2.x, p2.y);
     }
+
+    /**
+       Draw a Point
+
+       ---
+       // Point with default width(1)
+       //        x   y
+       ctx.point(50, 50);
+       // Point with custom width
+       ctx.strokeWeight(2);
+       ctx.point(50, 50);
+       ---
+     */
+    void point(double x, double y)
+    {
+        auto prevLineCap = this.shapeProps.strokeCap;
+        this.shapeProps.strokeCap = ROUND;
+        line(x, y, x, y);
+        this.shapeProps.strokeCap = prevLineCap;
+    }
+
+    void point(Box box)
+    {
+        point(box.x, box.y);
+    }
+
+    void point(Point p)
+    {
+        point(p.x, p.y);
+    }
 }

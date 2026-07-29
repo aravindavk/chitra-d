@@ -59,6 +59,15 @@ void main(string[] args)
         drawChitra(ctx, x, y);
         saveAs("output/chitra-logo.png");
 
+        newDrawing;
+        fill("white");
+        noStroke;
+
+        x = 10.0;
+        y = 10.0;
+
+        drawChitra(ctx, x, y);
+        saveAs("output/chitra-logo-white.png");
 
         newDrawing;
         noStroke;

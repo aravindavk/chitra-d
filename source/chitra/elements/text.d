@@ -110,8 +110,24 @@ struct Text
 
         auto fullMarkup = txt.content(chitraCtx);
 
-        // TODO: Add hyphenation function
-        // pango_layout_set_wrap(layout, PANGO_WRAP_CHAR);
+        if (textProps.hyphenation)
+            pango_layout_set_wrap(layout, PANGO_WRAP_CHAR);
+
+        switch(textProps.align_)
+        {
+        case TextAlign.justify:
+            pango_layout_set_justify(layout, true);
+            break;
+        case TextAlign.center:
+            pango_layout_set_alignment(layout, PANGO_ALIGN_CENTER);
+            break;
+        case TextAlign.right:
+            pango_layout_set_alignment(layout, PANGO_ALIGN_RIGHT);
+            break;
+        default:
+            pango_layout_set_alignment(layout, PANGO_ALIGN_LEFT);
+            break;
+        }
 
         auto token = readyToDraw(chitraCtx, fullMarkup, w, h);
         pango_layout_set_markup(layout, token.part.toStringz, -1);
@@ -185,8 +201,12 @@ mixin template textFunctions()
 
     void text(FormattedString txt, double x, double y, double w = 0.0, double h = 0.0)
     {
+        if (!this.shapeProps.noFill)
+            this.textProps.color = this.shapeProps.fill;
+
         auto props = updateProperties([defaultTextProperties, this.textProps, txt.currentProperties]);
         txt.currentProperties = props;
+
         auto s = Text(txt, x, y, w, h);
         // Copy only top level props
         s.textProps = props;

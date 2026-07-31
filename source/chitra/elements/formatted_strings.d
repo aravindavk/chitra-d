@@ -22,7 +22,7 @@ enum TextGravity { none, south, east, north, west, auto_}
 enum TextGravityHint { none, natural, strong, line }
 enum TextTransform { none, lowercase, uppercase, capitalize }
 enum TextSegment { none, word, sentence}
-enum TextAlign {none, left, right, center }
+enum TextAlign {none, left, right, center, justify }
 
 string toString(TextVariant variant)
 {
@@ -55,7 +55,8 @@ struct TextProperties
     TextStretch stretch;
     // Ex: features='dlig=1, -kern, afrc on'
     string features;
-    Nullable!RGBA color = RGBA.parse(0);
+    Nullable!RGBA color;
+    bool noTextBackground = true;
     Nullable!RGBA background;
     float alpha;
     float backgroundAlpha;
@@ -87,7 +88,7 @@ struct TextProperties
 
         if (font != "") output ~= i" font_family=\"$(font)\"".text;
 
-        if (!background.isNull) output ~= i" background=\"$(background.get.hexString)\"".text;
+        if (!background.isNull && !noTextBackground) output ~= i" background=\"$(background.get.hexString)\"".text;
         if (!color.isNull) output ~= i" color=\"$(color.get.hexString)\"".text;
         if (size > 0)
         {

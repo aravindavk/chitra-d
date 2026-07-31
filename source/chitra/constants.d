@@ -4,6 +4,73 @@ import std.math.constants;
 
 import chitra.pangocairo;
 
+// Text Underline
+enum SINGLE = "single";
+enum DOUBLE = "double_";
+enum LOW = "low";
+enum ERROR = "error";
+
+// Font Named Sizes
+enum XXSMALL = "xxSmall";
+enum XSMALL = "xSmall";
+enum SMALL = "small";
+enum MEDIUM = "medium";
+enum LARGE = "large";
+enum XLARGE = "xLarge";
+enum XXLARGE = "xxLarge";
+enum SMALLER = "smaller";
+enum LARGER = "larger";
+
+auto fontNamedSizes()
+{
+    return [
+        "XXSMALL": XXSMALL,
+        "XSMALL": XSMALL,
+        "SMALL": SMALL,
+        "MEDIUM": MEDIUM,
+        "LARGE": LARGE,
+        "XLARGE": XLARGE,
+        "XXLARGE": XXLARGE,
+        "SMALLER": SMALLER,
+        "LARGER": LARGER
+        ];
+}
+
+// Text Styles
+enum NORMAL = "normal";
+enum OBLIQUE = "oblique";
+enum ITALIC = "italic";
+
+auto fontNamedStyles()
+{
+    return [
+        "NORMAL": NORMAL,
+        "OBLIQUE": OBLIQUE,
+        "ITALIC": ITALIC
+        ];
+}
+
+
+// Text Named Weights
+enum ULTRALIGHT = "ultralight";
+enum LIGHT = "light";
+// NORMAL already defined as part of Text Styles ("normal");
+enum BOLD = "bold";
+enum ULTRABOLD = "ultrabold";
+enum HEAVY = "heavy";
+
+auto fontNamedWeights()
+{
+    return [
+        "ULTRALIGHT": ULTRALIGHT,
+        "LIGHT": LIGHT,
+        "NORMAL": NORMAL,
+        "BOLD": BOLD,
+        "ULTRABOLD": ULTRABOLD,
+        "HEAVY": HEAVY
+        ];
+}
+
 // Math constants
 
 enum TWO_PI = 2.0 * PI;
@@ -55,6 +122,22 @@ auto ovalModes()
         "RADIUS": RADIUS,
         "CORNER": CORNER,
         "CORNERS": CORNERS
+        ];
+}
+
+// Text align
+enum LEFT = "left";
+enum RIGHT = "right";
+// CENTER already defined as part of ovalMode
+enum JUSTIFY = "justify";
+
+auto textAlignModes()
+{
+    return [
+        "LEFT": LEFT,
+        "RIGHT": RIGHT,
+        "CENTER": CENTER,
+        "JUSTIFY": JUSTIFY
         ];
 }
 

@@ -112,54 +112,35 @@ mixin template propertiesFunctions()
         shapeProps.noFill = true;
     }
 
-    void textColor(float r, float g, float b, float a = -1.0)
+    void textBackground(float r, float g, float b, float a = -1.0)
     {
-        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
-        textProps.color = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
-    }
-
-    void textColor(float gray, float a = 1.0)
-    {
-        gray = gray / colorScaleMax;
-        a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
-        textProps.color = RGBA(gray, gray, gray, a);
-    }
-
-    void textColor(string hexValue, float a = -1.0)
-    {
-        // TODO: Handle if RGBA is null
-        textProps.color = RGBA.parse(hexValue).get;
-        textProps.color = setAlpha(textProps.color.get, a);
-    }
-
-    void textOpacity(float a)
-    {
-        auto c = textProps.color;
-        if (!c.isNull)
-            textProps.color = RGBA(c.get.r, c.get.g, c.get.b, a / colorScaleAlphaMax);
-    }
-
-    void textBgColor(float r, float g, float b, float a = -1.0)
-    {
+        textProps.noTextBackground = false;
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         textProps.background = RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    void textBgColor(float gray, float a = -1.0)
+    void textBackground(float gray, float a = -1.0)
     {
+        textProps.noTextBackground = false;
         gray = gray / colorScaleMax;
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         textProps.background = RGBA(gray, gray, gray, a);
     }
 
-    void textBgColor(string hexValue, float a = -1.0)
+    void noTextBackground()
     {
+        textProps.noTextBackground = true;
+    }
+
+    void textBackground(string hexValue, float a = -1.0)
+    {
+        textProps.noTextBackground = false;
         // TODO: Handle if RGBA is null
         textProps.background = RGBA.parse(hexValue).get;
         textProps.background = setAlpha(textProps.background.get, a);
     }
 
-    void textBgOpacity(float a)
+    void textBackgroundOpacity(float a)
     {
         auto c = textProps.background;
         if (!c.isNull)
@@ -193,17 +174,28 @@ mixin template propertiesFunctions()
         fontSize(size);
     }
 
-    void textLineHeight(float value)
+    void textAlign(string value)
+    {
+        auto ta = value.to!(TextAlign);
+        textProps.align_ = ta;
+    }
+
+    void hyphenation(bool value)
+    {
+        textProps.hyphenation = value;
+    }
+
+    void lineHeight(float value)
     {
         textProps.lineHeight = value;
     }
 
-    void textWeight(float value)
+    void fontWeight(float value)
     {
         textProps.weight = value;
     }
 
-    void textWeight(TextNamedWeight value)
+    void fontWeight(TextNamedWeight value)
     {
         textProps.namedWeight = value;
     }
@@ -211,6 +203,17 @@ mixin template propertiesFunctions()
     void textFeatures(string value)
     {
         textProps.features = value;
+    }
+
+    void underline(string value)
+    {
+        textProps.underline = value.to!TextUnderline;
+    }
+
+    void underline(bool value)
+    {
+        if (!value)
+            textProps.underline = TextUnderline.none;
     }
 
     void borderColor(float r, float g, float b, float a = -1.0)

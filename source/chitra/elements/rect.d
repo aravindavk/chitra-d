@@ -165,7 +165,7 @@ mixin template rectFunctions()
         auto prevStrokeColor = this.shapeProps.stroke;
         auto prevStrokeWidth = this.shapeProps.strokeWidth;
         // Transparent fill and strokeWidth to given thickness
-        fillOpacity(0);
+        fillAlpha(0);
         this.shapeProps.stroke = color.get;
         strokeWidth(thickness);
 

@@ -186,6 +186,29 @@ struct Text
 
 mixin template textFunctions()
 {
+    string applyTextStyles(string txt)
+    {
+        import std.array;
+
+        string ot, ct;
+        if ("default" in this.textStyles)
+        {
+            ot = FormattedString("", this.textStyles["default"]).openTag(this);
+            ct = "</span>";
+        }
+
+        foreach(key, value; this.textStyles)
+        {
+            if (key == "default") continue;
+
+            auto openTag = FormattedString("", value).openTag(this);
+            txt = txt.replace("<" ~ key ~ ">", openTag);
+            txt = txt.replace("</" ~ key ~ ">", "</span>");
+        }
+
+        return ot ~ txt ~ ct;
+    }
+
     /**
        Draw the text.
 
@@ -195,7 +218,7 @@ mixin template textFunctions()
      */
     void text(string txt, double x, double y, double w = 0.0, double h = 0.0)
     {
-        auto formatted = FormattedString(txt);
+        auto formatted = FormattedString(applyTextStyles(txt));
         text(formatted, x, y, w, h);
     }
 
@@ -232,7 +255,7 @@ mixin template textFunctions()
 
     Size textSize(string txt, double w = 0.0, double h = 0.0)
     {
-        auto formatted = FormattedString(txt);
+        auto formatted = FormattedString(applyTextStyles(txt));
         return textSize(formatted, w, h);
     }
 
@@ -250,5 +273,30 @@ mixin template textFunctions()
     string overflowText()
     {
         return this.overflowMarkup_;
+    }
+
+    TextProperties[string] textStyles;
+
+    auto newTextStyle(string name)
+    {
+        auto ts = TextStyle!Chitra(this, name);
+        this.textStyles[name] = TextProperties();
+        return ts;
+    }
+
+    auto newTextStyle()
+    {
+        return newTextStyle("default");
+    }
+
+    auto textStyle(string name)
+    {
+        return TextStyle!Chitra(this, name);
+    }
+
+    void textStyle(string name, typeof(null) value)
+    {
+        if (name in this.textStyles)
+            this.textStyles.remove(name);
     }
 }

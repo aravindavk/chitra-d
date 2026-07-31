@@ -34,20 +34,30 @@ struct BorderProperties
 
 mixin template propertiesFunctions()
 {
-    private RGBA parseColor(float r, float g, float b, float a = -1.0)
+    float applyColorScale(float value)
+    {
+        return value / colorScaleMax;
+    }
+
+    float applyColorScaleAlpha(float value)
+    {
+        return value / colorScaleAlphaMax;
+    }
+
+    RGBA parseColor(float r, float g, float b, float a = -1.0)
     {
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         return RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    private RGBA parseColor(float gray, float a = -1.0)
+    RGBA parseColor(float gray, float a = -1.0)
     {
         gray = gray / colorScaleMax;
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         return RGBA(gray, gray, gray, a);
     }
 
-    private RGBA parseColor(string hexValue, float a = -1.0)
+    RGBA parseColor(string hexValue, float a = -1.0)
     {
         auto col = RGBA.parse(hexValue).get;
         return setAlpha(col, a);
@@ -72,7 +82,7 @@ mixin template propertiesFunctions()
         shapeProps.fill = parseColor(hexValue, a);
     }
 
-    void fillOpacity(float a)
+    void fillAlpha(float a)
     {
         shapeProps.fill = setAlpha(shapeProps.fill, a);
     }
@@ -96,7 +106,7 @@ mixin template propertiesFunctions()
         shapeProps.stroke = parseColor(hexValue, a);
     }
 
-    void strokeOpacity(float a)
+    void strokeAlpha(float a)
     {
         shapeProps.stroke = setAlpha(shapeProps.stroke, a);
     }
@@ -147,7 +157,7 @@ mixin template propertiesFunctions()
         textProps.background = parseColor(hexValue, a);
     }
 
-    void textBackgroundOpacity(float a)
+    void textBackgroundAlpha(float a)
     {
         auto c = textProps.background;
         if (!c.isNull)
@@ -245,6 +255,11 @@ mixin template propertiesFunctions()
         borderProps.fill = parseColor(hexValue, a);
     }
 
+    void borderColorAlpha(float a)
+    {
+        borderProps.fill = setAlpha(borderProps.fill, a);
+    }
+
     /**
        Switch between color Scales (Default is 0-255)
 
@@ -280,6 +295,12 @@ mixin template propertiesFunctions()
     {
         // TODO: Handle if RGBA is null
         shapeProps.tint = parseColor(hexValue, a);
+    }
+
+    void tintAlpha(float a)
+    {
+        if (!shapeProps.tint.isNull)
+            shapeProps.tint = setAlpha(shapeProps.tint.get, a);
     }
 
     void noTint()

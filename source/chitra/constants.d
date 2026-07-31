@@ -4,11 +4,43 @@ import std.math.constants;
 
 import chitra.pangocairo;
 
+// Font Variant
+enum NORMAL = "normal";
+enum SMALL_CAPS = "smallCaps";
+enum ALL_SMALL_CAPS = "allSmallCaps";
+enum PETITE_CAPS = "petiteCaps";
+enum ALL_PETITE_CAPS = "allPetiteCaps";
+enum UNICASE = "unicase";
+enum TITLE_CAPS = "titleCaps";
+
+auto fontVariants()
+{
+    return [
+        "NORMAL": NORMAL,
+        "SMALL_CAPS": SMALL_CAPS,
+        "ALL_SMALL_CAPS": ALL_SMALL_CAPS,
+        "PETITE_CAPS": PETITE_CAPS,
+        "ALL_PETITE_CAPS": ALL_PETITE_CAPS,
+        "UNICASE": UNICASE,
+        "TITLE_CAPS": TITLE_CAPS
+        ];
+}
+
 // Text Underline
 enum SINGLE = "single";
 enum DOUBLE = "double_";
 enum LOW = "low";
 enum ERROR = "error";
+
+auto underlineStyles()
+{
+    return [
+        "SINGLE": SINGLE,
+        "DOUBLE": DOUBLE,
+        "LOW": LOW,
+        "ERROR": ERROR
+        ];
+}
 
 // Font Named Sizes
 enum XXSMALL = "xxSmall";
@@ -37,7 +69,7 @@ auto fontNamedSizes()
 }
 
 // Text Styles
-enum NORMAL = "normal";
+// NORMAL defined above
 enum OBLIQUE = "oblique";
 enum ITALIC = "italic";
 
@@ -49,7 +81,6 @@ auto fontNamedStyles()
         "ITALIC": ITALIC
         ];
 }
-
 
 // Text Named Weights
 enum ULTRALIGHT = "ultralight";
@@ -70,6 +101,46 @@ auto fontNamedWeights()
         "HEAVY": HEAVY
         ];
 }
+
+// Font Stretch
+enum ULTRA_CONDENSED = "ultracondensed";
+enum EXTRA_CONDENSED = "extracondensed";
+enum CONDENSED = "condensed";
+enum SEMI_CONDENSED = "semicondensed";
+// NORMAL already defined as part of Text Styles ("normal");
+enum SEMI_EXPANDED = "semiexpanded";
+enum EXPANDED = "expanded";
+enum EXTRA_EXPANDED = "extraexpanded";
+enum ULTRA_EXPANDED = "ultraexpanded";
+
+// Text Overline
+// SINGLE already defined in Text underline
+
+// Text Scale
+enum SUPERSCRIPT = "superscript";
+enum SUBSCRIPT = "subscript";
+// SMALL_CAPS = "smallCaps" defined above
+
+// Text Gravity
+enum SOUTH = "south";
+enum EAST = "east";
+enum NORTH = "north";
+enum WEST = "west";
+enum AUTO = "auto_";
+
+// Text Gravity Hint
+enum NATURAL = "natural";
+enum STRONG = "strong";
+enum LINE = "line";
+
+// Text Transform
+enum LOWERCASE = "lowercase";
+enum UPPERCASE = "uppercase";
+enum CAPITALIZE = "capitalize";
+
+// Text Segment
+enum WORD = "word";
+enum SENTENCE = "sentence";
 
 // Math constants
 

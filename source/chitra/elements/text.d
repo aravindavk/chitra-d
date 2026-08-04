@@ -190,6 +190,9 @@ mixin template textFunctions()
     {
         import std.array;
 
+        if (this.textProps.syntaxHighlight)
+            txt = prepareForCodeHighlight(txt, this.textProps.syntaxHighlightTheme);
+
         string ot, ct;
         if ("default" in this.textStyles)
         {

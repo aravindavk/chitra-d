@@ -6,6 +6,10 @@ import std.array;
 import std.conv;
 import std.typecons;
 import std.math.traits : isNaN;
+import std.process;
+import std.array : appender;
+import std.string;
+import std.exception : enforce;
 
 import chitra.rgba;
 import chitra.context;
@@ -80,6 +84,8 @@ struct TextProperties
     TextAlign align_;
     string hyphenChar;
     bool hyphenation = false;
+    bool syntaxHighlight = false;
+    string syntaxHighlightTheme = "algol";
 
     string get(Context chitraCtx)
     {
@@ -516,4 +522,79 @@ struct TextStyle(T)
         ctx.textStyles[name].strikeThroughColor = ctx.parseColor(value, a);
         return this;
     }
+}
+
+string highlightCode(string language, string code, string formatter = "pango", string theme = "algol")
+{
+    auto pipes = pipeProcess(
+        ["pygmentize", "-l", language, "-f", formatter, "-O", "style=" ~ theme],
+        Redirect.stdin | Redirect.stdout | Redirect.stderr
+    );
+
+    // Feed the source code to pygmentize's stdin, then close it
+    // so pygmentize knows the input is complete.
+    pipes.stdin.write(code);
+    pipes.stdin.flush();
+    pipes.stdin.close();
+
+    // Collect stdout (the highlighted result).
+    auto output = appender!string();
+    foreach (chunk; pipes.stdout.byChunk(4096))
+        output.put(cast(string) chunk);
+
+    // Collect stderr in case pygmentize fails (e.g. unknown lexer name).
+    auto errOutput = appender!string();
+    foreach (line; pipes.stderr.byLine)
+    {
+        errOutput.put(line);
+        errOutput.put("\n");
+    }
+
+    auto exitCode = wait(pipes.pid);
+    enforce(exitCode == 0,
+        "pygmentize failed (exit " ~ exitCode.to!string ~ "): " ~ errOutput.data);
+
+    return output.data;
+}
+
+string prepareForCodeHighlight(string content, string theme)
+{
+    auto output = appender!string();
+
+    bool codeStarted = false;
+    string lang;
+    auto code = appender!string();
+
+    foreach(line; content.split("\n"))
+    {
+        if (!codeStarted && line.strip.startsWith("```"))
+        {
+            codeStarted = true;
+            lang = line.strip.replace("```", "");
+            continue;
+        }
+
+        if (codeStarted && line.strip == "```")
+        {
+            codeStarted = false;
+            output.put(highlightCode(lang, code.data, theme: theme));
+            output.put("\n");
+            code = appender!string();
+            lang = "text";
+            continue;
+        }
+
+        if (codeStarted)
+        {
+            code.put(line);
+            code.put("\n");
+        }
+        else
+        {
+            output.put(line);
+            output.put("\n");
+        }
+    }
+
+    return output.data;
 }

@@ -2,19 +2,29 @@
 
 Chitra supports defining the text styles similar to HTML and use it with the text as Markup. For example, below code creates the new style with the name <str>"code"</str>. Once defined, we can use that style as &lt;code&gt;.
 
-<code>newTextStyle("code")
+```d
+newTextStyle("code")
     .font("IBM Plex Mono", SMALL)
     .color("#d63384");
 
-text("Write code between text as &lt;code&gt;import chitra;&lt;/code&gt;.", 100, 100);</code>
+text("Write code between text as <code>import chitra;</code>.", 100, 100);
+```
 
-It is now easy to mix the text styles as needed. Ex: <b>bold</b> (<code>&lt;b&gt;bold&lt;/b&gt;</code>), <i>italic</i> (<code>&lt;i&gt;</code>), <s>strikethrough</s> (<code>&lt;s&gt;</code>), <u>underline</u> or <error>error</error>.
+It is now easy to mix the text styles as needed.
+
+1. <code>&lt;b&gt;bold&lt;/b&gt;</code> <b>bold</b>
+2. <code>&lt;i&gt;italic&lt;/i&gt;</code> <i>italic</i>
+3. <code>&lt;s&gt;strikethrough&lt;/s&gt;</code><s>strikethrough</s>
+4. <code>&lt;u&gt;underline&lt;/u&gt;</code><u>underline</u> or
+5. <code>&lt;error&gt;error&lt;/error&gt;</code> <error>error</error>.
+6. <code>a&lt;sup&gt;2&lt;/sup&gt;</code> a<sup>2</sup>
+7. <code>H&lt;sub&gt;2&lt;/sub&gt;O</code> H<sub>2</sub>O
 
 Create a style for the links as <code>newTextStyle("link").color("blue")</code> and use it as <code>&lt;link&gt;https://aravindavk.in&lt;link&gt;</code>. Rendered text will be colored blue as <link>https://aravindavk.in</link>.
 
 Transform the text to Uppercase (or lowercase or capitalize) by defining the style as <code>newTextStyle("uc").transform(UPPERCASE);</code>. <code>&lt;uc&gt;sample&lt;/uc&gt;</code> will be drawn as <uc>sample</uc>.
 
-Use <code>&lt;sup&gt;</code> to write superscript text. For example, <tt>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></tt>. Example of the <highlight>Highlighed Text</highlight>.
+Use <code>&lt;sup&gt;</code> to write superscript text. For example, <code>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></code>. Example of the <highlight>Highlighed Text</highlight>.
 
 <lh2x>This paragraph is has the line height <code>2x</code>. Some random text added here to see the line height compared to other paragraphs.</lh2x>
 
@@ -32,3 +42,12 @@ With <code>tnum</code> enabled,
 </tnum></inter>
 
 A text with <code>50pt</code> <ls>letter spacing</ls>.
+
+```d
+void main()
+{
+    writeln("hi");
+}
+```
+
+<kn>ಎಲ್ಲರೊಳಗೊಂದಾಗು ಮಂಕುತಿಮ್ಮ</kn>

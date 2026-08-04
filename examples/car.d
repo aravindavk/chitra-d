@@ -28,16 +28,17 @@ void main()
         oval(450, 600, 160);
         oval(1100, 600, 160);
 
-        strokeWeight(1);
+        strokeWeight(10);
         fill(0);
         foreach(p; lastPath.points)
-            point(p, 10);
+            point(p);
 
         fill("red");
         foreach(p; lastPath.controls)
-            point(p, 10);
+            point(p);
 
         strokeDash(10);
+        strokeWeight(1);
         stroke(200);
         noFill;
         foreach(seg; lastPath.segments)

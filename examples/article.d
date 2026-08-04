@@ -9,7 +9,7 @@ import chitra;
 
 void main()
 {
-    auto ctx = new Chitra(700, 1200);
+    auto ctx = new Chitra(700, 1600);
     string content = readText("article.txt");
 
     with (ctx)
@@ -59,8 +59,11 @@ void main()
         newTextStyle("ls")
             .letterSpacing(50);
 
-        text(content, 50, 50, width - 100, height - 100);
+        newTextStyle("kn")
+            .font("Gubbi");
 
+        syntaxHighlight(true, theme: EMACS);
+        text(content, 50, 50, width - 100, height - 100);
         saveAs("output/article.png");
     }
 }

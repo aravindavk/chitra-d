@@ -212,9 +212,9 @@ mixin template propertiesFunctions()
         textProps.weight = value;
     }
 
-    void fontWeight(FontNamedWeight value)
+    void fontWeight(string value)
     {
-        textProps.namedWeight = value;
+        textProps.namedWeight = value.to!FontNamedWeight;
     }
 
     void textFeatures(string value)
@@ -715,5 +715,11 @@ mixin template propertiesFunctions()
     void angleMode(string value)
     {
         shapeProps.angleMode = value;
+    }
+
+    void syntaxHighlight(bool value, string theme="algol")
+    {
+        textProps.syntaxHighlight = value;
+        textProps.syntaxHighlightTheme = theme;
     }
 }

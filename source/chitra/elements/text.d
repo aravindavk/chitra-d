@@ -227,8 +227,9 @@ mixin template textFunctions()
 
     void text(FormattedString txt, double x, double y, double w = 0.0, double h = 0.0)
     {
-        if (!this.shapeProps.noFill)
-            this.textProps.color = this.shapeProps.fill;
+        import std.typecons : Nullable, nullable;
+
+        this.textProps.color = this.shapeProps.noFill ? (Nullable!RGBA).init : this.shapeProps.fill.nullable;
 
         auto props = updateProperties([defaultTextProperties, this.textProps, txt.currentProperties]);
         txt.currentProperties = props;

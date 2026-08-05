@@ -290,6 +290,7 @@ auto strokeJoins()
 }
 
 enum CENTER = "center";
+enum CENTRE = "center";
 enum RADIUS = "radius";
 enum CORNER = "corner";
 enum CORNERS = "corners";

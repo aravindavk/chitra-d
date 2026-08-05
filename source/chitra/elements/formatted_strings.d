@@ -95,6 +95,10 @@ struct TextProperties
 
         if (!background.isNull && !noTextBackground) output ~= i" background=\"$(background.get.hexString)\"".text;
         if (!color.isNull) output ~= i" color=\"$(color.get.hexString)\"".text;
+
+        // Set Transparent if noFill is used
+        if (color.isNull) output ~= " alpha=\"1\"";
+
         if (size > 0)
         {
             auto s = chitraCtx.correctedSize(size);

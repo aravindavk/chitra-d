@@ -55,6 +55,11 @@ mixin template lineFunctions()
         line(p1.x, p1.y, p2.x, p2.y);
     }
 
+    void line(Edge edge)
+    {
+        line(edge.x1, edge.y1, edge.x2, edge.y2);
+    }
+
     /**
        Draw a Point
 
@@ -83,5 +88,12 @@ mixin template lineFunctions()
     void point(Point p)
     {
         point(p.x, p.y);
+    }
+
+    void gridOutlines(string name = "default")
+    {
+        auto g = this.grids_[name];
+        foreach(edge; g.outlines)
+            line(edge);
     }
 }

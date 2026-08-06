@@ -170,6 +170,26 @@ struct Grid
         setColWidthRowHeight;
     }
 
+    Edge[] outlines()
+    {
+        Edge[] edges;
+        foreach(i; 0 .. cols * rows)
+        {
+            auto cellNum = i + 1;
+            auto box = cell(cellNum);
+            edges ~= box.leftEdge;
+            edges ~= box.topEdge;
+
+            if (columnGap > 0 || cellNum % cols == 0)
+                edges ~= box.rightEdge;
+
+            if (rowGap > 0 || cellNum > (rows - 1) * cols)
+                edges ~= box.bottomEdge;
+        }
+
+        return edges;
+    }
+
     // Fetch Grid Cell by column number and row number
     Box cell(int col, int row)
     {

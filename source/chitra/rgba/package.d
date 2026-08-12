@@ -87,6 +87,21 @@ struct RGBA
     }
 }
 
+struct NamedColor
+{
+    string name;
+    RGBA col;
+}
+
+NamedColor[] namedColors()
+{
+    NamedColor[] output;
+    foreach(key, value; colorNames)
+        output ~= NamedColor(key, RGBA(value[0] / 255.0, value[1] / 255.0, value[2] / 255.0));
+
+    return output;
+}
+
 unittest
 {
     auto color = RGBA.parse("red");

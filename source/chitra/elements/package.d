@@ -24,7 +24,8 @@ const ELEMENTS = [
     "blend_mode",
     "save_state",
     "restore_state",
-    "draw_path"
+    "draw_path",
+    "qr_image"
 ];
 
 public

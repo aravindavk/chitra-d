@@ -285,6 +285,9 @@ mixin template textFunctions()
     {
         auto ts = TextStyle!Chitra(this, name);
         this.textStyles[name] = TextProperties();
+        if (!shapeProps.noFill)
+            this.textStyles[name].color = shapeProps.fill;
+
         return ts;
     }
 

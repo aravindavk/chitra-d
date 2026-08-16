@@ -39,7 +39,12 @@ struct Box
     double x;
     double y;
     double width;
-    double height;
+    double height_ = 0.0;
+
+    @property height() const
+    {
+        return height_ > 0 ? height_ : width;
+    }
 
     @property double w() const
     {

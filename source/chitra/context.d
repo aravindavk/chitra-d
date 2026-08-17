@@ -49,6 +49,8 @@ class Context
     string overflowMarkup_;
     SavedStateContext[] savedStateContexts;
     Path lastPath_;
+    string[string] documentVars;
+    string[string] pageVars;
 
     @property double width() const
     {
@@ -94,6 +96,10 @@ class Context
         // is this nested struct initialize issue or colors lib issue? Not sure.
         shapeProps.fill = RGBA(0, 0, 0);
         shapeProps.stroke = RGBA(0, 0, 0);
+
+        // Initialize the default values
+        setPageVariable("currentPage", 1);
+        setDocumentVariable("totalPages", 1);
     }
 
     this(double width = defaultWidth, double height = 0)
@@ -201,5 +207,20 @@ class Context
         defaultCairoCtx = cairo_create(this.defaultSurface);
         shapeProps = ShapeProperties.init;
         textProps = TextProperties.init;
+    }
+
+    void setPageVariable(T)(string key, T value)
+    {
+        this.pageVars[key] = value.to!string;
+    }
+
+    void setDocumentVariable(T)(string key, T value)
+    {
+        this.documentVars[key] = value.to!string;
+    }
+
+    void setVariable(T)(string key, T value)
+    {
+        setPageVariable(key, value);
     }
 }

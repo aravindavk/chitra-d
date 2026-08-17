@@ -10,7 +10,7 @@ import chitra.elements.core;
 import chitra.elements.formatted_strings;
 import chitra.rgba;
 import chitra.elements.markup_tokens;
-import chitra.helpers : Size, Box;
+import chitra.helpers : Size, Box, variableSubstitution;
 
 struct Text
 {
@@ -109,6 +109,7 @@ struct Text
             pango_layout_set_height(layout, cast(int)h * PANGO_SCALE);
 
         auto fullMarkup = txt.content(chitraCtx);
+        fullMarkup = variableSubstitution(fullMarkup, chitraCtx.documentVars);
 
         if (textProps.hyphenation)
             pango_layout_set_wrap(layout, PANGO_WRAP_CHAR);
@@ -189,6 +190,8 @@ mixin template textFunctions()
     string applyTextStyles(string txt)
     {
         import std.array;
+
+        txt = variableSubstitution(txt, this.pageVars, onMissingKey: MissingKey.passThrough);
 
         if (this.textProps.syntaxHighlight)
             txt = prepareForCodeHighlight(txt, this.textProps.syntaxHighlightTheme);

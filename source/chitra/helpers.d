@@ -4,8 +4,6 @@ import std.typecons;
 import std.math : isNaN;
 import std.algorithm : min, max;
 import std.math.constants : PI;
-import std.array : appender;
-import std.string : indexOf, strip;
 
 import chitra.rgba;
 
@@ -370,69 +368,4 @@ double degrees(T)(T angle)
 double radians(T)(T angle)
 {
     return angle;
-}
-
-enum MissingKey
-{
-    empty,
-    passThrough,
-    error
-}
-
-string variableSubstitution(string txt, string[string] data, MissingKey onMissingKey = MissingKey.init)
-{
-    auto result = appender!string();
-    size_t pos = 0;
-
-    while (pos < txt.length)
-    {
-        // Find the next variable
-        auto openIdx = txt.indexOf("{{", pos);
-        if (openIdx == -1)
-        {
-            // No more variables found, copy the remaining text as-is
-            result.put(txt[pos .. $]);
-            break;
-        }
-
-        // Text before the variable
-        result.put(txt[pos .. openIdx]);
-
-        // Closing "}}"
-        auto closeIdx = txt.indexOf("}}", openIdx + 2);
-        if (closeIdx == -1)
-        {
-            // Variable not closed, get the rest
-            // of the string and stop searching.
-            result.put(txt[openIdx .. $]);
-            break;
-        }
-
-        immutable rawName = txt[openIdx + 2 .. closeIdx];
-        immutable varName = strip(rawName);
-
-        // Known variable, substitute its value
-        if (auto val = varName in data)
-            result.put(*val);
-        else
-        {
-            // Handle Unknown variable
-            switch (onMissingKey)
-            {
-            case MissingKey.passThrough:
-                result.put(txt[openIdx .. closeIdx + 2]);
-                break;
-            case MissingKey.error:
-                throw new Exception(varName ~ " not found in data");
-                break;
-            default:
-                result.put("");
-                break;
-            }
-        }
-
-        pos = closeIdx + 2;
-    }
-
-    return result.data;
 }

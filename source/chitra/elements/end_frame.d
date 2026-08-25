@@ -35,8 +35,6 @@ mixin template endFrameFunctions()
         setDocumentVariable("totalFrames", this.documentVars["totalFrames"].to!int + 1);
     }
 
-    double frameDuration_ = 1.0 / 10.0;
-
     void frameDuration(double value)
     {
         this.frameDuration_ = value;
@@ -45,5 +43,10 @@ mixin template endFrameFunctions()
     void frameRate(int fps)
     {
         this.frameDuration_ = 1.0 / fps;
+    }
+
+    void keepTemporaryFrames(bool value)
+    {
+        this.keepTemporaryFrames_ = value;
     }
 }

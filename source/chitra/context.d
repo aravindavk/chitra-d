@@ -53,6 +53,8 @@ class Context
     Path lastPath_;
     string[string] documentVars;
     string[string] pageVars;
+    double frameDuration_ = 1.0 / 10.0;
+    bool keepTemporaryFrames_ = false;
 
     @property double width() const
     {
@@ -169,7 +171,7 @@ class Context
         return [".gif", ".webm", ".mp4", ".mov"].canFind(path.extension);
     }
 
-    void saveAnimation(string outputFile, int resolution)
+    void saveAnimation(string outputFile, int resolution, bool loopAnimation)
     {
         cairo_t * cairoCtx;
         cairo_surface_t* surface;
@@ -188,7 +190,12 @@ class Context
             rmdirRecurse(framesDir);
 
         mkdirRecurse(framesDir);
-        scope (exit) rmdirRecurse(framesDir);
+
+        scope (exit)
+        {
+            if (!this.keepTemporaryFrames_)
+                rmdirRecurse(framesDir);
+        }
 
         foreach (idx, element; elements)
         {
@@ -226,10 +233,14 @@ class Context
         }
 
         // TODO: Get and pass the first frame duration
-        animateUsingFfmpeg(frames, outputFile);
+        animateUsingFfmpeg(
+            frames,
+            outputFile,
+            loopAnimation: loopAnimation
+        );
     }
 
-    void saveAs(string outputFile, int resolution = defaultResolution)
+    void saveAs(string outputFile, int resolution = defaultResolution, bool loopAnimation = true)
     {
         auto prevResolution = resolution_;
         if (resolution > 0)
@@ -247,7 +258,7 @@ class Context
         else if (outputFile.endsWith(".svg"))
             surface = createSvgSurface(outputFile, w, h);
         else if (isAnimationExt(outputFile))
-            return saveAnimation(outputFile, resolution);
+            return saveAnimation(outputFile, resolution, loopAnimation);
         else
             return;
 

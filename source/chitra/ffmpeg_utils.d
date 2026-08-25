@@ -43,7 +43,8 @@ string prepareFfmpegInputs(Frame[] frames)
     return listPath;
 }
 
-void animateUsingFfmpeg(Frame[] frames, string outputPath, int fps = 10)
+void animateUsingFfmpeg(Frame[] frames, string outputPath, int fps = 10,
+                        bool loopAnimation = true)
 {
     auto listPath = prepareFfmpegInputs(frames);
     scope (exit) remove(listPath);
@@ -74,8 +75,8 @@ void animateUsingFfmpeg(Frame[] frames, string outputPath, int fps = 10)
             // [b][p] paletteuse=dither=floyd_steinberg" => Use the previously generated pallete [p]
             "[0:v] split [a][b];[a] palettegen=stats_mode=diff [p];[b][p] paletteuse=dither=floyd_steinberg"
         ];
-        // TODO: Add option to control loop (0 for Loop, -1 for no loop)
-        loopArgs = ["-loop", "0"];
+        // 0 for Loop, -1 for no loop
+        loopArgs = ["-loop", loopAnimation ? "0" : "-1"];
     }
     else if ([".mov", ".mp4"].canFind(outputPath.extension))
     {

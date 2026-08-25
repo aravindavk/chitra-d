@@ -25,7 +25,8 @@ const ELEMENTS = [
     "save_state",
     "restore_state",
     "draw_path",
-    "qr_image"
+    "qr_image",
+    "end_frame"
 ];
 
 public

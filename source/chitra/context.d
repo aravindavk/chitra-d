@@ -4,11 +4,13 @@ import std.conv : to;
 import std.string : toLower, split, toStringz;
 import std.algorithm.mutation : swap;
 import std.algorithm;
+import std.format : format;
 
 import chitra.pangocairo;
 import chitra.surfaces;
 import chitra.paper_sizes;
 import chitra.rgba;
+import chitra.ffmpeg_utils;
 
 // Import all the elements
 import chitra.elements;
@@ -17,7 +19,7 @@ import chitra.helpers;
 import chitra.elements.path;
 
 const baseResolution = 72.0;
-const defaultResolution = 300;
+const defaultResolution = 72;
 const defaultWidth = 700;
 const portraitMode = "portrait";
 const landscapeMode = "landscape";
@@ -100,6 +102,12 @@ class Context
         // Initialize the default values
         setPageVariable("currentPage", 1);
         setDocumentVariable("totalPages", 1);
+
+        setPageVariable("currentFrame", 1);
+
+        // Animation Frame defaults (endFrame triggers
+        // increment, so start from zero)
+        setDocumentVariable("totalFrames", 0);
     }
 
     this(double width = defaultWidth, double height = 0)
@@ -154,6 +162,73 @@ class Context
         setSize(paper);
     }
 
+    bool isAnimationExt(string path)
+    {
+        import std.path : extension;
+
+        return [".gif", ".webm", ".mp4", ".mov"].canFind(path.extension);
+    }
+
+    void saveAnimation(string outputFile, int resolution)
+    {
+        cairo_t * cairoCtx;
+        cairo_surface_t* surface;
+        Frame[] frames;
+        auto frameCount = 1;
+        auto w = correctedSize(this.width_);
+        auto h = correctedSize(this.height_);
+
+        import std.file : mkdirRecurse, rmdirRecurse, exists;
+        import std.sumtype : match, get;
+
+        // Cleanup and create directory
+        auto framesDir = ".frames";
+
+        if (framesDir.exists)
+            rmdirRecurse(framesDir);
+
+        mkdirRecurse(framesDir);
+        scope (exit) rmdirRecurse(framesDir);
+
+        foreach (idx, element; elements)
+        {
+            // Create the image surface only it is the
+            // first one or a endFrame command is called with clear
+            if (idx == 0 || surface is null)
+            {
+                surface = createPngSurface(outputFile, w, h);
+                cairoCtx = cairo_create(surface);
+            }
+
+            // Create a frame PNG image under .frames
+            // when endFrame command is called
+            if (element.match!(value => typeof(value).stringof) == "EndFrame")
+            {
+                auto ele = element.get!EndFrame;
+                Frame frame;
+                frame.index = frameCount;
+                frame.path = format(framesDir ~ "/frame-%05d.png", frameCount);
+                frame.durationSeconds = ele.frameDuration;
+                frames ~= frame;
+                cairo_surface_write_to_png(surface, frame.path.toStringz);
+                frameCount++;
+
+                // If Clear is needed after a frame is ended.
+                if (ele.clear)
+                {
+                    cairo_surface_finish(surface);
+                    surface = null;
+                    cairoCtx = null;
+                }
+            }
+            else
+                element.draw(this, cairoCtx);
+        }
+
+        // TODO: Get and pass the first frame duration
+        animateUsingFfmpeg(frames, outputFile);
+    }
+
     void saveAs(string outputFile, int resolution = defaultResolution)
     {
         auto prevResolution = resolution_;
@@ -171,6 +246,8 @@ class Context
             surface = createPngSurface(outputFile, w, h);
         else if (outputFile.endsWith(".svg"))
             surface = createSvgSurface(outputFile, w, h);
+        else if (isAnimationExt(outputFile))
+            return saveAnimation(outputFile, resolution);
         else
             return;
 

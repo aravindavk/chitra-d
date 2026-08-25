@@ -36,6 +36,9 @@ void main()
             frameRate(10);
         }
 
+        // For debugging: To inspect any frames PNG
+        // keepTemporaryFrames(true);
+
         saveAs("output/animation.webm", resolution: 72);
         saveAs("output/animation.gif", resolution: 72);
     }

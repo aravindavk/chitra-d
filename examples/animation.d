@@ -29,6 +29,8 @@ void main()
             rect(x, 100, 100);
             if (i == 7)
                 frameDuration(3.0);
+
+            // Pass `clear: true` to move the rectangle instead of expanding
             endFrame();
             x += 10;
             frameRate(10);

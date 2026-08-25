@@ -13,8 +13,7 @@ void main()
     {
         noStroke;
 
-
-        textFont("American Typewriter", 50);
+        font("American Typewriter", 50);
         text("Hello World", 10, 10);
         auto box = textSize("Hello World");
 

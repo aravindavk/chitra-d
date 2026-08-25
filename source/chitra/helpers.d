@@ -7,6 +7,13 @@ import std.math.constants : PI;
 
 import chitra.rgba;
 
+struct Frame
+{
+    string path;
+    long index;
+    double durationSeconds;
+}
+
 struct Size
 {
     double width;

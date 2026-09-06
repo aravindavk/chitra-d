@@ -306,21 +306,6 @@ double pt(T)(T value)
     return value;
 }
 
-Nullable!RGBA color(int r, int g, int b, float a = 1.0)
-{
-    return RGBA.parse(r, g, b, a);
-}
-
-Nullable!RGBA color(int gray, float a = 1.0)
-{
-    return RGBA.parse(gray, gray, gray, a);
-}
-
-Nullable!RGBA color(string hexValue)
-{
-    return RGBA.parse(hexValue);
-}
-
 double findDistance(double x1, double y1, double x2, double y2)
 {
     import std.math : sqrt, abs;

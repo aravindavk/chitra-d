@@ -358,6 +358,12 @@ struct TextStyle(T)
         return this;
     }
 
+    TextStyle underlineColor(RGBA col)
+    {
+        ctx.textStyles[name].underlineColor = col;
+        return this;
+    }
+
     TextStyle underlineColor(float r, float g, float b, float a = -1.0)
     {
         ctx.textStyles[name].underlineColor = ctx.color(r, g, b, a);
@@ -382,6 +388,12 @@ struct TextStyle(T)
         return this;
     }
 
+    TextStyle overlineColor(RGBA col)
+    {
+        ctx.textStyles[name].overlineColor = col;
+        return this;
+    }
+
     TextStyle overlineColor(float r, float g, float b, float a = -1.0)
     {
         ctx.textStyles[name].overlineColor = ctx.color(r, g, b, a);
@@ -397,6 +409,12 @@ struct TextStyle(T)
     TextStyle overlineColor(string value)
     {
         ctx.textStyles[name].overlineColor = ctx.color(value);
+        return this;
+    }
+
+    TextStyle color(RGBA col)
+    {
+        ctx.textStyles[name].color = col;
         return this;
     }
 
@@ -423,6 +441,13 @@ struct TextStyle(T)
         if (!ctx.textStyles[name].color.isNull)
             ctx.textStyles[name].color = ctx.setAlpha(ctx.textStyles[name].color.get, a);
 
+        return this;
+    }
+
+    TextStyle background(RGBA col)
+    {
+        ctx.textStyles[name].noTextBackground = false;
+        ctx.textStyles[name].background = col;
         return this;
     }
 
@@ -506,6 +531,12 @@ struct TextStyle(T)
     TextStyle strikeThrough(bool value)
     {
         ctx.textStyles[name].strikeThrough = value;
+        return this;
+    }
+
+    TextStyle strikeThroughColor(RGBA col)
+    {
+        ctx.textStyles[name].strikeThroughColor = col;
         return this;
     }
 

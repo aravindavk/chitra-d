@@ -360,19 +360,19 @@ struct TextStyle(T)
 
     TextStyle underlineColor(float r, float g, float b, float a = -1.0)
     {
-        ctx.textStyles[name].underlineColor = ctx.parseColor(r, g, b, a);
+        ctx.textStyles[name].underlineColor = ctx.color(r, g, b, a);
         return this;
     }
 
     TextStyle underlineColor(float gray, float a = -1.0)
     {
-        ctx.textStyles[name].underlineColor = ctx.parseColor(gray, a);
+        ctx.textStyles[name].underlineColor = ctx.color(gray, a);
         return this;
     }
 
     TextStyle underlineColor(string value)
     {
-        ctx.textStyles[name].underlineColor = ctx.parseColor(value);
+        ctx.textStyles[name].underlineColor = ctx.color(value);
         return this;
     }
 
@@ -384,37 +384,37 @@ struct TextStyle(T)
 
     TextStyle overlineColor(float r, float g, float b, float a = -1.0)
     {
-        ctx.textStyles[name].overlineColor = ctx.parseColor(r, g, b, a);
+        ctx.textStyles[name].overlineColor = ctx.color(r, g, b, a);
         return this;
     }
 
     TextStyle overlineColor(float gray, float a = -1.0)
     {
-        ctx.textStyles[name].overlineColor = ctx.parseColor(gray, a);
+        ctx.textStyles[name].overlineColor = ctx.color(gray, a);
         return this;
     }
 
     TextStyle overlineColor(string value)
     {
-        ctx.textStyles[name].overlineColor = ctx.parseColor(value);
+        ctx.textStyles[name].overlineColor = ctx.color(value);
         return this;
     }
 
     TextStyle color(float r, float g, float b, float a = -1.0)
     {
-        ctx.textStyles[name].color = ctx.parseColor(r, g, b, a);
+        ctx.textStyles[name].color = ctx.color(r, g, b, a);
         return this;
     }
 
     TextStyle color(float gray, float a = -1.0)
     {
-        ctx.textStyles[name].color = ctx.parseColor(gray, a);
+        ctx.textStyles[name].color = ctx.color(gray, a);
         return this;
     }
 
     TextStyle color(string value, float a = -1.0)
     {
-        ctx.textStyles[name].color = ctx.parseColor(value, a);
+        ctx.textStyles[name].color = ctx.color(value, a);
         return this;
     }
 
@@ -429,21 +429,21 @@ struct TextStyle(T)
     TextStyle background(float r, float g, float b, float a = -1.0)
     {
         ctx.textStyles[name].noTextBackground = false;
-        ctx.textStyles[name].background = ctx.parseColor(r, g, b, a);
+        ctx.textStyles[name].background = ctx.color(r, g, b, a);
         return this;
     }
 
     TextStyle background(float gray, float a = -1.0)
     {
         ctx.textStyles[name].noTextBackground = false;
-        ctx.textStyles[name].background = ctx.parseColor(gray, a);
+        ctx.textStyles[name].background = ctx.color(gray, a);
         return this;
     }
 
     TextStyle background(string value, float a = -1.0)
     {
         ctx.textStyles[name].noTextBackground = false;
-        ctx.textStyles[name].background = ctx.parseColor(value, a);
+        ctx.textStyles[name].background = ctx.color(value, a);
         return this;
     }
 
@@ -511,19 +511,19 @@ struct TextStyle(T)
 
     TextStyle strikeThroughColor(float r, float g, float b, float a = -1.0)
     {
-        ctx.textStyles[name].strikeThroughColor = ctx.parseColor(r, g, b, a);
+        ctx.textStyles[name].strikeThroughColor = ctx.color(r, g, b, a);
         return this;
     }
 
     TextStyle strikeThroughColor(float gray, float a = -1.0)
     {
-        ctx.textStyles[name].strikeThroughColor = ctx.parseColor(gray, a);
+        ctx.textStyles[name].strikeThroughColor = ctx.color(gray, a);
         return this;
     }
 
     TextStyle strikeThroughColor(string value, float a = -1.0)
     {
-        ctx.textStyles[name].strikeThroughColor = ctx.parseColor(value, a);
+        ctx.textStyles[name].strikeThroughColor = ctx.color(value, a);
         return this;
     }
 }

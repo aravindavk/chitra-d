@@ -44,20 +44,20 @@ mixin template propertiesFunctions()
         return value / colorScaleAlphaMax;
     }
 
-    RGBA parseColor(float r, float g, float b, float a = -1.0)
+    RGBA color(float r, float g, float b, float a = -1.0)
     {
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         return RGBA(r / colorScaleMax, g / colorScaleMax, b / colorScaleMax, a);
     }
 
-    RGBA parseColor(float gray, float a = -1.0)
+    RGBA color(float gray, float a = -1.0)
     {
         gray = gray / colorScaleMax;
         a = a == -1 ? colorScaleAlphaMax : a / colorScaleAlphaMax;
         return RGBA(gray, gray, gray, a);
     }
 
-    RGBA parseColor(string hexValue, float a = -1.0)
+    RGBA color(string hexValue, float a = -1.0)
     {
         auto col = RGBA.parse(hexValue).get;
         return setAlpha(col, a);
@@ -66,20 +66,20 @@ mixin template propertiesFunctions()
     void fill(float r, float g, float b, float a = -1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = parseColor(r, g, b, a);
+        shapeProps.fill = color(r, g, b, a);
     }
 
     void fill(float gray, float a = -1.0)
     {
         shapeProps.noFill = false;
-        shapeProps.fill = parseColor(gray, a);
+        shapeProps.fill = color(gray, a);
     }
 
     void fill(string hexValue, float a = -1.0)
     {
         shapeProps.noFill = false;
         // TODO: Handle if RGBA is null
-        shapeProps.fill = parseColor(hexValue, a);
+        shapeProps.fill = color(hexValue, a);
     }
 
     void fillAlpha(float a)
@@ -90,20 +90,20 @@ mixin template propertiesFunctions()
     void stroke(float r, float g, float b, float a = -1.0)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = parseColor(r, g, b, a);
+        shapeProps.stroke = color(r, g, b, a);
     }
 
     void stroke(float gray, float a = 1.0)
     {
         shapeProps.noStroke = false;
-        shapeProps.stroke = parseColor(gray, a);
+        shapeProps.stroke = color(gray, a);
     }
 
     void stroke(string hexValue, float a = -1.0)
     {
         shapeProps.noStroke = false;
         // TODO: Handle if RGBA is null
-        shapeProps.stroke = parseColor(hexValue, a);
+        shapeProps.stroke = color(hexValue, a);
     }
 
     void strokeAlpha(float a)
@@ -136,13 +136,13 @@ mixin template propertiesFunctions()
     void textBackground(float r, float g, float b, float a = -1.0)
     {
         textProps.noTextBackground = false;
-        textProps.background = parseColor(r, g, b, a);
+        textProps.background = color(r, g, b, a);
     }
 
     void textBackground(float gray, float a = -1.0)
     {
         textProps.noTextBackground = false;
-        textProps.background = parseColor(gray, a);
+        textProps.background = color(gray, a);
     }
 
     void noTextBackground()
@@ -154,7 +154,7 @@ mixin template propertiesFunctions()
     {
         textProps.noTextBackground = false;
         // TODO: Handle if RGBA is null
-        textProps.background = parseColor(hexValue, a);
+        textProps.background = color(hexValue, a);
     }
 
     void textBackgroundAlpha(float a)
@@ -235,12 +235,12 @@ mixin template propertiesFunctions()
 
     void borderColor(float r, float g, float b, float a = -1.0)
     {
-        borderProps.fill = parseColor(r, g, b, a);
+        borderProps.fill = color(r, g, b, a);
     }
 
     void borderColor(float gray, float a = -1.0)
     {
-        borderProps.fill = parseColor(gray, a);
+        borderProps.fill = color(gray, a);
     }
 
     RGBA setAlpha(RGBA col, float a = -1.0)
@@ -252,7 +252,7 @@ mixin template propertiesFunctions()
 
     void borderColor(string hexValue, float a = -1.0)
     {
-        borderProps.fill = parseColor(hexValue, a);
+        borderProps.fill = color(hexValue, a);
     }
 
     void borderColorAlpha(float a)
@@ -283,18 +283,18 @@ mixin template propertiesFunctions()
 
     void tint(float r, float g, float b, float a = -1.0)
     {
-        shapeProps.tint = parseColor(r, g, b, a);
+        shapeProps.tint = color(r, g, b, a);
     }
 
     void tint(float gray, float a = -1.0)
     {
-        shapeProps.tint = parseColor(gray, a);
+        shapeProps.tint = color(gray, a);
     }
 
     void tint(string hexValue, float a = -1.0)
     {
         // TODO: Handle if RGBA is null
-        shapeProps.tint = parseColor(hexValue, a);
+        shapeProps.tint = color(hexValue, a);
     }
 
     void tintAlpha(float a)
@@ -721,5 +721,133 @@ mixin template propertiesFunctions()
     {
         textProps.syntaxHighlight = value;
         textProps.syntaxHighlightTheme = theme;
+    }
+
+    ChitraTable!Chitra[string] tables_;
+
+    auto newTable(string name, double x, double y, int cols, double paddingY = 2, double paddingX = 5)
+    {
+        tables_[name] = ChitraTable!Chitra(this, x, y, cols);
+        tables_[name].paddingX = paddingX;
+        tables_[name].paddingY = paddingY;
+
+        return TableWrapper!Chitra(this, name);
+    }
+
+    void tableMaxWidth(string name, double w)
+    {
+        tables_[name].setMaxWidth(w);
+    }
+
+    void tableColumnWidths(string name, double[] widths...)
+    {
+        // TODO: Check the number of columns and given widths
+        tables_[name].colWidths = widths;
+    }
+
+    void tableAlign(string name, string[int] values)
+    {
+        foreach(k, v; values)
+            tables_[name].columnAlign[k - 1] = v;
+    }
+
+    void tableColumnAlign(string name, int column, string value)
+    {
+        tables_[name].columnAlign[column - 1] = value;
+    }
+
+    void tableColumnAlign(string name, string value)
+    {
+        auto ncols = tables_[name].ncols;
+        foreach(i; 0 .. ncols)
+            tables_[name].columnAlign[i] = value;
+    }
+
+    Box tableCell(string name, int col, int row)
+    {
+        return tables_[name].cell(col, row);
+    }
+
+    void tableColumnStyle(string name, string style)
+    {
+        auto ncols = tables_[name].ncols;
+        foreach(i; 0 .. ncols)
+            tables_[name].columnStyles[i] = style;
+    }
+
+    void tableColumnStyle(string name, int column, string style)
+    {
+        tables_[name].columnStyles[column - 1] = style;
+    }
+
+    void tableHeaderStyle(string name, int column, string style)
+    {
+        tables_[name].headerStyles[column - 1] = style;
+    }
+
+    void tableHeaderStyle(string name, string style)
+    {
+        auto ncols = tables_[name].ncols;
+        foreach(i; 0 .. ncols)
+            tables_[name].headerStyles[i] = style;
+    }
+
+    void drawCell(string name, int col, int row)
+    {
+        tables_[name].drawCell(col, row);
+    }
+
+    void drawTable(string name)
+    {
+        tables_[name].drawTable;
+    }
+
+    void tableAddRow(T...)(string name, T values) {
+        tables_[name].addRow(values);
+    }
+
+    void tableAddHeader(T...)(string name, T values) {
+        tables_[name].addHeader(values);
+    }
+
+    Box tableSize(string name)
+    {
+        auto tbl = tables_[name];
+        return Box(tbl.x, tbl.y, tbl.width, tbl.height);
+    }
+
+    Box tableRow(string name, int num)
+    {
+        return tables_[name].row(num);
+    }
+
+    Box tableColumn(string name, int num)
+    {
+        return tables_[name].column(num);
+    }
+
+    Box tableCell(string name, int num)
+    {
+        auto ncols = tables_[name].ncols;
+        auto col = int(num / ncols);
+        auto row = num % ncols;
+        if (row == 0) row = ncols;
+
+        return tableCell(name, col, row);
+    }
+
+    int tableRowsCount(string name)
+    {
+        return cast(int) tables_[name].nrows;
+    }
+
+    int tableColumnsCount(string name)
+    {
+        return tables_[name].ncols;
+    }
+
+    auto table(string name)
+    {
+        return TableWrapper!Chitra(this, name);
     }
 }

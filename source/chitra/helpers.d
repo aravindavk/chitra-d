@@ -6,6 +6,7 @@ import std.algorithm : min, max;
 import std.math.constants : PI;
 
 import chitra.rgba;
+import chitra.constants;
 
 struct Frame
 {
@@ -375,4 +376,269 @@ double degrees(T)(T angle)
 double radians(T)(T angle)
 {
     return angle;
+}
+
+struct ChitraTable(T)
+{
+    T ctx;
+    double x;
+    double y;
+    int ncols;
+    int nrows;
+    double maxWidth;
+    double width = 0;
+    double height = 0;
+    string[] columnAlign;
+    string[][] rows;
+    double columnWidth;
+    double[] colWidths;
+    double[] rowHeights;
+    double paddingY = 5;
+    double paddingX = 10;
+    string[] columnStyles;
+    string[] headerStyles;
+    bool hasHeader = false;
+
+    this(T ctx, double x, double y, int cols)
+    {
+        this.ctx = ctx;
+        this.x = x;
+        this.y = y;
+        this.ncols = cols;
+        onColumnsCountUpdate;
+    }
+
+    void setMaxWidth(double w)
+    {
+        this.maxWidth = w;
+        foreach(idx; 0 .. ncols)
+            this.colWidths[idx] = w / ncols;
+    }
+
+    private void onColumnsCountUpdate()
+    {
+        this.columnAlign.length = ncols;
+        this.colWidths.length = ncols;
+        this.columnStyles.length = ncols;
+        this.headerStyles.length = ncols;
+    }
+
+    void addRowOrHeader(T...)(bool isHeader, T values) {
+        import std.format;
+        import std.math : isNaN;
+
+        string[] row;
+        auto rowHeight = 0.0;
+        double w_ = 0.0;
+        foreach (idx, value; values)
+        {
+            auto cellContent = format("%s", value);
+            auto headerStyleName = this.headerStyles[idx];
+            auto styleName = this.columnStyles[idx];
+
+            if (isHeader)
+            {
+                if (headerStyleName == "")
+                    cellContent = format("<b>%s</b>", cellContent);
+                else
+                    cellContent = format("<b><%s>%s</%s></b>", headerStyleName, cellContent, headerStyleName);
+            }
+
+            if (!isHeader && styleName != "")
+                cellContent = format("<%s>%s</%s>", styleName, cellContent, styleName);
+
+            row ~= cellContent;
+
+            auto cs = this.ctx.textSize(cellContent, this.colWidths[idx]);
+            if (this.colWidths[idx].isNaN || cs.width > this.colWidths[idx])
+                this.colWidths[idx] = cs.width + 2 * paddingX;
+
+            w_ += this.colWidths[idx];
+            if (cs.height > rowHeight)
+                rowHeight = cs.height;
+        }
+        if (w_ > this.width)
+            this.width = w_;
+
+        this.height += rowHeight + 2 * paddingY;
+        this.rowHeights ~= rowHeight;
+        this.rows ~= row;
+        this.nrows += 1;
+    }
+
+    void addRow(T...)(T values) {
+        addRowOrHeader(false, values);
+    }
+
+    void addHeader(T...)(T values) {
+        hasHeader = true;
+        addRowOrHeader(true, values);
+    }
+
+    Box row(int num)
+    {
+        auto h = rowHeights[num - 1] + 2 * paddingY;
+        auto rowY = y;
+        foreach(idx, ch; rowHeights)
+        {
+            if (idx + 1 >= num)
+                break;
+
+            rowY += ch + 2 * paddingY;
+        }
+
+        return Box(x, rowY, width, h);
+    }
+
+    Box column(int num)
+    {
+        auto colX = x;
+        foreach(idx, cw; colWidths)
+        {
+            if (idx + 1 >= num)
+                break;
+
+            colX += cw;
+        }
+        auto w = colWidths[num - 1];
+        return Box(colX, y, w, height);
+    }
+
+    Box cell(int col, int row)
+    {
+        auto x_ = this.x;
+        auto y_ = this.y;
+
+        foreach(i; 0 .. col - 1)
+            x_ += colWidths[i];
+
+        foreach(i; 0 .. row - 1)
+            y_ += rowHeights[i] + 2 * paddingY;
+
+        return Box(x_, y_, colWidths[col-1], rowHeights[row-1] + 2 * paddingY);
+    }
+
+    void drawCell(int col, int row)
+    {
+        auto cell_ = this.cell(col, row).inset(dx: paddingX, dy: paddingY);
+        auto alignValue = columnAlign[col - 1];
+        ctx.textAlign(alignValue == "" ? LEFT : alignValue);
+        ctx.text(rows[row - 1][col - 1], cell_);
+    }
+
+    void drawTable()
+    {
+        foreach(i; 1 .. rows.length + 1)
+        {
+            foreach(j; 1 .. ncols + 1)
+                drawCell(j, cast(int)i);
+        }
+    }
+}
+
+struct TableWrapper(T)
+{
+    T ctx;
+    string tableName;
+
+    TableWrapper!T setMaxWidth(double w)
+    {
+        ctx.tableMaxWidth(tableName, w);
+        return this;
+    }
+
+    TableWrapper!T headerStyle(string name)
+    {
+        ctx.tableHeaderStyle(tableName, name);
+        return this;
+    }
+
+    TableWrapper!T headerStyle(int col, string name)
+    {
+        ctx.tableHeaderStyle(tableName, col, name);
+        return this;
+    }
+
+    TableWrapper!T columnStyle(string name)
+    {
+        ctx.tableColumnStyle(tableName, name);
+        return this;
+    }
+
+    TableWrapper!T columnStyle(int col, string name)
+    {
+        ctx.tableColumnStyle(tableName, col, name);
+        return this;
+    }
+
+    TableWrapper!T columnWidths(double[] widths...)
+    {
+        ctx.tableColumnWidths(tableName, widths);
+        return this;
+    }
+
+    TableWrapper!T columnAlign(string value)
+    {
+        ctx.tableColumnAlign(tableName, value);
+        return this;
+    }
+
+    TableWrapper!T columnAlign(int col, string value)
+    {
+        ctx.tableColumnAlign(tableName, col, value);
+        return this;
+    }
+
+    TableWrapper!T addRow(U...)(U values)
+    {
+        ctx.tableAddRow(tableName, values);
+        return this;
+    }
+
+    TableWrapper!T addHeader(U...)(U values)
+    {
+        ctx.tableAddHeader(tableName, values);
+        return this;
+    }
+
+    TableWrapper!T draw()
+    {
+        ctx.drawTable(tableName);
+        return this;
+    }
+
+    int ncols()
+    {
+        return ctx.tableColumnsCount(tableName);
+    }
+
+    int nrows()
+    {
+        return ctx.tableRowsCount(tableName);
+    }
+
+    Box cell(int col, int row)
+    {
+        return ctx.tableCell(tableName, col, row);
+    }
+
+    Box cell(int num)
+    {
+        return ctx.tableCell(tableName, num);
+    }
+
+    Box row(int num)
+    {
+        return ctx.tableRow(tableName, num);
+    }
+
+    Box column(int num)
+    {
+        return ctx.tableColumn(tableName, num);
+    }
+
+    Box size()
+    {
+        return ctx.tableSize(tableName);
+    }
 }

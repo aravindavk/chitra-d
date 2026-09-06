@@ -11,6 +11,7 @@ void main()
 
     with (ctx)
     {
+        auto col1 = color("#5e67af");
 
         // Example 1: Color and Alpha using 0-255 scale
         colorScale(255);
@@ -33,19 +34,19 @@ void main()
         // Example 4: 0-1.0 scale with color names and using
         // fillOpacity and strokeOpacity functions
         colorScale(1);
-        fill("#5e67af");
+        fill(col1);
         stroke("blue");
-        fillOpacity(0.5);
-        strokeOpacity(0.5);
+        fillAlpha(0.5);
+        strokeAlpha(0.5);
         rect(160, 160, 50);
 
         // Example 5: 0-255 scale with color names and using
         // fillOpacity and strokeOpacity functions
         colorScale(255);
-        fill("#5e67af");
+        fill(col1);
         stroke("blue");
-        fillOpacity(127);
-        strokeOpacity(127);
+        fillAlpha(127);
+        strokeAlpha(127);
         rect(210, 210, 50);
 
         saveAs("output/colors.png");

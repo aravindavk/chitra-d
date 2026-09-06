@@ -63,6 +63,12 @@ mixin template propertiesFunctions()
         return setAlpha(col, a);
     }
 
+    void fill(RGBA col)
+    {
+        shapeProps.noFill = false;
+        shapeProps.fill = col;
+    }
+
     void fill(float r, float g, float b, float a = -1.0)
     {
         shapeProps.noFill = false;
@@ -85,6 +91,12 @@ mixin template propertiesFunctions()
     void fillAlpha(float a)
     {
         shapeProps.fill = setAlpha(shapeProps.fill, a);
+    }
+
+    void stroke(RGBA col)
+    {
+        shapeProps.noStroke = false;
+        shapeProps.stroke = col;
     }
 
     void stroke(float r, float g, float b, float a = -1.0)
@@ -131,6 +143,12 @@ mixin template propertiesFunctions()
     void noFill()
     {
         shapeProps.noFill = true;
+    }
+
+    void textBackground(RGBA col)
+    {
+        textProps.noTextBackground = false;
+        textProps.background = col;
     }
 
     void textBackground(float r, float g, float b, float a = -1.0)
@@ -233,6 +251,11 @@ mixin template propertiesFunctions()
             textProps.underline = TextUnderline.none;
     }
 
+    void borderColor(RGBA col)
+    {
+        borderProps.fill = col;
+    }
+
     void borderColor(float r, float g, float b, float a = -1.0)
     {
         borderProps.fill = color(r, g, b, a);
@@ -279,6 +302,11 @@ mixin template propertiesFunctions()
     {
         colorScaleMax = max;
         colorScaleAlphaMax = maxA == 0 ? max : maxA;
+    }
+
+    void tint(RGBA col)
+    {
+        shapeProps.tint = col;
     }
 
     void tint(float r, float g, float b, float a = -1.0)

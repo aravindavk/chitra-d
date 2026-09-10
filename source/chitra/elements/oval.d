@@ -76,10 +76,12 @@ mixin template ovalFunctions()
        ctx.oval(50, 50, 100, 50);
        ---
      */
-    void oval(double x, double y, double w, double h = 0.0)
+    void oval(double x, double y, double w, double h = 0.0, bool close = true)
     {
         auto box = basedOnOvalMode(this.shapeProps.ovalMode, x, y, w, h);
         auto s = Oval(box.x, box.y, box.width, box.height);
+        s.close = close;
+        s.closeMode = CHORD;
         s.shapeProps = this.shapeProps;
         s.draw(this, this.defaultCairoCtx);
         this.elements ~= Element(s);
